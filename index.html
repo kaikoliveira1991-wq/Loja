@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0d">
+  <link rel="manifest" href="manifest.webmanifest">
+  <title>KM Moda Urbana</title>
+  <style>
+    :root{--bg:#09090b;--card:#151518;--card2:#1d1d21;--text:#f6f6f6;--muted:#a4a4ad;--line:#29292f;--accent:#fff;--ok:#22c55e;--danger:#ef4444}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+    button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}
+    .app{max-width:1100px;margin:auto;padding-bottom:80px}.top{position:sticky;top:0;z-index:10;background:rgba(9,9,11,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:14px 18px}
+    .toprow{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-weight:900;font-size:22px;letter-spacing:.08em}.brand small{display:block;font-size:9px;letter-spacing:.25em;color:var(--muted);font-weight:600}
+    .iconbtn{background:var(--card);color:var(--text);border:1px solid var(--line);width:42px;height:42px;border-radius:12px}.badge{display:inline-flex;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#ef4444;color:white;font-size:11px;align-items:center;justify-content:center;margin-left:-9px;vertical-align:top}
+    main{padding:18px}.hero{border:1px solid var(--line);border-radius:20px;padding:24px;min-height:230px;background:linear-gradient(135deg,#1b1b1f,#0c0c0e);display:flex;flex-direction:column;justify-content:end;margin-bottom:18px}
+    .hero h1{font-size:34px;max-width:540px;margin:0 0 8px}.hero p{color:var(--muted);margin:0 0 18px}.btn{padding:12px 16px;border-radius:12px;background:var(--accent);color:#080808;font-weight:800}.btn.dark{background:var(--card2);color:var(--text);border:1px solid var(--line)}.btn.green{background:var(--ok);color:#031408}
+    .search{display:flex;gap:8px;margin:16px 0}.search input,.field input,.field select,.field textarea{width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;color:var(--text);padding:12px;outline:none}.field textarea{min-height:90px;resize:vertical}
+    .cats{display:flex;gap:8px;overflow:auto;padding-bottom:4px;margin-bottom:18px}.pill{white-space:nowrap;background:var(--card);border:1px solid var(--line);color:var(--muted);padding:9px 13px;border-radius:999px}.pill.active{background:#fff;color:#000}
+    h2{font-size:20px;margin:20px 0 12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.product{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;position:relative}.photo{aspect-ratio:1/1;background:#242428;display:flex;align-items:center;justify-content:center;color:#777;overflow:hidden}.photo img{width:100%;height:100%;object-fit:cover}.pbody{padding:12px}.pname{font-weight:750}.price{font-weight:900;margin-top:5px}.stock{font-size:12px;color:var(--muted);margin-top:6px}.low{color:#f59e0b}.out{color:var(--danger)}.heart{position:absolute;right:9px;top:9px;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff}
+    .bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(10,10,12,.97);border-top:1px solid var(--line);display:flex;justify-content:center;z-index:20}.nav{max-width:700px;width:100%;display:grid;grid-template-columns:repeat(4,1fr)}.nav button{background:none;color:var(--muted);padding:11px 4px;font-size:12px}.nav button.active{color:#fff}
+    .screen{display:none}.screen.active{display:block}.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:50;display:none;align-items:end;justify-content:center}.modal.open{display:flex}.sheet{background:#101013;border:1px solid var(--line);width:min(680px,100%);max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:18px}
+    .sheethead{display:flex;justify-content:space-between;align-items:center}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{margin:10px 0}.field.full{grid-column:1/-1}.actions{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}.adminitem,.cartitem{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);align-items:center}.thumb{width:68px;height:68px;border-radius:10px;background:#242428;object-fit:cover}.grow{flex:1}.qty{display:flex;align-items:center;gap:8px}.qty button{width:30px;height:30px;border-radius:8px;background:var(--card2);color:#fff}.empty{text-align:center;padding:50px 15px;color:var(--muted)}
+    .total{display:flex;justify-content:space-between;font-size:18px;font-weight:900;padding:16px 0}.notice{background:#17171b;border:1px solid var(--line);padding:12px;border-radius:12px;color:var(--muted);font-size:13px;margin:12px 0}
+    @media(min-width:720px){.grid{grid-template-columns:repeat(4,1fr)}.hero{min-height:300px}.bottom{position:static;border:0;background:transparent;margin:0 18px 20px}.nav{border:1px solid var(--line);border-radius:14px}.app{padding-bottom:20px}.sheet{border-radius:20px;margin-bottom:4vh}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="top"><div class="toprow"><div class="brand">KM <small>MODA URBANA</small></div><button class="iconbtn" onclick="openCart()">🛒 <span id="cartBadge" class="badge">0</span></button></div></header>
+
+  <main>
+    <section id="home" class="screen active">
+      <div class="hero"><h1>Estilo é mais do que roupa.</h1><p>Escolha sua peça, confira o estoque e peça direto pelo WhatsApp.</p><button class="btn" onclick="scrollToProducts()">VER PRODUTOS</button></div>
+      <div class="search"><input id="search" placeholder="🔎 Buscar produtos..." oninput="renderProducts()"></div>
+      <div id="cats" class="cats"></div>
+      <h2>Produtos</h2><div id="products" class="grid"></div>
+    </section>
+
+    <section id="cart" class="screen"><h2>Seu carrinho</h2><div id="cartList"></div><div id="cartSummary"></div></section>
+
+    <section id="admin" class="screen">
+      <h2>Gerenciar produtos</h2>
+      <div class="notice">Os produtos e o estoque ficam salvos neste navegador. Esta V1 é ideal para protótipo/uso local; para vários celulares ou uma equipe, depois conectamos a um banco de dados.</div>
+      <button class="btn" onclick="openProductModal()">+ Novo produto</button>
+      <div id="adminList"></div>
+      <h2>Configuração</h2>
+      <div class="field"><label>WhatsApp da loja (com DDI, somente números)</label><input id="wa" placeholder="5596999999999" onchange="saveConfig()"></div>
+      <button class="btn dark" onclick="exportData()">Exportar catálogo</button>
+      <button class="btn dark" onclick="importData()">Importar catálogo</button>
+      <input id="importFile" type="file" accept=".json" style="display:none" onchange="doImport(event)">
+    </section>
+  </main>
+
+  <div class="bottom"><nav class="nav">
+    <button class="active" onclick="show('home',this)">⌂<br>Início</button>
+    <button onclick="show('home',this);scrollToProducts()">▦<br>Produtos</button>
+    <button onclick="openCart()">🛒<br>Carrinho</button>
+    <button onclick="show('admin',this);renderAdmin()">⚙<br>Admin</button>
+  </nav></div>
+</div>
+
+<div id="productModal" class="modal" onclick="if(event.target===this)closeModal()"><div class="sheet">
+  <div class="sheethead"><h2 id="modalTitle">Novo produto</h2><button class="iconbtn" onclick="closeModal()">✕</button></div>
+  <div class="formgrid">
+    <div class="field"><label>Nome</label><input id="fName"></div>
+    <div class="field"><label>Categoria</label><select id="fCat"><option>Camisetas</option><option>Bermudas</option><option>Calças</option><option>Moletom</option><option>Acessórios</option></select></div>
+    <div class="field"><label>Preço (R$)</label><input id="fPrice" type="number" step="0.01"></div>
+    <div class="field"><label>Estoque</label><input id="fStock" type="number" min="0"></div>
+    <div class="field full"><label>URL da foto (opcional)</label><input id="fImage" placeholder="https://..."></div>
+    <div class="field full"><label>Descrição</label><textarea id="fDesc"></textarea></div>
+  </div>
+  <div class="actions"><button class="btn dark" onclick="closeModal()">Cancelar</button><button class="btn" onclick="saveProduct()">Salvar</button></div>
+</div></div>
+
+<div id="detailModal" class="modal" onclick="if(event.target===this)closeDetail()"><div class="sheet">
+  <div id="detail"></div>
+</div></div>
+
+<script>
+const KEY='km_catalogo_v1', CFG='km_config_v1';
+let products=JSON.parse(localStorage.getItem(KEY)||'null')||[
+ {id:'1',name:'Camiseta Oversized Premium',cat:'Camisetas',price:89.90,stock:8,image:'',desc:'Camiseta oversized em algodão premium, com caimento urbano.'},
+ {id:'2',name:'Bermuda Moletom',cat:'Bermudas',price:79.90,stock:5,image:'',desc:'Bermuda confortável para o dia a dia.'},
+ {id:'3',name:'Calça Cargo KM',cat:'Calças',price:119.90,stock:3,image:'',desc:'Calça cargo com visual streetwear.'},
+ {id:'4',name:'Moletom KM',cat:'Moletom',price:129.90,stock:6,image:'',desc:'Moletom confortável para compor looks urbanos.'}
+];
+let cart=JSON.parse(localStorage.getItem('km_cart_v1')||'[]'), activeCat='Todos', editing=null;
+function save(){localStorage.setItem(KEY,JSON.stringify(products));localStorage.setItem('km_cart_v1',JSON.stringify(cart));updateBadge()}
+function money(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
+function updateBadge(){let n=cart.reduce((a,x)=>a+x.qty,0);document.getElementById('cartBadge').textContent=n}
+function show(id,btn){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');if(id==='home')renderProducts();if(id==='cart')renderCart()}
+function scrollToProducts(){setTimeout(()=>document.getElementById('products').scrollIntoView({behavior:'smooth'}),50)}
+function renderCats(){let cats=['Todos',...new Set(products.map(p=>p.cat))];document.getElementById('cats').innerHTML=cats.map(c=>`<button class="pill ${c===activeCat?'active':''}" onclick="activeCat='${c}';renderCats();renderProducts()">${c}</button>`).join('')}
+function renderProducts(){
+ renderCats();let q=(document.getElementById('search').value||'').toLowerCase();
+ let arr=products.filter(p=>(activeCat==='Todos'||p.cat===activeCat)&&p.name.toLowerCase().includes(q));
+ document.getElementById('products').innerHTML=arr.length?arr.map(p=>`<article class="product">
+   <button class="heart" onclick="event.stopPropagation();toggleFav('${p.id}')">♡</button>
+   <div class="photo" onclick="openDetail('${p.id}')">${p.image?`<img src="${esc(p.image)}" alt="">`:'KM'}</div>
+   <div class="pbody" onclick="openDetail('${p.id}')"><div class="pname">${esc(p.name)}</div><div class="price">${money(p.price)}</div><div class="stock ${p.stock===0?'out':p.stock<=2?'low':''}">${p.stock===0?'Sem estoque':p.stock+' em estoque'}</div></div>
+ </article>`).join(''):'<div class="empty">Nenhum produto encontrado.</div>';
+}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function openDetail(id){let p=products.find(x=>x.id===id);document.getElementById('detail').innerHTML=`<div class="photo" style="border-radius:16px;margin-bottom:14px">${p.image?`<img src="${esc(p.image)}" alt="">`:'KM'}</div><h2>${esc(p.name)}</h2><div class="price" style="font-size:24px">${money(p.price)}</div><p class="stock">${p.stock} em estoque</p><p>${esc(p.desc)}</p><div class="notice">O estoque é atualizado automaticamente quando o item é adicionado ao pedido.</div><button class="btn" ${p.stock?'':'disabled'} onclick="addToCart('${p.id}');closeDetail()">Adicionar ao carrinho</button>`;document.getElementById('detailModal').classList.add('open')}
+function closeDetail(){document.getElementById('detailModal').classList.remove('open')}
+function addToCart(id){let p=products.find(x=>x.id===id), item=cart.find(x=>x.id===id);if(!p||p.stock<=0)return alert('Produto sem estoque.');if(item){if(item.qty>=p.stock)return alert('Quantidade máxima disponível no estoque.');item.qty++}else cart.push({id,qty:1});save();alert('Adicionado ao carrinho!')}
+function removeCart(id){cart=cart.filter(x=>x.id!==id);save();renderCart()}
+function changeQty(id,d){let i=cart.find(x=>x.id===id),p=products.find(x=>x.id===id);if(!i)return;i.qty+=d;if(i.qty<=0)return removeCart(id);if(i.qty>p.stock)i.qty=p.stock;save();renderCart()}
+function openCart(){show('cart');renderCart()}
+function renderCart(){let box=document.getElementById('cartList');if(!cart.length){box.innerHTML='<div class="empty">Seu carrinho está vazio.<br><br><button class="btn" onclick="show(\'home\')">Ver produtos</button></div>';document.getElementById('cartSummary').innerHTML='';return}
+ let total=0;box.innerHTML=cart.map(i=>{let p=products.find(x=>x.id===i.id);if(!p)return '';total+=p.price*i.qty;return `<div class="cartitem"><div class="thumb">${p.image?`<img src="${esc(p.image)}" style="width:100%;height:100%;object-fit:cover;border-radius:10px">`:'KM'}</div><div class="grow"><b>${esc(p.name)}</b><div>${money(p.price)}</div><div class="qty"><button onclick="changeQty('${p.id}',-1)">−</button>${i.qty}<button onclick="changeQty('${p.id}',1)">+</button><button class="iconbtn" style="width:30px;height:30px" onclick="removeCart('${p.id}')">🗑</button></div></div></div>`}).join('');
+ document.getElementById('cartSummary').innerHTML=`<div class="total"><span>Total</span><span>${money(total)}</span></div><button class="btn green" style="width:100%" onclick="checkoutWhatsApp()">Finalizar pelo WhatsApp</button>`;
+}
+function checkoutWhatsApp(){let wa=(localStorage.getItem(CFG)||'').replace(/\D/g,'');if(!wa)return show('admin');
+ let lines=['Olá! Quero fazer este pedido na KM Moda Urbana:',''];let total=0;
+ cart.forEach(i=>{let p=products.find(x=>x.id===i.id);if(p){lines.push(`• ${p.name} — ${i.qty}x — ${money(p.price*i.qty)}`);total+=p.price*i.qty}});
+ lines.push('',`Total: ${money(total)}`,'','Pode me confirmar a disponibilidade e o pagamento?');
+ location.href='https://wa.me/'+wa+'?text='+encodeURIComponent(lines.join('\\n'));
+ // Estoque é abatido somente após confirmação manual, para evitar perder estoque por carrinhos abandonados.
+}
+function openProductModal(id=null){editing=id;let p=id?products.find(x=>x.id===id):null;document.getElementById('modalTitle').textContent=p?'Editar produto':'Novo produto';document.getElementById('fName').value=p?.name||'';document.getElementById('fCat').value=p?.cat||'Camisetas';document.getElementById('fPrice').value=p?.price??'';document.getElementById('fStock').value=p?.stock??0;document.getElementById('fImage').value=p?.image||'';document.getElementById('fDesc').value=p?.desc||'';document.getElementById('productModal').classList.add('open')}
+function closeModal(){document.getElementById('productModal').classList.remove('open')}
+function saveProduct(){let name=document.getElementById('fName').value.trim();if(!name)return alert('Informe o nome.');let obj={id:editing||crypto.randomUUID(),name,cat:document.getElementById('fCat').value,price:Number(document.getElementById('fPrice').value||0),stock:Number(document.getElementById('fStock').value||0),image:document.getElementById('fImage').value.trim(),desc:document.getElementById('fDesc').value.trim()};if(editing)products=products.map(p=>p.id===editing?obj:p);else products.unshift(obj);save();closeModal();renderAdmin();renderProducts()}
+function deleteProduct(id){if(confirm('Excluir este produto?')){products=products.filter(p=>p.id!==id);cart=cart.filter(x=>x.id!==id);save();renderAdmin();renderProducts()}}
+function renderAdmin(){document.getElementById('wa').value=localStorage.getItem(CFG)||'';document.getElementById('adminList').innerHTML=products.map(p=>`<div class="adminitem"><div class="thumb">${p.image?`<img src="${esc(p.image)}" style="width:100%;height:100%;object-fit:cover;border-radius:10px">`:'KM'}</div><div class="grow"><b>${esc(p.name)}</b><div>${money(p.price)} · estoque: <b>${p.stock}</b></div></div><button class="btn dark" onclick="openProductModal('${p.id}')">Editar</button><button class="iconbtn" onclick="deleteProduct('${p.id}')">🗑</button></div>`).join('')}
+function saveConfig(){localStorage.setItem(CFG,document.getElementById('wa').value.replace(/\D/g,''))}
+function exportData(){let blob=new Blob([JSON.stringify({products,whatsapp:localStorage.getItem(CFG)||''},null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='km-catalogo-backup.json';a.click()}
+function importData(){document.getElementById('importFile').click()}
+function doImport(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);products=x.products||[];if(x.whatsapp)localStorage.setItem(CFG,x.whatsapp);save();renderAdmin();renderProducts();alert('Catálogo importado!')}catch(err){alert('Arquivo inválido.')}};r.readAsText(f)}
+function toggleFav(id){let key='km_fav_v1',a=JSON.parse(localStorage.getItem(key)||'[]');a=a.includes(id)?a.filter(x=>x!==id):[...a,id];localStorage.setItem(key,JSON.stringify(a))}
+renderProducts();updateBadge();
+</script>
+</body></html>
