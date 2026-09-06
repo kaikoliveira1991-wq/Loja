@@ -79,57 +79,509 @@
 
 <script>
 const KEY='km_catalogo_v1', CFG='km_config_v1';
-let products=JSON.parse(localStorage.getItem(KEY)||'null')||[
- {id:'1',name:'Camiseta Oversized Premium',cat:'Camisetas',price:89.90,stock:8,image:'',desc:'Camiseta oversized em algodão premium, com caimento urbano.'},
- {id:'2',name:'Bermuda Moletom',cat:'Bermudas',price:79.90,stock:5,image:'',desc:'Bermuda confortável para o dia a dia.'},
- {id:'3',name:'Calça Cargo KM',cat:'Calças',price:119.90,stock:3,image:'',desc:'Calça cargo com visual streetwear.'},
- {id:'4',name:'Moletom KM',cat:'Moletom',price:129.90,stock:6,image:'',desc:'Moletom confortável para compor looks urbanos.'}
-];
-let cart=JSON.parse(localStorage.getItem('km_cart_v1')||'[]'), activeCat='Todos', editing=null;
-function save(){localStorage.setItem(KEY,JSON.stringify(products));localStorage.setItem('km_cart_v1',JSON.stringify(cart));updateBadge()}
-function money(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
-function updateBadge(){let n=cart.reduce((a,x)=>a+x.qty,0);document.getElementById('cartBadge').textContent=n}
-function show(id,btn){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');if(id==='home')renderProducts();if(id==='cart')renderCart()}
-function scrollToProducts(){setTimeout(()=>document.getElementById('products').scrollIntoView({behavior:'smooth'}),50)}
-function renderCats(){let cats=['Todos',...new Set(products.map(p=>p.cat))];document.getElementById('cats').innerHTML=cats.map(c=>`<button class="pill ${c===activeCat?'active':''}" onclick="activeCat='${c}';renderCats();renderProducts()">${c}</button>`).join('')}
+
+let products=[];
+let cart=JSON.parse(localStorage.getItem('km_cart_v1')||'[]');
+let activeCat='Todos';
+let editing=null;
+
+function saveCart(){
+  localStorage.setItem('km_cart_v1',JSON.stringify(cart));
+  updateBadge();
+}
+
+function money(v){
+  return Number(v||0).toLocaleString('pt-BR',{
+    style:'currency',
+    currency:'BRL'
+  });
+}
+
+function updateBadge(){
+  let n=cart.reduce((a,x)=>a+x.qty,0);
+  document.getElementById('cartBadge').textContent=n;
+}
+
+function show(id,btn){
+  document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+
+  document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+
+  if(id==='home')renderProducts();
+  if(id==='cart')renderCart();
+}
+
+function scrollToProducts(){
+  setTimeout(()=>{
+    document.getElementById('products').scrollIntoView({behavior:'smooth'});
+  },50);
+}
+
+function renderCats(){
+  let cats=['Todos',...new Set(products.map(p=>p.category).filter(Boolean))];
+
+  document.getElementById('cats').innerHTML=cats.map(c=>
+    `<button class="pill ${c===activeCat?'active':''}"
+      onclick="activeCat='${esc(c)}';renderCats();renderProducts()">${esc(c)}</button>`
+  ).join('');
+}
+
 function renderProducts(){
- renderCats();let q=(document.getElementById('search').value||'').toLowerCase();
- let arr=products.filter(p=>(activeCat==='Todos'||p.cat===activeCat)&&p.name.toLowerCase().includes(q));
- document.getElementById('products').innerHTML=arr.length?arr.map(p=>`<article class="product">
-   <button class="heart" onclick="event.stopPropagation();toggleFav('${p.id}')">♡</button>
-   <div class="photo" onclick="openDetail('${p.id}')">${p.image?`<img src="${esc(p.image)}" alt="">`:'KM'}</div>
-   <div class="pbody" onclick="openDetail('${p.id}')"><div class="pname">${esc(p.name)}</div><div class="price">${money(p.price)}</div><div class="stock ${p.stock===0?'out':p.stock<=2?'low':''}">${p.stock===0?'Sem estoque':p.stock+' em estoque'}</div></div>
- </article>`).join(''):'<div class="empty">Nenhum produto encontrado.</div>';
+  renderCats();
+
+  let q=(document.getElementById('search').value||'').toLowerCase();
+
+  let arr=products.filter(p=>
+    (activeCat==='Todos'||p.category===activeCat) &&
+    String(p.name||'').toLowerCase().includes(q)
+  );
+
+  document.getElementById('products').innerHTML=arr.length
+  ?arr.map(p=>`
+    <article class="product">
+      <button class="heart"
+        onclick="event.stopPropagation();toggleFav('${p.id}')">♡</button>
+
+      <div class="photo" onclick="openDetail('${p.id}')">
+        ${p.image_url
+          ?`<img src="${esc(p.image_url)}" alt="${esc(p.name)}">`
+          :'KM'}
+      </div>
+
+      <div class="pbody" onclick="openDetail('${p.id}')">
+        <div class="pname">${esc(p.name)}</div>
+        <div class="price">${money(p.price)}</div>
+
+        <div class="stock ${
+          p.stock===0?'out':p.stock<=2?'low':''
+        }">
+          ${p.stock===0?'Sem estoque':p.stock+' em estoque'}
+        </div>
+      </div>
+    </article>
+  `).join('')
+  :'<div class="empty">Nenhum produto encontrado.</div>';
 }
-function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function openDetail(id){let p=products.find(x=>x.id===id);document.getElementById('detail').innerHTML=`<div class="photo" style="border-radius:16px;margin-bottom:14px">${p.image?`<img src="${esc(p.image)}" alt="">`:'KM'}</div><h2>${esc(p.name)}</h2><div class="price" style="font-size:24px">${money(p.price)}</div><p class="stock">${p.stock} em estoque</p><p>${esc(p.desc)}</p><div class="notice">O estoque é atualizado automaticamente quando o item é adicionado ao pedido.</div><button class="btn" ${p.stock?'':'disabled'} onclick="addToCart('${p.id}');closeDetail()">Adicionar ao carrinho</button>`;document.getElementById('detailModal').classList.add('open')}
-function closeDetail(){document.getElementById('detailModal').classList.remove('open')}
-function addToCart(id){let p=products.find(x=>x.id===id), item=cart.find(x=>x.id===id);if(!p||p.stock<=0)return alert('Produto sem estoque.');if(item){if(item.qty>=p.stock)return alert('Quantidade máxima disponível no estoque.');item.qty++}else cart.push({id,qty:1});save();alert('Adicionado ao carrinho!')}
-function removeCart(id){cart=cart.filter(x=>x.id!==id);save();renderCart()}
-function changeQty(id,d){let i=cart.find(x=>x.id===id),p=products.find(x=>x.id===id);if(!i)return;i.qty+=d;if(i.qty<=0)return removeCart(id);if(i.qty>p.stock)i.qty=p.stock;save();renderCart()}
-function openCart(){show('cart');renderCart()}
-function renderCart(){let box=document.getElementById('cartList');if(!cart.length){box.innerHTML='<div class="empty">Seu carrinho está vazio.<br><br><button class="btn" onclick="show(\'home\')">Ver produtos</button></div>';document.getElementById('cartSummary').innerHTML='';return}
- let total=0;box.innerHTML=cart.map(i=>{let p=products.find(x=>x.id===i.id);if(!p)return '';total+=p.price*i.qty;return `<div class="cartitem"><div class="thumb">${p.image?`<img src="${esc(p.image)}" style="width:100%;height:100%;object-fit:cover;border-radius:10px">`:'KM'}</div><div class="grow"><b>${esc(p.name)}</b><div>${money(p.price)}</div><div class="qty"><button onclick="changeQty('${p.id}',-1)">−</button>${i.qty}<button onclick="changeQty('${p.id}',1)">+</button><button class="iconbtn" style="width:30px;height:30px" onclick="removeCart('${p.id}')">🗑</button></div></div></div>`}).join('');
- document.getElementById('cartSummary').innerHTML=`<div class="total"><span>Total</span><span>${money(total)}</span></div><button class="btn green" style="width:100%" onclick="checkoutWhatsApp()">Finalizar pelo WhatsApp</button>`;
+
+function esc(s){
+  return String(s??'').replace(/[&<>"']/g,m=>({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#39;'
+  }[m]));
 }
-function checkoutWhatsApp(){let wa=(localStorage.getItem(CFG)||'').replace(/\D/g,'');if(!wa)return show('admin');
- let lines=['Olá! Quero fazer este pedido na KM Moda Urbana:',''];let total=0;
- cart.forEach(i=>{let p=products.find(x=>x.id===i.id);if(p){lines.push(`• ${p.name} — ${i.qty}x — ${money(p.price*i.qty)}`);total+=p.price*i.qty}});
- lines.push('',`Total: ${money(total)}`,'','Pode me confirmar a disponibilidade e o pagamento?');
- location.href='https://wa.me/'+wa+'?text='+encodeURIComponent(lines.join('\\n'));
- // Estoque é abatido somente após confirmação manual, para evitar perder estoque por carrinhos abandonados.
+
+function openDetail(id){
+  let p=products.find(x=>String(x.id)===String(id));
+  if(!p)return;
+
+  document.getElementById('detail').innerHTML=`
+    <div class="photo" style="border-radius:16px;margin-bottom:14px">
+      ${p.image_url
+        ?`<img src="${esc(p.image_url)}" alt="${esc(p.name)}">`
+        :'KM'}
+    </div>
+
+    <h2>${esc(p.name)}</h2>
+
+    <div class="price" style="font-size:24px">
+      ${money(p.price)}
+    </div>
+
+    <p class="stock">
+      ${p.stock} em estoque
+    </p>
+
+    ${p.size?`<p><b>Tamanho:</b> ${esc(p.size)}</p>`:''}
+
+    <p>${esc(p.description||'')}</p>
+
+    <div class="notice">
+      Confira a disponibilidade antes de finalizar o pedido.
+    </div>
+
+    <button class="btn"
+      ${p.stock?'':'disabled'}
+      onclick="addToCart('${p.id}');closeDetail()">
+      Adicionar ao carrinho
+    </button>
+  `;
+
+  document.getElementById('detailModal').classList.add('open');
 }
-function openProductModal(id=null){editing=id;let p=id?products.find(x=>x.id===id):null;document.getElementById('modalTitle').textContent=p?'Editar produto':'Novo produto';document.getElementById('fName').value=p?.name||'';document.getElementById('fCat').value=p?.cat||'Camisetas';document.getElementById('fPrice').value=p?.price??'';document.getElementById('fStock').value=p?.stock??0;document.getElementById('fImage').value=p?.image||'';document.getElementById('fDesc').value=p?.desc||'';document.getElementById('productModal').classList.add('open')}
-function closeModal(){document.getElementById('productModal').classList.remove('open')}
-function saveProduct(){let name=document.getElementById('fName').value.trim();if(!name)return alert('Informe o nome.');let obj={id:editing||crypto.randomUUID(),name,cat:document.getElementById('fCat').value,price:Number(document.getElementById('fPrice').value||0),stock:Number(document.getElementById('fStock').value||0),image:document.getElementById('fImage').value.trim(),desc:document.getElementById('fDesc').value.trim()};if(editing)products=products.map(p=>p.id===editing?obj:p);else products.unshift(obj);save();closeModal();renderAdmin();renderProducts()}
-function deleteProduct(id){if(confirm('Excluir este produto?')){products=products.filter(p=>p.id!==id);cart=cart.filter(x=>x.id!==id);save();renderAdmin();renderProducts()}}
-function renderAdmin(){document.getElementById('wa').value=localStorage.getItem(CFG)||'';document.getElementById('adminList').innerHTML=products.map(p=>`<div class="adminitem"><div class="thumb">${p.image?`<img src="${esc(p.image)}" style="width:100%;height:100%;object-fit:cover;border-radius:10px">`:'KM'}</div><div class="grow"><b>${esc(p.name)}</b><div>${money(p.price)} · estoque: <b>${p.stock}</b></div></div><button class="btn dark" onclick="openProductModal('${p.id}')">Editar</button><button class="iconbtn" onclick="deleteProduct('${p.id}')">🗑</button></div>`).join('')}
-function saveConfig(){localStorage.setItem(CFG,document.getElementById('wa').value.replace(/\D/g,''))}
-function exportData(){let blob=new Blob([JSON.stringify({products,whatsapp:localStorage.getItem(CFG)||''},null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='km-catalogo-backup.json';a.click()}
-function importData(){document.getElementById('importFile').click()}
-function doImport(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);products=x.products||[];if(x.whatsapp)localStorage.setItem(CFG,x.whatsapp);save();renderAdmin();renderProducts();alert('Catálogo importado!')}catch(err){alert('Arquivo inválido.')}};r.readAsText(f)}
-function toggleFav(id){let key='km_fav_v1',a=JSON.parse(localStorage.getItem(key)||'[]');a=a.includes(id)?a.filter(x=>x!==id):[...a,id];localStorage.setItem(key,JSON.stringify(a))}
-renderProducts();updateBadge();
+
+function closeDetail(){
+  document.getElementById('detailModal').classList.remove('open');
+}
+
+function addToCart(id){
+  let p=products.find(x=>String(x.id)===String(id));
+  if(!p||p.stock<=0)return alert('Produto sem estoque.');
+
+  let item=cart.find(x=>String(x.id)===String(id));
+
+  if(item){
+    if(item.qty>=p.stock)
+      return alert('Quantidade máxima disponível no estoque.');
+
+    item.qty++;
+  }else{
+    cart.push({id:String(id),qty:1});
+  }
+
+  saveCart();
+  alert('Adicionado ao carrinho!');
+}
+
+function removeCart(id){
+  cart=cart.filter(x=>String(x.id)!==String(id));
+  saveCart();
+  renderCart();
+}
+
+function changeQty(id,d){
+  let i=cart.find(x=>String(x.id)===String(id));
+  let p=products.find(x=>String(x.id)===String(id));
+
+  if(!i||!p)return;
+
+  i.qty+=d;
+
+  if(i.qty<=0){
+    removeCart(id);
+    return;
+  }
+
+  if(i.qty>p.stock)i.qty=p.stock;
+
+  saveCart();
+  renderCart();
+}
+
+function openCart(){
+  show('cart');
+  renderCart();
+}
+
+function renderCart(){
+  let box=document.getElementById('cartList');
+
+  if(!cart.length){
+    box.innerHTML=`
+      <div class="empty">
+        Seu carrinho está vazio.<br><br>
+        <button class="btn" onclick="show('home')">
+          Ver produtos
+        </button>
+      </div>`;
+
+    document.getElementById('cartSummary').innerHTML='';
+    return;
+  }
+
+  let total=0;
+
+  box.innerHTML=cart.map(i=>{
+    let p=products.find(x=>String(x.id)===String(i.id));
+    if(!p)return '';
+
+    total+=Number(p.price)*i.qty;
+
+    return `
+      <div class="cartitem">
+
+        <div class="thumb">
+          ${p.image_url
+            ?`<img src="${esc(p.image_url)}"
+                style="width:100%;height:100%;object-fit:cover;border-radius:10px">`
+            :'KM'}
+        </div>
+
+        <div class="grow">
+          <b>${esc(p.name)}</b>
+          <div>${money(p.price)}</div>
+
+          <div class="qty">
+            <button onclick="changeQty('${p.id}',-1)">−</button>
+            ${i.qty}
+            <button onclick="changeQty('${p.id}',1)">+</button>
+
+            <button class="iconbtn"
+              style="width:30px;height:30px"
+              onclick="removeCart('${p.id}')">
+              🗑
+            </button>
+          </div>
+        </div>
+
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('cartSummary').innerHTML=`
+    <div class="total">
+      <span>Total</span>
+      <span>${money(total)}</span>
+    </div>
+
+    <button class="btn green"
+      style="width:100%"
+      onclick="checkoutWhatsApp()">
+      Finalizar pelo WhatsApp
+    </button>
+  `;
+}
+
+function checkoutWhatsApp(){
+  let wa=(localStorage.getItem(CFG)||'').replace(/\D/g,'');
+
+  if(!wa){
+    alert('Configure o WhatsApp da loja no painel Admin.');
+    show('admin');
+    return;
+  }
+
+  let lines=[
+    'Olá! Quero fazer este pedido na KM Moda Urbana:',
+    ''
+  ];
+
+  let total=0;
+
+  cart.forEach(i=>{
+    let p=products.find(x=>String(x.id)===String(i.id));
+
+    if(p){
+      lines.push(
+        `• ${p.name} — ${i.qty}x — ${money(Number(p.price)*i.qty)}`
+      );
+
+      total+=Number(p.price)*i.qty;
+    }
+  });
+
+  lines.push(
+    '',
+    `Total: ${money(total)}`,
+    '',
+    'Pode me confirmar a disponibilidade e o pagamento?'
+  );
+
+  location.href=
+    'https://wa.me/'+wa+
+    '?text='+encodeURIComponent(lines.join('\n'));
+}
+
+function openProductModal(id=null){
+  editing=id;
+
+  let p=id
+    ?products.find(x=>String(x.id)===String(id))
+    :null;
+
+  document.getElementById('modalTitle').textContent=
+    p?'Editar produto':'Novo produto';
+
+  document.getElementById('fName').value=p?.name||'';
+  document.getElementById('fCat').value=p?.category||'Camisetas';
+  document.getElementById('fPrice').value=p?.price??'';
+  document.getElementById('fStock').value=p?.stock??0;
+  document.getElementById('fImage').value=p?.image_url||'';
+  document.getElementById('fDesc').value=p?.description||'';
+
+  document.getElementById('productModal').classList.add('open');
+}
+
+function closeModal(){
+  document.getElementById('productModal').classList.remove('open');
+}
+
+async function saveProduct(){
+
+  let name=document.getElementById('fName').value.trim();
+
+  if(!name)return alert('Informe o nome.');
+
+  let productData={
+    name:name,
+    description:document.getElementById('fDesc').value.trim()||null,
+    price:Number(document.getElementById('fPrice').value||0),
+    category:document.getElementById('fCat').value||null,
+    image_url:document.getElementById('fImage').value.trim()||null,
+    stock:Number(document.getElementById('fStock').value||0),
+    size:null,
+    active:true
+  };
+
+  let result;
+
+  if(editing){
+
+    result=await supabaseClient
+      .from('products')
+      .update(productData)
+      .eq('id',editing);
+
+  }else{
+
+    result=await supabaseClient
+      .from('products')
+      .insert(productData);
+  }
+
+  if(result.error){
+    console.error(result.error);
+    return alert('Erro ao salvar produto: '+result.error.message);
+  }
+
+  closeModal();
+
+  await loadProductsFromSupabase();
+
+  renderAdmin();
+}
+
+async function deleteProduct(id){
+
+  if(!confirm('Excluir este produto?'))return;
+
+  let {error}=await supabaseClient
+    .from('products')
+    .delete()
+    .eq('id',id);
+
+  if(error){
+    console.error(error);
+    return alert('Erro ao excluir: '+error.message);
+  }
+
+  cart=cart.filter(x=>String(x.id)!==String(id));
+  saveCart();
+
+  await loadProductsFromSupabase();
+  renderAdmin();
+}
+
+function renderAdmin(){
+
+  document.getElementById('wa').value=
+    localStorage.getItem(CFG)||'';
+
+  document.getElementById('adminList').innerHTML=
+    products.map(p=>`
+
+      <div class="adminitem">
+
+        <div class="thumb">
+          ${p.image_url
+            ?`<img src="${esc(p.image_url)}"
+                style="width:100%;height:100%;object-fit:cover;border-radius:10px">`
+            :'KM'}
+        </div>
+
+        <div class="grow">
+          <b>${esc(p.name)}</b>
+
+          <div>
+            ${money(p.price)} · estoque:
+            <b>${p.stock}</b>
+          </div>
+        </div>
+
+        <button class="btn dark"
+          onclick="openProductModal('${p.id}')">
+          Editar
+        </button>
+
+        <button class="iconbtn"
+          onclick="deleteProduct('${p.id}')">
+          🗑
+        </button>
+
+      </div>
+
+    `).join('');
+}
+
+function saveConfig(){
+  localStorage.setItem(
+    CFG,
+    document.getElementById('wa').value.replace(/\D/g,'')
+  );
+}
+
+function exportData(){
+  let blob=new Blob([
+    JSON.stringify({
+      products,
+      whatsapp:localStorage.getItem(CFG)||''
+    },null,2)
+  ],{type:'application/json'});
+
+  let a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='km-catalogo-backup.json';
+  a.click();
+}
+
+function importData(){
+  alert('O catálogo agora é gerenciado pelo Supabase. Use o botão "+ Novo produto" para cadastrar.');
+}
+
+function doImport(e){}
+
+function toggleFav(id){
+  let key='km_fav_v1';
+  let a=JSON.parse(localStorage.getItem(key)||'[]');
+
+  a=a.includes(id)
+    ?a.filter(x=>x!==id)
+    :[...a,id];
+
+  localStorage.setItem(key,JSON.stringify(a));
+}
+
+async function loadProductsFromSupabase(){
+
+  let {data,error}=await supabaseClient
+    .from('products')
+    .select('*')
+    .eq('active',true)
+    .order('created_at',{ascending:false});
+
+  if(error){
+    console.error('Erro ao carregar produtos:',error);
+    return alert('Erro ao carregar produtos do Supabase: '+error.message);
+  }
+
+  products=(data||[]).map(p=>({
+    id:p.id,
+    name:p.name||'Produto sem nome',
+    description:p.description||'',
+    price:Number(p.price||0),
+    category:p.category||'Outros',
+    image_url:p.image_url||'',
+    stock:Number(p.stock||0),
+    size:p.size||'',
+    active:p.active
+  }));
+
+  renderProducts();
+  updateBadge();
+}
+
+async function init(){
+
+  await loadProductsFromSupabase();
+
+  updateBadge();
+}
+
+init();
 </script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
