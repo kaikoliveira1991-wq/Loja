@@ -698,7 +698,58 @@ h2{margin:20px 0 13px}
   border:0;
   border-radius:9px;
   background:transparent;
-  color:var(--muted)
+  color:var(--muted);
+  display:flex;
+  align-items:center;
+  justify-content:center
+}
+.password-toggle svg{
+  width:21px;
+  height:21px;
+  stroke:currentColor
+}
+
+.social-login{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:12px
+}
+.social-btn{
+  min-height:44px;
+  border:1px solid var(--line);
+  background:#17171b;
+  color:var(--text);
+  border-radius:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  font-weight:900
+}
+.social-btn svg{
+  width:20px;
+  height:20px
+}
+.social-btn.google svg{
+  width:19px;
+  height:19px
+}
+.auth-divider{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:17px 0 13px;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:800
+}
+.auth-divider::before,
+.auth-divider::after{
+  content:'';
+  flex:1;
+  height:1px;
+  background:var(--line)
 }
 
 hr{
@@ -1041,8 +1092,7 @@ hr{
       aria-label="Fechar"
     >
       <svg viewBox="0 0 24 24" fill="none"
-        stroke="currentColor"
-        stroke-width="2"
+        stroke="currentColor" stroke-width="2"
         stroke-linecap="round">
         <path d="M6 6l12 12"/>
         <path d="M18 6 6 18"/>
@@ -1111,11 +1161,20 @@ hr{
       >
 
       <button
+        id="authPasswordToggle"
         class="password-toggle"
-        onclick="togglePassword('authPassword')"
+        onclick="togglePassword('authPassword',this)"
         type="button"
+        aria-label="Mostrar senha"
+        title="Mostrar senha"
       >
-        Mostrar
+        <svg viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/>
+          <circle cx="12" cy="12" r="2.5"/>
+        </svg>
       </button>
 
     </div>
@@ -1136,11 +1195,20 @@ hr{
       >
 
       <button
+        id="authPasswordConfirmToggle"
         class="password-toggle"
-        onclick="togglePassword('authPasswordConfirm')"
+        onclick="togglePassword('authPasswordConfirm',this)"
         type="button"
+        aria-label="Mostrar senha"
+        title="Mostrar senha"
       >
-        Mostrar
+        <svg viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/>
+          <circle cx="12" cy="12" r="2.5"/>
+        </svg>
       </button>
 
     </div>
@@ -1155,6 +1223,48 @@ hr{
   >
     Entrar
   </button>
+
+  <!-- LOGIN SOCIAL -->
+  <div id="socialLoginArea">
+
+    <div class="auth-divider">
+      OU CONTINUE COM
+    </div>
+
+    <div class="social-login">
+
+      <button
+        class="social-btn google"
+        type="button"
+        onclick="loginWithProvider('google')"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path fill="#4285F4" d="M21.6 12.23c0-.7-.06-1.37-.18-2.02H12v3.82h5.38a4.6 4.6 0 0 1-1.99 3.02v2.51h3.22c1.89-1.74 2.99-4.3 2.99-7.33Z"/>
+          <path fill="#34A853" d="M12 22c2.7 0 4.96-.89 6.61-2.44l-3.22-2.51c-.89.6-2.03.96-3.39.96-2.61 0-4.83-1.76-5.62-4.13H3.05v2.59A9.99 9.99 0 0 0 12 22Z"/>
+          <path fill="#FBBC05" d="M6.38 13.88A6 6 0 0 1 6.06 12c0-.65.11-1.28.32-1.88V7.53H3.05A10 10 0 0 0 2 12c0 1.61.39 3.13 1.05 4.47l3.33-2.59Z"/>
+          <path fill="#EA4335" d="M12 5.99c1.47 0 2.79.51 3.83 1.51l2.87-2.87C16.95 2.99 14.7 2 12 2a9.99 9.99 0 0 0-8.95 5.53l3.33 2.59C7.17 7.75 9.39 5.99 12 5.99Z"/>
+        </svg>
+        Google
+      </button>
+
+      <button
+        class="social-btn"
+        type="button"
+        onclick="loginWithProvider('facebook')"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" fill="#1877F2"/>
+          <path
+            fill="#fff"
+            d="M13.45 20v-7h2.35l.35-2.72h-2.7V8.54c0-.79.22-1.33 1.36-1.33h1.45V4.78c-.25-.03-1.1-.1-2.08-.1-2.06 0-3.47 1.26-3.47 3.57v2.03H8.38V13h2.33v7h2.74Z"
+          />
+        </svg>
+        Facebook
+      </button>
+
+    </div>
+
+  </div>
 
   <div
     id="forgotPasswordBox"
@@ -1678,6 +1788,12 @@ function setAuthMode(mode){
       mode!=='login'
     );
 
+  document.getElementById('socialLoginArea')
+    .classList.toggle(
+      'hidden',
+      mode!=='login'
+    );
+
   document.getElementById('authSubmitBtn')
     .textContent=
       mode==='login'
@@ -1694,17 +1810,102 @@ function closeAuth(){
     .classList.remove('open');
 }
 
-function togglePassword(id){
+const EYE_OPEN=`
+<svg viewBox="0 0 24 24" fill="none"
+  stroke="currentColor" stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round">
+  <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/>
+  <circle cx="12" cy="12" r="2.5"/>
+</svg>
+`;
+
+const EYE_CLOSED=`
+<svg viewBox="0 0 24 24" fill="none"
+  stroke="currentColor" stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round">
+  <path d="M3 3l18 18"/>
+  <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"/>
+  <path d="M9.9 5.2A10.7 10.7 0 0 1 12 5c6 0 9.5 7 9.5 7a18.6 18.6 0 0 1-3.1 3.9"/>
+  <path d="M6.6 6.6C3.9 8.4 2.5 12 2.5 12a18.6 18.6 0 0 0 5.4 5.4A10.5 10.5 0 0 0 12 19c1.2 0 2.3-.2 3.3-.6"/>
+</svg>
+`;
+
+function togglePassword(id,button){
 
   const input=document.getElementById(id);
 
-  if(!input)
+  if(!input||!button)
     return;
 
+  const showing=input.type==='password';
+
   input.type=
-    input.type==='password'
+    showing
       ?'text'
       :'password';
+
+  button.innerHTML=
+    showing
+      ?EYE_CLOSED
+      :EYE_OPEN;
+
+  button.setAttribute(
+    'aria-label',
+    showing
+      ?'Ocultar senha'
+      :'Mostrar senha'
+  );
+
+  button.title=
+    showing
+      ?'Ocultar senha'
+      :'Mostrar senha';
+}
+
+async function loginWithProvider(provider){
+
+  const socialButtons=
+    document.querySelectorAll('.social-btn');
+
+  socialButtons.forEach(button=>{
+    button.disabled=true;
+  });
+
+  authMessage(
+    'Redirecionando para o login...',
+    'success'
+  );
+
+  try{
+
+    const {error}=
+      await supabaseClient.auth.signInWithOAuth({
+        provider,
+        options:{
+          redirectTo:
+            window.location.origin+
+            window.location.pathname
+        }
+      });
+
+    if(error)
+      throw error;
+
+  }catch(error){
+
+    console.error(error);
+
+    socialButtons.forEach(button=>{
+      button.disabled=false;
+    });
+
+    authMessage(
+      authErrorMessage(error),
+      'error'
+    );
+  }
 }
 
 function authMessage(text,type=''){
@@ -1818,16 +2019,22 @@ async function submitAuth(){
       const {data,error}=
         await supabaseClient.auth.signUp({
           email,
-          password
+          password,
+          options:{
+            data:{
+              full_name:name
+            }
+          }
         });
 
       if(error)
         throw error;
 
       /*
-        Dependendo da configuração do Supabase,
-        pode ser necessário confirmar o e-mail
-        antes de existir uma sessão.
+        Quando a confirmação de e-mail está
+        habilitada no Supabase, data.session será
+        normalmente null até o cliente confirmar
+        o endereço.
       */
 
       if(data.session && data.user){
@@ -1854,16 +2061,24 @@ async function submitAuth(){
 
       }else{
 
-        authMessage(
-          'Conta criada. Verifique seu e-mail para confirmar a conta e depois faça login.',
-          'success'
-        );
+        /*
+          IMPORTANTE:
+          Mostramos a mensagem ANTES de trocar
+          para a aba Entrar, para não apagá-la.
+        */
 
         document.getElementById('authName').value='';
         document.getElementById('authPassword').value='';
         document.getElementById('authPasswordConfirm').value='';
 
         setAuthMode('login');
+
+        authMessage(
+          'Cadastro realizado! Enviamos um link de confirmação para seu e-mail. Abra sua caixa de entrada, clique no link de confirmação e depois volte aqui para entrar. Se não encontrar a mensagem, verifique a pasta Spam ou Lixo eletrônico.',
+          'success'
+        );
+
+        document.getElementById('authEmail').value=email;
       }
 
     }
@@ -1896,28 +2111,49 @@ function authErrorMessage(error){
     error?.message||''
   );
 
+  const lower=message.toLowerCase();
+
   if(
-    message.toLowerCase().includes(
+    lower.includes(
       'invalid login credentials'
     )
   ){
-    return 'E-mail ou senha incorretos.';
+    return 'E-mail ou senha incorretos. Se você acabou de criar a conta, confirme primeiro o seu e-mail.';
   }
 
   if(
-    message.toLowerCase().includes(
+    lower.includes(
+      'email not confirmed'
+    )||
+    lower.includes(
+      'email_not_confirmed'
+    )
+  ){
+    return 'Seu e-mail ainda não foi confirmado. Abra o e-mail enviado pela KM Black, clique no link de confirmação e tente entrar novamente.';
+  }
+
+  if(
+    lower.includes(
       'user already registered'
     )
   ){
-    return 'Este e-mail já possui uma conta.';
+    return 'Este e-mail já possui uma conta. Tente entrar ou use a opção "Esqueci minha senha".';
   }
 
   if(
-    message.toLowerCase().includes(
+    lower.includes(
       'password should be at least'
     )
   ){
     return 'A senha é muito curta.';
+  }
+
+  if(
+    lower.includes(
+      'provider is not enabled'
+    )
+  ){
+    return 'Este método de login ainda não está habilitado no Supabase.';
   }
 
   return message||'Não foi possível realizar a operação.';
@@ -3752,11 +3988,6 @@ async function sendOrderWhatsApp(){
     phone
   );
 
-  /*
-    Se o cliente estiver logado,
-    atualizamos também o perfil customers.
-  */
-
   if(currentUser){
 
     try{
@@ -4850,12 +5081,6 @@ function listenAuthState(){
 
         await loadCustomerProfile();
 
-        /*
-          Se houver usuário logado e ele ainda
-          não possuir registro em customers,
-          ele poderá completar o perfil pela tela.
-        */
-
         if(
           location.hash!=='#admin'&&
           document.getElementById('profile')
@@ -4901,11 +5126,6 @@ async function init(){
 
     return;
   }
-
-  /*
-    Recupera automaticamente a sessão
-    salva pelo Supabase.
-  */
 
   const {
     data:{
