@@ -420,6 +420,50 @@
       cursor:not-allowed;
     }
 
+    /* QUANTIDADE NO DETALHE DO PRODUTO */
+
+    .detail-qty{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin:16px 0;
+      padding:12px;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:14px;
+    }
+
+    .detail-qty-label{
+      font-weight:800;
+    }
+
+    .detail-qty-controls{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .detail-qty-controls button{
+      width:38px;
+      height:38px;
+      border-radius:10px;
+      background:var(--card2);
+      color:#fff;
+      font-size:20px;
+    }
+
+    .detail-qty-controls button:disabled{
+      opacity:.35;
+      cursor:not-allowed;
+    }
+
+    .detail-qty-number{
+      min-width:30px;
+      text-align:center;
+      font-weight:900;
+    }
+
     .empty{
       text-align:center;
       padding:50px 15px;
@@ -865,8 +909,6 @@
       </div>
 
 
-      <!-- NOVA CONFIGURAÇÃO DE FRETE -->
-
       <div class="field">
 
         <label>
@@ -1133,9 +1175,7 @@
 </div>
 
 
-<!-- =====================================
-     NOVO MODAL DE CHECKOUT
-     ===================================== -->
+<!-- MODAL CHECKOUT -->
 
 <div
   id="checkoutModal"
@@ -1167,8 +1207,6 @@
 
     </div>
 
-
-    <!-- TIPO DE RECEBIMENTO -->
 
     <div class="delivery-options">
 
@@ -1221,8 +1259,6 @@
     </div>
 
 
-    <!-- DADOS DO CLIENTE -->
-
     <h2>
       Seus dados
     </h2>
@@ -1259,8 +1295,6 @@
 
     </div>
 
-
-    <!-- ENDEREÇO DE ENTREGA -->
 
     <div
       id="addressFields"
@@ -1354,8 +1388,6 @@
     </div>
 
 
-    <!-- RETIRADA -->
-
     <div
       id="pickupInfo"
       class="pickup-box"
@@ -1374,8 +1406,6 @@
 
     </div>
 
-
-    <!-- RESUMO -->
 
     <div class="checkout-summary">
 
@@ -1461,6 +1491,10 @@ let cart=JSON.parse(
 let activeCat='Todos';
 
 let editing=null;
+
+let detailProductId=null;
+
+let detailQty=1;
 
 const CFG='km_config_v1';
 
@@ -2068,6 +2102,11 @@ function openDetail(id){
 
   if(!p)return;
 
+  detailProductId=String(id);
+  detailQty=1;
+
+  const stock=Number(p.stock||0);
+
   document.getElementById(
     'detail'
   ).innerHTML=`
@@ -2131,17 +2170,70 @@ function openDetail(id){
       ${esc(p.description||'')}
     </p>
 
+    ${
+      stock>0
+      ?
+
+      `
+        <div class="detail-qty">
+
+          <span class="detail-qty-label">
+            Quantidade
+          </span>
+
+          <div class="detail-qty-controls">
+
+            <button
+              id="detailQtyMinus"
+              onclick="updateDetailQty(-1)"
+              disabled
+            >
+              −
+            </button>
+
+            <span
+              id="detailQty"
+              class="detail-qty-number"
+            >
+              1
+            </span>
+
+            <button
+              id="detailQtyPlus"
+              onclick="updateDetailQty(1)"
+              ${stock<=1?'disabled':''}
+            >
+              +
+            </button>
+
+          </div>
+
+        </div>
+      `
+
+      :
+
+      ''
+    }
+
     <div class="notice">
       Confira a disponibilidade antes de finalizar o pedido.
     </div>
 
     <button
+      id="detailAddButton"
       class="btn"
       style="width:100%"
-      ${p.stock>0?'':'disabled'}
-      onclick="addToCart('${p.id}');closeDetail()"
+      ${stock>0?'':'disabled'}
+      onclick="addToCart('${p.id}',detailQty);closeDetail()"
     >
-      ${p.stock>0?'Adicionar ao carrinho':'Produto esgotado'}
+      ${
+        stock>0
+        ?
+        'Adicionar 1 unidade ao carrinho'
+        :
+        'Produto esgotado'
+      }
     </button>
 
   `;
@@ -2152,11 +2244,79 @@ function openDetail(id){
 }
 
 
+/* =====================================
+   ALTERAR QUANTIDADE ANTES DO CARRINHO
+   ===================================== */
+
+function updateDetailQty(delta){
+
+  const p=products.find(
+    x=>String(x.id)===String(detailProductId)
+  );
+
+  if(!p)return;
+
+  const stock=Number(p.stock||0);
+
+  if(stock<=0)return;
+
+  detailQty=
+    Number(detailQty||1)+
+    Number(delta);
+
+  if(detailQty<1)
+    detailQty=1;
+
+  if(detailQty>stock)
+    detailQty=stock;
+
+  const qtyElement=
+    document.getElementById('detailQty');
+
+  if(qtyElement)
+    qtyElement.textContent=detailQty;
+
+  const minusButton=
+    document.getElementById('detailQtyMinus');
+
+  const plusButton=
+    document.getElementById('detailQtyPlus');
+
+  if(minusButton)
+    minusButton.disabled=
+      detailQty<=1;
+
+  if(plusButton)
+    plusButton.disabled=
+      detailQty>=stock;
+
+  const addButton=
+    document.getElementById('detailAddButton');
+
+  if(addButton){
+
+    addButton.textContent=
+      `Adicionar ${detailQty} ${
+        detailQty===1
+        ?
+        'unidade'
+        :
+        'unidades'
+      } ao carrinho`;
+
+  }
+
+}
+
+
 function closeDetail(){
 
   document
     .getElementById('detailModal')
     .classList.remove('open');
+
+  detailProductId=null;
+  detailQty=1;
 }
 
 
@@ -2164,7 +2324,7 @@ function closeDetail(){
    ADICIONAR AO CARRINHO
    ===================================== */
 
-function addToCart(id){
+function addToCart(id,quantity=1){
 
   const p=products.find(
     x=>String(x.id)===String(id)
@@ -2186,28 +2346,62 @@ function addToCart(id){
     return;
   }
 
+  quantity=Number(quantity||1);
+
+  if(!Number.isFinite(quantity))
+    quantity=1;
+
+  quantity=Math.floor(quantity);
+
+  if(quantity<1)
+    quantity=1;
+
+  if(quantity>stock)
+    quantity=stock;
+
   const item=cart.find(
     x=>String(x.id)===String(id)
   );
 
   if(item){
 
-    if(Number(item.qty)>=stock){
+    const currentQty=
+      Number(item.qty||0);
+
+    const newQty=
+      currentQty+quantity;
+
+    if(newQty>stock){
 
       alert(
-        'Quantidade máxima disponível no estoque.'
+        `Você já tem ${currentQty} ${
+          currentQty===1
+          ?
+          'unidade'
+          :
+          'unidades'
+        } no carrinho. Só há ${stock} ${
+          stock===1
+          ?
+          'unidade'
+          :
+          'unidades'
+        } disponíveis no estoque.`
       );
 
       return;
     }
 
-    item.qty++;
+    item.qty=newQty;
 
   }else{
 
     cart.push({
+
       id:String(id),
-      qty:1
+
+      qty:quantity
+
     });
 
   }
@@ -2216,7 +2410,15 @@ function addToCart(id){
 
   renderCart();
 
-  alert('Adicionado ao carrinho!');
+  alert(
+    `${quantity} ${
+      quantity===1
+      ?
+      'unidade adicionada'
+      :
+      'unidades adicionadas'
+    } ao carrinho!`
+  );
 }
 
 
@@ -2237,7 +2439,7 @@ function removeCart(id){
 
 
 /* =====================================
-   ALTERAR QUANTIDADE
+   ALTERAR QUANTIDADE NO CARRINHO
    ===================================== */
 
 function changeQty(id,d){
@@ -2262,7 +2464,8 @@ function changeQty(id,d){
   }
 
   i.qty=
-    Number(i.qty||1)+Number(d);
+    Number(i.qty||1)+
+    Number(d);
 
   if(i.qty>stock){
 
@@ -2349,7 +2552,8 @@ function renderCart(){
       const stock=Number(p.stock||0);
       const qty=Number(i.qty||1);
 
-      total+=Number(p.price)*qty;
+      total+=
+        Number(p.price)*qty;
 
       return `
 
@@ -2737,10 +2941,6 @@ function sendOrderWhatsApp(){
   }
 
 
-  /* ==============================
-     VERIFICAR ESTOQUE NOVAMENTE
-     ============================== */
-
   for(const i of cart){
 
     const p=products.find(
@@ -2799,10 +2999,6 @@ function sendOrderWhatsApp(){
   }
 
 
-  /* ==============================
-     DADOS DO CLIENTE
-     ============================== */
-
   const customerName=
     document
       .getElementById('customerName')
@@ -2852,10 +3048,6 @@ function sendOrderWhatsApp(){
     customerPhone
   );
 
-
-  /* ==============================
-     MODALIDADE
-     ============================== */
 
   const method=
     getShippingMethod();
@@ -2951,10 +3143,6 @@ function sendOrderWhatsApp(){
 
   }
 
-
-  /* ==============================
-     MONTAR PEDIDO
-     ============================== */
 
   const lines=[
 
@@ -3060,10 +3248,6 @@ function sendOrderWhatsApp(){
 
   );
 
-
-  /* ==============================
-     ABRIR WHATSAPP
-     ============================== */
 
   const url=
     'https://wa.me/'+
