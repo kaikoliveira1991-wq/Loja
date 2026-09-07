@@ -103,6 +103,11 @@ button:disabled{
   position:relative;
 }
 
+.iconbtn svg{
+  width:21px;
+  height:21px;
+}
+
 .badge{
   position:absolute;
   top:-5px;
@@ -406,16 +411,27 @@ h2{
   max-width:700px;
   margin:auto;
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:repeat(3,1fr);
 }
 
 .nav button{
   background:none;
   border:0;
   color:var(--muted);
-  padding:8px 4px;
+  padding:7px 4px 6px;
   font-size:11px;
   font-weight:800;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+}
+
+.nav button svg{
+  width:22px;
+  height:22px;
+  stroke:currentColor;
 }
 
 .nav button.active{
@@ -783,6 +799,7 @@ hr{
 }
 
 @media(min-width:720px){
+
   main{
     padding-bottom:30px;
   }
@@ -824,6 +841,7 @@ hr{
     border-radius:20px;
     max-height:90vh;
   }
+
 }
 </style>
 </head>
@@ -833,6 +851,7 @@ hr{
 <div class="app">
 
 <header class="top">
+
   <div class="toprow">
 
     <div class="brand">
@@ -840,30 +859,66 @@ hr{
       <small>MODA URBANA</small>
     </div>
 
-    <button class="iconbtn" onclick="openCart()" aria-label="Carrinho">
-      🛒
-      <span id="cartBadge" class="badge">0</span>
+    <button
+      class="iconbtn"
+      onclick="openCart()"
+      aria-label="Carrinho"
+    >
+
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="9" cy="20" r="1"/>
+        <circle cx="19" cy="20" r="1"/>
+        <path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 7H6"/>
+      </svg>
+
+      <span
+        id="cartBadge"
+        class="badge"
+      >
+        0
+      </span>
+
     </button>
 
   </div>
+
 </header>
+
 
 <main>
 
-<section id="home" class="screen active">
+<section
+  id="home"
+  class="screen active"
+>
 
   <div class="hero">
-    <h1>Estilo é mais do que roupa.</h1>
+
+    <h1>
+      Estilo é mais do que roupa.
+    </h1>
 
     <p>
       Escolha sua peça, confira os tamanhos disponíveis
       e peça diretamente pelo WhatsApp.
     </p>
 
-    <button class="btn" onclick="scrollToProducts()">
+    <button
+      class="btn"
+      onclick="scrollToProducts()"
+    >
       VER PRODUTOS
     </button>
+
   </div>
+
 
   <div class="searchbar">
 
@@ -878,27 +933,43 @@ hr{
       onclick="toggleFilters()"
       aria-label="Filtros"
     >
-      <svg viewBox="0 0 24 24" fill="none"
-           stroke="currentColor"
-           stroke-width="2"
-           stroke-linecap="round">
+
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+      >
         <path d="M4 6h16"/>
         <path d="M7 12h10"/>
         <path d="M10 18h4"/>
       </svg>
+
     </button>
 
   </div>
 
-  <div id="filterPanel" class="filterpanel">
+
+  <div
+    id="filterPanel"
+    class="filterpanel"
+  >
 
     <div class="filtergrid">
 
       <div class="field">
+
         <label>Tamanho</label>
 
-        <select id="filterSize" onchange="renderProducts()">
-          <option value="">Todos os tamanhos</option>
+        <select
+          id="filterSize"
+          onchange="renderProducts()"
+        >
+          <option value="">
+            Todos os tamanhos
+          </option>
+
           <option value="PP">PP</option>
           <option value="P">P</option>
           <option value="M">M</option>
@@ -906,11 +977,16 @@ hr{
           <option value="GG">GG</option>
           <option value="XG">XG</option>
           <option value="XXG">XXG</option>
+
         </select>
+
       </div>
 
+
       <div class="field">
+
         <label>Preço mínimo</label>
+
         <input
           id="filterMin"
           type="number"
@@ -919,10 +995,14 @@ hr{
           placeholder="R$ 0"
           oninput="renderProducts()"
         >
+
       </div>
 
+
       <div class="field">
+
         <label>Preço máximo</label>
+
         <input
           id="filterMax"
           type="number"
@@ -931,62 +1011,121 @@ hr{
           placeholder="Sem limite"
           oninput="renderProducts()"
         >
+
       </div>
 
+
       <div class="field">
+
         <label>Ordenar</label>
 
-        <select id="filterSort" onchange="renderProducts()">
-          <option value="new">Mais recentes</option>
-          <option value="priceAsc">Menor preço</option>
-          <option value="priceDesc">Maior preço</option>
-          <option value="name">Nome</option>
+        <select
+          id="filterSort"
+          onchange="renderProducts()"
+        >
+          <option value="new">
+            Mais recentes
+          </option>
+
+          <option value="priceAsc">
+            Menor preço
+          </option>
+
+          <option value="priceDesc">
+            Maior preço
+          </option>
+
+          <option value="name">
+            Nome
+          </option>
+
         </select>
+
       </div>
 
     </div>
 
   </div>
 
-  <div id="cats" class="cats"></div>
 
-  <h2>Produtos</h2>
+  <div
+    id="cats"
+    class="cats"
+  ></div>
 
-  <div id="products" class="grid"></div>
+
+  <h2>
+    Produtos
+  </h2>
+
+
+  <div
+    id="products"
+    class="grid"
+  ></div>
 
 </section>
 
 
-<section id="cart" class="screen">
+<section
+  id="cart"
+  class="screen"
+>
 
-  <h2>Seu carrinho</h2>
+  <h2>
+    Seu carrinho
+  </h2>
 
-  <div id="cartList"></div>
+  <div
+    id="cartList"
+  ></div>
 
-  <div id="cartSummary"></div>
+  <div
+    id="cartSummary"
+  ></div>
 
 </section>
 
 
-<section id="admin" class="screen">
+<section
+  id="admin"
+  class="screen"
+>
 
-  <h2>Gerenciar produtos</h2>
+  <h2>
+    Gerenciar produtos
+  </h2>
+
 
   <div class="notice">
+
     Os produtos são armazenados no Supabase.
     O estoque de produtos com tamanho é controlado
     individualmente por tamanho.
+
   </div>
 
-  <button class="btn" onclick="openProductModal()">
+
+  <button
+    class="btn"
+    onclick="openProductModal()"
+  >
     + Novo produto
   </button>
 
-  <div id="adminList"></div>
 
-  <h2>Configuração</h2>
+  <div
+    id="adminList"
+  ></div>
+
+
+  <h2>
+    Configuração
+  </h2>
+
 
   <div class="field">
+
     <label>
       WhatsApp da loja (com DDI, somente números)
     </label>
@@ -996,10 +1135,15 @@ hr{
       placeholder="5596999999999"
       onchange="saveConfig()"
     >
+
   </div>
 
+
   <div class="field">
-    <label>Taxa de entrega (R$)</label>
+
+    <label>
+      Taxa de entrega (R$)
+    </label>
 
     <input
       id="deliveryFee"
@@ -1008,20 +1152,41 @@ hr{
       step="0.01"
       onchange="saveDeliveryConfig()"
     >
+
   </div>
 
+
   <div class="field">
-    <label>Endereço da loja para retirada</label>
+
+    <label>
+      Endereço da loja para retirada
+    </label>
 
     <input
       id="storeAddress"
       placeholder="Endereço da loja"
       onchange="saveDeliveryConfig()"
     >
+
   </div>
 
-  <button class="btn dark" onclick="exportData()">
+
+  <button
+    class="btn dark"
+    onclick="exportData()"
+  >
     Exportar catálogo
+  </button>
+
+
+  <br><br>
+
+
+  <button
+    class="btn danger"
+    onclick="logoutAdmin()"
+  >
+    Sair do Admin
   </button>
 
 </section>
@@ -1029,29 +1194,125 @@ hr{
 </main>
 
 
+<!-- NAVEGAÇÃO INFERIOR -->
+
 <div class="bottom">
 
   <nav class="nav">
 
     <button
+      id="navHome"
       class="active"
       onclick="show('home',this)"
     >
-      ⌂<br>Início
+
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M3 10.5 12 3l9 7.5"/>
+        <path d="M5 9.5V21h14V9.5"/>
+        <path d="M9 21v-6h6v6"/>
+      </svg>
+
+      <span>
+        Início
+      </span>
+
     </button>
+
 
     <button
+      id="navProducts"
       onclick="show('home',this);scrollToProducts()"
     >
-      ▦<br>Produtos
+
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <rect
+          x="4"
+          y="4"
+          width="6"
+          height="6"
+          rx="1"
+        />
+
+        <rect
+          x="14"
+          y="4"
+          width="6"
+          height="6"
+          rx="1"
+        />
+
+        <rect
+          x="4"
+          y="14"
+          width="6"
+          height="6"
+          rx="1"
+        />
+
+        <rect
+          x="14"
+          y="14"
+          width="6"
+          height="6"
+          rx="1"
+        />
+      </svg>
+
+      <span>
+        Produtos
+      </span>
+
     </button>
 
-    <button onclick="openCart()">
-      🛒<br>Carrinho
-    </button>
 
-    <button onclick="openAdmin()">
-      ⚙<br>Admin
+    <button
+      id="navCart"
+      onclick="openCart()"
+    >
+
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle
+          cx="9"
+          cy="20"
+          r="1"
+        />
+
+        <circle
+          cx="19"
+          cy="20"
+          r="1"
+        />
+
+        <path
+          d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 7H6"
+        />
+      </svg>
+
+      <span>
+        Carrinho
+      </span>
+
     </button>
 
   </nav>
@@ -1081,7 +1342,18 @@ hr{
         class="iconbtn"
         onclick="closeModal()"
       >
-        ✕
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        >
+          <path d="M6 6l12 12"/>
+          <path d="M18 6 6 18"/>
+        </svg>
+
       </button>
 
     </div>
@@ -1091,24 +1363,44 @@ hr{
 
       <div class="field">
 
-        <label>Nome</label>
+        <label>
+          Nome
+        </label>
 
-        <input id="fName">
+        <input
+          id="fName"
+        >
 
       </div>
 
 
       <div class="field">
 
-        <label>Categoria</label>
+        <label>
+          Categoria
+        </label>
 
         <select id="fCat">
 
-          <option>Camisetas</option>
-          <option>Bermudas</option>
-          <option>Calças</option>
-          <option>Moletom</option>
-          <option>Acessórios</option>
+          <option>
+            Camisetas
+          </option>
+
+          <option>
+            Bermudas
+          </option>
+
+          <option>
+            Calças
+          </option>
+
+          <option>
+            Moletom
+          </option>
+
+          <option>
+            Acessórios
+          </option>
 
         </select>
 
@@ -1117,7 +1409,9 @@ hr{
 
       <div class="field">
 
-        <label>Preço (R$)</label>
+        <label>
+          Preço (R$)
+        </label>
 
         <input
           id="fPrice"
@@ -1131,7 +1425,9 @@ hr{
 
       <div class="field">
 
-        <label>Estoque total</label>
+        <label>
+          Estoque total
+        </label>
 
         <input
           id="fStock"
@@ -1151,10 +1447,15 @@ hr{
             Estoque por tamanho
           </div>
 
+
           <div class="size-stock-grid">
 
             <div class="size-stock-row">
-              <span>PP</span>
+
+              <span>
+                PP
+              </span>
+
               <input
                 id="stockSizePP"
                 type="number"
@@ -1163,10 +1464,16 @@ hr{
                 value="0"
                 oninput="updateTotalSizeStock()"
               >
+
             </div>
 
+
             <div class="size-stock-row">
-              <span>P</span>
+
+              <span>
+                P
+              </span>
+
               <input
                 id="stockSizeP"
                 type="number"
@@ -1175,10 +1482,16 @@ hr{
                 value="0"
                 oninput="updateTotalSizeStock()"
               >
+
             </div>
 
+
             <div class="size-stock-row">
-              <span>M</span>
+
+              <span>
+                M
+              </span>
+
               <input
                 id="stockSizeM"
                 type="number"
@@ -1187,10 +1500,16 @@ hr{
                 value="0"
                 oninput="updateTotalSizeStock()"
               >
+
             </div>
 
+
             <div class="size-stock-row">
-              <span>G</span>
+
+              <span>
+                G
+              </span>
+
               <input
                 id="stockSizeG"
                 type="number"
@@ -1199,10 +1518,16 @@ hr{
                 value="0"
                 oninput="updateTotalSizeStock()"
               >
+
             </div>
 
+
             <div class="size-stock-row">
-              <span>GG</span>
+
+              <span>
+                GG
+              </span>
+
               <input
                 id="stockSizeGG"
                 type="number"
@@ -1211,10 +1536,16 @@ hr{
                 value="0"
                 oninput="updateTotalSizeStock()"
               >
+
             </div>
 
+
             <div class="size-stock-row">
-              <span>XG</span>
+
+              <span>
+                XG
+              </span>
+
               <input
                 id="stockSizeXG"
                 type="number"
@@ -1223,10 +1554,16 @@ hr{
                 value="0"
                 oninput="updateTotalSizeStock()"
               >
+
             </div>
 
+
             <div class="size-stock-row">
-              <span>XXG</span>
+
+              <span>
+                XXG
+              </span>
+
               <input
                 id="stockSizeXXG"
                 type="number"
@@ -1235,13 +1572,17 @@ hr{
                 value="0"
                 oninput="updateTotalSizeStock()"
               >
+
             </div>
 
           </div>
 
+
           <div class="total-stock">
 
-            <span>Total</span>
+            <span>
+              Total
+            </span>
 
             <span id="sizeStockTotal">
               0
@@ -1256,7 +1597,10 @@ hr{
 
       <div class="field full">
 
-        <label>Foto do produto</label>
+        <label>
+          Foto do produto
+        </label>
+
 
         <div class="upload-area">
 
@@ -1267,11 +1611,13 @@ hr{
             onchange="previewImage()"
           >
 
+
           <img
             id="uploadPreview"
             class="upload-preview"
             alt="Prévia"
           >
+
 
           <div
             id="uploadStatus"
@@ -1279,6 +1625,7 @@ hr{
           ></div>
 
         </div>
+
 
         <input
           id="fImage"
@@ -1290,9 +1637,13 @@ hr{
 
       <div class="field full">
 
-        <label>Descrição</label>
+        <label>
+          Descrição
+        </label>
 
-        <textarea id="fDesc"></textarea>
+        <textarea
+          id="fDesc"
+        ></textarea>
 
       </div>
 
@@ -1307,6 +1658,7 @@ hr{
       >
         Cancelar
       </button>
+
 
       <button
         id="saveProductBtn"
@@ -1352,25 +1704,45 @@ hr{
 
     <div class="sheethead">
 
-      <h2>Finalizar pedido</h2>
+      <h2>
+        Finalizar pedido
+      </h2>
+
 
       <button
         class="iconbtn"
         onclick="closeCheckout()"
       >
-        ✕
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        >
+          <path d="M6 6l12 12"/>
+          <path d="M18 6 6 18"/>
+        </svg>
+
       </button>
 
     </div>
 
-    <div id="checkoutContent"></div>
+
+    <div
+      id="checkoutContent"
+    ></div>
 
   </div>
 
 </div>
 
 
-<div id="toast" class="toast">
+<div
+  id="toast"
+  class="toast"
+>
   Adicionado ao carrinho
 </div>
 
@@ -1391,11 +1763,14 @@ const STANDARD_SIZES=[
   'XXG'
 ];
 
+
 let products=[];
+
 
 let cart=JSON.parse(
   localStorage.getItem('km_cart_v1')||'[]'
 );
+
 
 let activeCat='Todos';
 
@@ -1404,6 +1779,11 @@ let editing=null;
 let selectedDetailSize=null;
 
 let detailQty=1;
+
+let checkoutMode='delivery';
+
+let sendingOrder=false;
+
 
 const CFG='km_config_v1';
 
@@ -1460,6 +1840,7 @@ function normalizeSizeStock(value){
 
   const result={};
 
+
   STANDARD_SIZES.forEach(size=>{
 
     const n=Math.max(
@@ -1469,10 +1850,12 @@ function normalizeSizeStock(value){
       )
     );
 
+
     if(n>0)
       result[size]=n;
 
   });
+
 
   return result;
 
@@ -1484,29 +1867,45 @@ function getSizeStock(product,size){
   if(!size)
     return Number(product?.stock||0);
 
-  const stock=normalizeSizeStock(
-    product?.size_stock
-  );
 
-  return Number(stock[size]||0);
+  const stock=
+    normalizeSizeStock(
+      product?.size_stock
+    );
+
+
+  return Number(
+    stock[size]||0
+  );
 
 }
 
 
 function getAvailableSizes(product){
 
-  const stock=normalizeSizeStock(
-    product?.size_stock
-  );
-
-  const keys=Object.keys(stock);
-
-  if(keys.length)
-    return STANDARD_SIZES.filter(
-      size=>Number(stock[size]||0)>0
+  const stock=
+    normalizeSizeStock(
+      product?.size_stock
     );
 
-  return normalizeSizes(product?.sizes);
+
+  const keys=
+    Object.keys(stock);
+
+
+  if(keys.length){
+
+    return STANDARD_SIZES.filter(
+      size=>
+        Number(stock[size]||0)>0
+    );
+
+  }
+
+
+  return normalizeSizes(
+    product?.sizes
+  );
 
 }
 
@@ -1514,7 +1913,9 @@ function getAvailableSizes(product){
 function hasIndividualSizeStock(product){
 
   return Object.keys(
-    normalizeSizeStock(product?.size_stock)
+    normalizeSizeStock(
+      product?.size_stock
+    )
   ).length>0;
 
 }
@@ -1529,12 +1930,14 @@ function getAvailableStock(product,size){
     if(!size)
       return 0;
 
+
     return getSizeStock(
       product,
       size
     );
 
   }
+
 
   return Number(
     product?.stock||0
@@ -1554,6 +1957,7 @@ function saveCart(){
     JSON.stringify(cart)
   );
 
+
   updateBadge();
 
 }
@@ -1561,27 +1965,22 @@ function saveCart(){
 
 function updateBadge(){
 
-  const n=cart.reduce(
-    (a,x)=>a+Number(x.qty||0),
-    0
-  );
+  const n=
+    cart.reduce(
+      (a,x)=>
+        a+Number(x.qty||0),
+      0
+    );
+
 
   const badge=
     document.getElementById(
       'cartBadge'
     );
 
+
   if(badge)
     badge.textContent=n;
-
-}
-
-
-function cartKey(item){
-
-  return String(item.id)+
-    '::'+
-    String(item.size||'');
 
 }
 
@@ -1591,7 +1990,8 @@ function findCartItem(id,size){
   return cart.find(
     x=>
       String(x.id)===String(id) &&
-      String(x.size||'')===String(size||'')
+      String(x.size||'')===
+      String(size||'')
   );
 
 }
@@ -1609,11 +2009,14 @@ function show(id,btn){
       x.classList.remove('active')
     );
 
+
   const screen=
     document.getElementById(id);
 
+
   if(screen)
     screen.classList.add('active');
+
 
   document
     .querySelectorAll('.nav button')
@@ -1621,14 +2024,18 @@ function show(id,btn){
       x.classList.remove('active')
     );
 
+
   if(btn)
     btn.classList.add('active');
+
 
   if(id==='home')
     renderProducts();
 
+
   if(id==='cart')
     renderCart();
+
 
   if(id==='admin')
     renderAdmin();
@@ -1639,6 +2046,7 @@ function show(id,btn){
 function scrollToProducts(){
 
   show('home');
+
 
   setTimeout(()=>{
 
@@ -1655,7 +2063,11 @@ function scrollToProducts(){
 
 function openCart(){
 
-  show('cart');
+  show(
+    'cart',
+    document.getElementById('navCart')
+  );
+
 
   renderCart();
 
@@ -1685,6 +2097,7 @@ function renderCats(){
         .filter(Boolean)
     )
   ];
+
 
   document.getElementById(
     'cats'
@@ -1718,6 +2131,7 @@ function renderProducts(){
 
   renderCats();
 
+
   const q=
     (
       document.getElementById(
@@ -1727,10 +2141,12 @@ function renderProducts(){
     .toLowerCase()
     .trim();
 
+
   const filterSize=
     document.getElementById(
       'filterSize'
     )?.value||'';
+
 
   const min=
     Number(
@@ -1739,10 +2155,12 @@ function renderProducts(){
       )?.value||0
     );
 
+
   const maxValue=
     document.getElementById(
       'filterMax'
     )?.value;
+
 
   const max=
     maxValue==='' ||
@@ -1750,44 +2168,51 @@ function renderProducts(){
       ?Infinity
       :Number(maxValue);
 
+
   const sort=
     document.getElementById(
       'filterSort'
     )?.value||'new';
 
 
-  let arr=products.filter(p=>{
+  let arr=
+    products.filter(p=>{
 
-    const availableSizes=
-      getAvailableSizes(p);
+      const availableSizes=
+        getAvailableSizes(p);
 
-    const matchesCat=
-      activeCat==='Todos' ||
-      p.category===activeCat;
 
-    const matchesSearch=
-      String(p.name||'')
-        .toLowerCase()
-        .includes(q);
+      const matchesCat=
+        activeCat==='Todos' ||
+        p.category===activeCat;
 
-    const matchesSize=
-      !filterSize ||
-      availableSizes.includes(
-        filterSize
+
+      const matchesSearch=
+        String(p.name||'')
+          .toLowerCase()
+          .includes(q);
+
+
+      const matchesSize=
+        !filterSize ||
+        availableSizes.includes(
+          filterSize
+        );
+
+
+      const matchesPrice=
+        Number(p.price||0)>=min &&
+        Number(p.price||0)<=max;
+
+
+      return(
+        matchesCat &&
+        matchesSearch &&
+        matchesSize &&
+        matchesPrice
       );
 
-    const matchesPrice=
-      Number(p.price||0)>=min &&
-      Number(p.price||0)<=max;
-
-    return (
-      matchesCat &&
-      matchesSearch &&
-      matchesSize &&
-      matchesPrice
-    );
-
-  });
+    });
 
 
   if(sort==='priceAsc'){
@@ -1800,6 +2225,7 @@ function renderProducts(){
 
   }
 
+
   if(sort==='priceDesc'){
 
     arr.sort(
@@ -1809,6 +2235,7 @@ function renderProducts(){
     );
 
   }
+
 
   if(sort==='name'){
 
@@ -1841,6 +2268,7 @@ function renderProducts(){
 
 
   box.innerHTML=
+
     arr.map(p=>{
 
       const sizes=
@@ -1848,15 +2276,18 @@ function renderProducts(){
           p.size_stock
         );
 
+
       const individual=
         Object.keys(sizes).length>0;
+
 
       const total=
         individual
           ?
           Object.values(sizes)
             .reduce(
-              (a,b)=>a+Number(b||0),
+              (a,b)=>
+                a+Number(b||0),
               0
             )
           :
@@ -1869,6 +2300,7 @@ function renderProducts(){
       if(individual){
 
         sizeHtml=`
+
           <div class="sizes-preview">
 
             ${
@@ -1892,27 +2324,35 @@ function renderProducts(){
             }
 
           </div>
+
         `;
 
       }else{
 
         const oldSizes=
-          normalizeSizes(p.sizes);
+          normalizeSizes(
+            p.sizes
+          );
+
 
         if(oldSizes.length){
 
           sizeHtml=`
+
             <div class="sizes-preview">
 
               ${
                 oldSizes.map(size=>`
+
                   <span class="size-tag">
                     ${esc(size)}
                   </span>
+
                 `).join('')
               }
 
             </div>
+
           `;
 
         }
@@ -1953,9 +2393,11 @@ function renderProducts(){
               ${esc(p.name)}
             </div>
 
+
             <div class="price">
               ${money(p.price)}
             </div>
+
 
             <div
               class="stock ${
@@ -1982,6 +2424,7 @@ function renderProducts(){
 
             </div>
 
+
             ${sizeHtml}
 
           </div>
@@ -1996,14 +2439,16 @@ function renderProducts(){
 
 
 /* =========================
-   DETALHES DO PRODUTO
+   DETALHES
 ========================= */
 
 function openDetail(id){
 
-  const p=products.find(
-    x=>String(x.id)===String(id)
-  );
+  const p=
+    products.find(
+      x=>String(x.id)===String(id)
+    );
+
 
   if(!p)
     return;
@@ -2019,6 +2464,7 @@ function openDetail(id){
       p.size_stock
     );
 
+
   const individual=
     Object.keys(sizeStock).length>0;
 
@@ -2032,7 +2478,10 @@ function openDetail(id){
 
       <div>
 
-        <b>Escolha o tamanho:</b>
+        <b>
+          Escolha o tamanho:
+        </b>
+
 
         <div class="detail-sizes">
 
@@ -2047,6 +2496,7 @@ function openDetail(id){
                   Number(
                     sizeStock[size]||0
                   );
+
 
                 return `
 
@@ -2072,9 +2522,16 @@ function openDetail(id){
                     <small>
                       ${
                         qty>0
-                          ?qty+' disponível'+
-                            (qty>1?'is':'')
-                          :'Esgotado'
+                          ?
+                          qty+
+                          ' disponível'+
+                          (
+                            qty>1
+                              ?'is'
+                              :''
+                          )
+                          :
+                          'Esgotado'
                       }
                     </small>
 
@@ -2094,7 +2551,10 @@ function openDetail(id){
   }else{
 
     const oldSizes=
-      normalizeSizes(p.sizes);
+      normalizeSizes(
+        p.sizes
+      );
+
 
     if(oldSizes.length){
 
@@ -2102,7 +2562,10 @@ function openDetail(id){
 
         <div>
 
-          <b>Tamanho:</b>
+          <b>
+            Tamanho:
+          </b>
+
 
           <div class="detail-sizes">
 
@@ -2140,7 +2603,8 @@ function openDetail(id){
       ?
       Object.values(sizeStock)
         .reduce(
-          (a,b)=>a+Number(b||0),
+          (a,b)=>
+            a+Number(b||0),
           0
         )
       :
@@ -2153,13 +2617,27 @@ function openDetail(id){
 
     <div class="sheethead">
 
-      <h2>${esc(p.name)}</h2>
+      <h2>
+        ${esc(p.name)}
+      </h2>
+
 
       <button
         class="iconbtn"
         onclick="closeDetail()"
       >
-        ✕
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        >
+          <path d="M6 6l12 12"/>
+          <path d="M18 6 6 18"/>
+        </svg>
+
       </button>
 
     </div>
@@ -2194,9 +2672,11 @@ function openDetail(id){
     </div>
 
 
-    <p class="stock ${
-      total===0?'out':''
-    }">
+    <p
+      class="stock ${
+        total===0?'out':''
+      }"
+    >
 
       ${
         total>0
@@ -2234,13 +2714,20 @@ function openDetail(id){
         total>0
           ?
           `
+
             <div class="qtybox">
 
               <button
-                onclick="changeDetailQty(-1,'${esc(p.id)}')"
+                onclick="
+                  changeDetailQty(
+                    -1,
+                    '${esc(p.id)}'
+                  )
+                "
               >
                 −
               </button>
+
 
               <div
                 id="detailQtyNumber"
@@ -2249,13 +2736,20 @@ function openDetail(id){
                 1
               </div>
 
+
               <button
-                onclick="changeDetailQty(1,'${esc(p.id)}')"
+                onclick="
+                  changeDetailQty(
+                    1,
+                    '${esc(p.id)}'
+                  )
+                "
               >
                 +
               </button>
 
             </div>
+
           `
           :
           ''
@@ -2271,8 +2765,7 @@ function openDetail(id){
       ${
         total<=0
           ?'disabled'
-          :
-          ''
+          :''
       }
       onclick="
         addDetailToCart('${esc(p.id)}')
@@ -2293,9 +2786,11 @@ function openDetail(id){
 
 function selectDetailSize(size,id){
 
-  const p=products.find(
-    x=>String(x.id)===String(id)
-  );
+  const p=
+    products.find(
+      x=>String(x.id)===String(id)
+    );
+
 
   if(!p)
     return;
@@ -2328,11 +2823,16 @@ function selectDetailSize(size,id){
     )
     .forEach(btn=>{
 
-      btn.classList.toggle(
-        'selected',
+      const text=
         btn.textContent
           .trim()
-          .startsWith(size)
+          .split('\n')[0]
+          .trim();
+
+
+      btn.classList.toggle(
+        'selected',
+        text===size
       );
 
     });
@@ -2343,6 +2843,7 @@ function selectDetailSize(size,id){
       'detailQtyNumber'
     );
 
+
   if(qty)
     qty.textContent=detailQty;
 
@@ -2351,16 +2852,20 @@ function selectDetailSize(size,id){
 
 function changeDetailQty(delta,id){
 
-  const p=products.find(
-    x=>String(x.id)===String(id)
-  );
+  const p=
+    products.find(
+      x=>String(x.id)===String(id)
+    );
+
 
   if(!p)
     return;
 
 
-  if(hasIndividualSizeStock(p) &&
-     !selectedDetailSize){
+  if(
+    hasIndividualSizeStock(p) &&
+    !selectedDetailSize
+  ){
 
     alert(
       'Escolha um tamanho primeiro.'
@@ -2384,6 +2889,7 @@ function changeDetailQty(delta,id){
   if(detailQty<1)
     detailQty=1;
 
+
   if(detailQty>max)
     detailQty=max;
 
@@ -2393,6 +2899,7 @@ function changeDetailQty(delta,id){
       'detailQtyNumber'
     );
 
+
   if(el)
     el.textContent=detailQty;
 
@@ -2401,9 +2908,11 @@ function changeDetailQty(delta,id){
 
 function addDetailToCart(id){
 
-  const p=products.find(
-    x=>String(x.id)===String(id)
-  );
+  const p=
+    products.find(
+      x=>String(x.id)===String(id)
+    );
+
 
   if(!p)
     return;
@@ -2449,10 +2958,11 @@ function addDetailToCart(id){
     detailQty=available;
 
 
-  const item=findCartItem(
-    p.id,
-    selectedDetailSize
-  );
+  const item=
+    findCartItem(
+      p.id,
+      selectedDetailSize
+    );
 
 
   if(item){
@@ -2470,6 +2980,7 @@ function addDetailToCart(id){
       return;
 
     }
+
 
     item.qty+=detailQty;
 
@@ -2506,12 +3017,16 @@ function showToast(text){
       'toast'
     );
 
+
   toast.textContent=text;
 
   toast.classList.add('show');
 
+
   setTimeout(()=>{
+
     toast.classList.remove('show');
+
   },1800);
 
 }
@@ -2523,12 +3038,15 @@ function showToast(text){
 
 function removeCart(id,size=null){
 
-  cart=cart.filter(
-    x=>!(
-      String(x.id)===String(id) &&
-      String(x.size||'')===String(size||'')
-    )
-  );
+  cart=
+    cart.filter(
+      x=>!(
+        String(x.id)===String(id) &&
+        String(x.size||'')===
+        String(size||'')
+      )
+    );
+
 
   saveCart();
 
@@ -2540,11 +3058,17 @@ function removeCart(id,size=null){
 function changeQty(id,d,size=null){
 
   const item=
-    findCartItem(id,size);
+    findCartItem(
+      id,
+      size
+    );
 
-  const p=products.find(
-    x=>String(x.id)===String(id)
-  );
+
+  const p=
+    products.find(
+      x=>String(x.id)===String(id)
+    );
+
 
   if(!item||!p)
     return;
@@ -2562,7 +3086,10 @@ function changeQty(id,d,size=null){
 
   if(item.qty<=0){
 
-    removeCart(id,size);
+    removeCart(
+      id,
+      size
+    );
 
     return;
 
@@ -2571,7 +3098,10 @@ function changeQty(id,d,size=null){
 
   if(max<=0){
 
-    removeCart(id,size);
+    removeCart(
+      id,
+      size
+    );
 
     return;
 
@@ -2594,49 +3124,52 @@ function syncCartWithStock(){
   let changed=false;
 
 
-  cart=cart.filter(item=>{
+  cart=
+    cart.filter(item=>{
 
-    const p=products.find(
-      x=>String(x.id)===String(item.id)
-    );
-
-    if(!p){
-
-      changed=true;
-
-      return false;
-
-    }
+      const p=
+        products.find(
+          x=>String(x.id)===String(item.id)
+        );
 
 
-    const max=
-      getAvailableStock(
-        p,
-        item.size
-      );
+      if(!p){
+
+        changed=true;
+
+        return false;
+
+      }
 
 
-    if(max<=0){
-
-      changed=true;
-
-      return false;
-
-    }
+      const max=
+        getAvailableStock(
+          p,
+          item.size
+        );
 
 
-    if(item.qty>max){
+      if(max<=0){
 
-      item.qty=max;
+        changed=true;
 
-      changed=true;
+        return false;
 
-    }
+      }
 
 
-    return true;
+      if(item.qty>max){
 
-  });
+        item.qty=max;
+
+        changed=true;
+
+      }
+
+
+      return true;
+
+    });
 
 
   if(changed)
@@ -2677,9 +3210,11 @@ function renderCart(){
 
     `;
 
+
     document.getElementById(
       'cartSummary'
     ).innerHTML='';
+
 
     return;
 
@@ -2693,9 +3228,11 @@ function renderCart(){
 
     cart.map(i=>{
 
-      const p=products.find(
-        x=>String(x.id)===String(i.id)
-      );
+      const p=
+        products.find(
+          x=>String(x.id)===String(i.id)
+        );
+
 
       if(!p)
         return '';
@@ -2704,6 +3241,7 @@ function renderCart(){
       const subtotal=
         Number(p.price||0)*
         Number(i.qty||0);
+
 
       total+=subtotal;
 
@@ -2746,7 +3284,8 @@ function renderCart(){
                 ?
                 `
                   <div class="cartsize">
-                    Tamanho: <b>${esc(i.size)}</b>
+                    Tamanho:
+                    <b>${esc(i.size)}</b>
                     · ${available} disponível(is)
                   </div>
                 `
@@ -2775,7 +3314,9 @@ function renderCart(){
               </button>
 
 
-              <b>${i.qty}</b>
+              <b>
+                ${i.qty}
+              </b>
 
 
               <button
@@ -2806,7 +3347,22 @@ function renderCart(){
                   )
                 "
               >
-                🗑
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M3 6h18"/>
+                  <path d="M8 6V4h8v2"/>
+                  <path d="M19 6l-1 15H6L5 6"/>
+                  <path d="M10 11v6"/>
+                  <path d="M14 11v6"/>
+                </svg>
+
               </button>
 
             </div>
@@ -2815,7 +3371,9 @@ function renderCart(){
 
 
           <div>
-            <b>${money(subtotal)}</b>
+            <b>
+              ${money(subtotal)}
+            </b>
           </div>
 
         </div>
@@ -2831,7 +3389,9 @@ function renderCart(){
 
     <div class="total">
 
-      <span>Total</span>
+      <span>
+        Total
+      </span>
 
       <span>
         ${money(total)}
@@ -2866,9 +3426,11 @@ function getDeliveryConfig(){
       )||'{}'
     );
 
-  return {
+
+  return{
     fee:Number(saved.fee||0),
-    storeAddress:saved.storeAddress||''
+    storeAddress:
+      saved.storeAddress||''
   };
 
 }
@@ -2877,16 +3439,20 @@ function getDeliveryConfig(){
 function saveDeliveryConfig(){
 
   const data={
+
     fee:Number(
       document.getElementById(
         'deliveryFee'
       )?.value||0
     ),
+
     storeAddress:
       document.getElementById(
         'storeAddress'
       )?.value.trim()||''
+
   };
+
 
   localStorage.setItem(
     DELIVERY_CFG,
@@ -2901,18 +3467,22 @@ function loadDeliveryConfig(){
   const data=
     getDeliveryConfig();
 
+
   const fee=
     document.getElementById(
       'deliveryFee'
     );
+
 
   const address=
     document.getElementById(
       'storeAddress'
     );
 
+
   if(fee)
     fee.value=data.fee||0;
+
 
   if(address)
     address.value=
@@ -2977,9 +3547,11 @@ function openCheckout(){
 
   cart.forEach(i=>{
 
-    const p=products.find(
-      x=>String(x.id)===String(i.id)
-    );
+    const p=
+      products.find(
+        x=>String(x.id)===String(i.id)
+      );
+
 
     if(p)
       subtotal+=
@@ -3000,7 +3572,9 @@ function openCheckout(){
 
     <div class="field">
 
-      <label>Nome</label>
+      <label>
+        Nome
+      </label>
 
       <input
         id="customerName"
@@ -3012,7 +3586,9 @@ function openCheckout(){
 
     <div class="field">
 
-      <label>Telefone</label>
+      <label>
+        Telefone
+      </label>
 
       <input
         id="customerPhone"
@@ -3025,7 +3601,10 @@ function openCheckout(){
 
     <div class="field">
 
-      <label>Forma de recebimento</label>
+      <label>
+        Forma de recebimento
+      </label>
+
 
       <div class="delivery-options">
 
@@ -3036,6 +3615,7 @@ function openCheckout(){
         >
           Entrega
         </button>
+
 
         <button
           id="pickupBtn"
@@ -3057,7 +3637,9 @@ function openCheckout(){
 
       <div class="field">
 
-        <label>CEP</label>
+        <label>
+          CEP
+        </label>
 
         <input
           id="deliveryCep"
@@ -3069,7 +3651,9 @@ function openCheckout(){
 
       <div class="field">
 
-        <label>Endereço</label>
+        <label>
+          Endereço
+        </label>
 
         <input
           id="deliveryAddress"
@@ -3081,7 +3665,9 @@ function openCheckout(){
 
       <div class="field">
 
-        <label>Número</label>
+        <label>
+          Número
+        </label>
 
         <input
           id="deliveryNumber"
@@ -3093,7 +3679,9 @@ function openCheckout(){
 
       <div class="field">
 
-        <label>Bairro</label>
+        <label>
+          Bairro
+        </label>
 
         <input
           id="deliveryNeighborhood"
@@ -3105,7 +3693,9 @@ function openCheckout(){
 
       <div class="field">
 
-        <label>Complemento</label>
+        <label>
+          Complemento
+        </label>
 
         <input
           id="deliveryComplement"
@@ -3125,7 +3715,9 @@ function openCheckout(){
 
       <div class="notice">
 
-        <b>Endereço para retirada:</b>
+        <b>
+          Endereço para retirada:
+        </b>
 
         <br>
 
@@ -3145,7 +3737,9 @@ function openCheckout(){
 
       <div class="total">
 
-        <span>Subtotal</span>
+        <span>
+          Subtotal
+        </span>
 
         <span>
           ${money(subtotal)}
@@ -3159,7 +3753,9 @@ function openCheckout(){
         style="font-size:14px"
       >
 
-        <span>Entrega</span>
+        <span>
+          Entrega
+        </span>
 
         <span id="checkoutShipping">
           ${money(config.fee)}
@@ -3170,7 +3766,9 @@ function openCheckout(){
 
       <div class="total">
 
-        <span>Total</span>
+        <span>
+          Total
+        </span>
 
         <span id="checkoutTotal">
           ${money(subtotal+config.fee)}
@@ -3180,6 +3778,7 @@ function openCheckout(){
 
 
       <button
+        id="sendOrderBtn"
         class="btn green"
         style="width:100%"
         onclick="sendOrderWhatsApp()"
@@ -3197,6 +3796,7 @@ function openCheckout(){
       'km_customer_name'
     )||'';
 
+
   const savedPhone=
     localStorage.getItem(
       'km_customer_phone'
@@ -3207,9 +3807,13 @@ function openCheckout(){
     'customerName'
   ).value=savedName;
 
+
   document.getElementById(
     'customerPhone'
   ).value=savedPhone;
+
+
+  checkoutMode='delivery';
 
 
   document
@@ -3219,14 +3823,14 @@ function openCheckout(){
     .classList.add('open');
 
 
-  window.checkoutMode='delivery';
+  updateCheckoutTotal();
 
 }
 
 
 function setCheckoutMode(mode){
 
-  window.checkoutMode=mode;
+  checkoutMode=mode;
 
 
   const delivery=
@@ -3234,15 +3838,18 @@ function setCheckoutMode(mode){
       'deliveryFields'
     );
 
+
   const pickup=
     document.getElementById(
       'pickupFields'
     );
 
+
   const db=
     document.getElementById(
       'deliveryBtn'
     );
+
 
   const pb=
     document.getElementById(
@@ -3253,17 +3860,21 @@ function setCheckoutMode(mode){
   if(mode==='delivery'){
 
     delivery.style.display='block';
+
     pickup.style.display='none';
 
     db.classList.add('active');
+
     pb.classList.remove('active');
 
   }else{
 
     delivery.style.display='none';
+
     pickup.style.display='block';
 
     db.classList.remove('active');
+
     pb.classList.add('active');
 
   }
@@ -3285,9 +3896,11 @@ function updateCheckoutTotal(){
 
   cart.forEach(i=>{
 
-    const p=products.find(
-      x=>String(x.id)===String(i.id)
-    );
+    const p=
+      products.find(
+        x=>String(x.id)===String(i.id)
+      );
+
 
     if(p)
       subtotal+=
@@ -3298,7 +3911,7 @@ function updateCheckoutTotal(){
 
 
   const shipping=
-    window.checkoutMode==='pickup'
+    checkoutMode==='pickup'
       ?0
       :Number(config.fee||0);
 
@@ -3307,6 +3920,7 @@ function updateCheckoutTotal(){
     document.getElementById(
       'checkoutShipping'
     );
+
 
   const totalEl=
     document.getElementById(
@@ -3318,6 +3932,7 @@ function updateCheckoutTotal(){
     shippingEl.textContent=
       money(shipping);
 
+
   if(totalEl)
     totalEl.textContent=
       money(
@@ -3327,7 +3942,15 @@ function updateCheckoutTotal(){
 }
 
 
+/* =========================
+   FINALIZAR + WHATSAPP
+========================= */
+
 async function sendOrderWhatsApp(){
+
+  if(sendingOrder)
+    return;
+
 
   syncCartWithStock();
 
@@ -3364,68 +3987,20 @@ async function sendOrderWhatsApp(){
   }
 
 
-  for(const item of cart){
-
-    const p=products.find(
-      x=>String(x.id)===String(item.id)
-    );
-
-    if(!p){
-
-      alert(
-        'Um produto do carrinho não está mais disponível.'
-      );
-
-      return;
-
-    }
-
-
-    const available=
-      getAvailableStock(
-        p,
-        item.size
-      );
-
-
-    if(
-      available<=0 ||
-      item.qty>available
-    ){
-
-      alert(
-        `O estoque de ${p.name}`+
-        (
-          item.size
-            ?` no tamanho ${item.size}`
-            :''
-        )+
-        ` mudou.`
-      );
-
-      await loadProductsFromSupabase();
-
-      renderCart();
-
-      closeCheckout();
-
-      return;
-
-    }
-
-  }
-
+  /* =========================
+     VALIDAR CLIENTE
+  ========================= */
 
   const name=
     document.getElementById(
       'customerName'
-    ).value.trim();
+    )?.value.trim()||'';
 
 
   const phone=
     document.getElementById(
       'customerPhone'
-    ).value.trim();
+    )?.value.trim()||'';
 
 
   if(!name){
@@ -3450,121 +4025,43 @@ async function sendOrderWhatsApp(){
   }
 
 
-  localStorage.setItem(
-    'km_customer_name',
-    name
-  );
+  /* =========================
+     VALIDAR ENTREGA
+  ========================= */
 
-  localStorage.setItem(
-    'km_customer_phone',
-    phone
-  );
+  let deliveryData={};
 
 
-  let subtotal=0;
-
-  const lines=[
-    'Olá! Quero fazer este pedido na KM Moda Urbana:',
-    ''
-  ];
-
-
-  cart.forEach(i=>{
-
-    const p=products.find(
-      x=>String(x.id)===String(i.id)
-    );
-
-    if(!p)
-      return;
-
-
-    const value=
-      Number(p.price||0)*
-      Number(i.qty||0);
-
-
-    subtotal+=value;
-
-
-    lines.push(
-      `• ${p.name}`+
-      (
-        i.size
-          ?` — Tamanho ${i.size}`
-          :''
-      )+
-      ` — ${i.qty}x — ${money(value)}`
-    );
-
-  });
-
-
-  const config=
-    getDeliveryConfig();
-
-
-  const shipping=
-    window.checkoutMode==='pickup'
-      ?0
-      :Number(config.fee||0);
-
-
-  const total=
-    subtotal+shipping;
-
-
-  lines.push('');
-
-  lines.push(
-    `Subtotal: ${money(subtotal)}`
-  );
-
-  lines.push(
-    `Entrega: ${money(shipping)}`
-  );
-
-  lines.push(
-    `Total: ${money(total)}`
-  );
-
-  lines.push('');
-
-  lines.push(
-    `Nome: ${name}`
-  );
-
-  lines.push(
-    `Telefone: ${phone}`
-  );
-
-
-  if(window.checkoutMode==='delivery'){
+  if(checkoutMode==='delivery'){
 
     const cep=
       document.getElementById(
         'deliveryCep'
-      ).value.trim();
+      )?.value.trim()||'';
+
 
     const address=
       document.getElementById(
         'deliveryAddress'
-      ).value.trim();
+      )?.value.trim()||'';
+
 
     const number=
       document.getElementById(
         'deliveryNumber'
-      ).value.trim();
+      )?.value.trim()||'';
+
 
     const neighborhood=
       document.getElementById(
         'deliveryNeighborhood'
-      ).value.trim();
+      )?.value.trim()||'';
+
 
     const complement=
       document.getElementById(
         'deliveryComplement'
-      ).value.trim();
+      )?.value.trim()||'';
 
 
     if(
@@ -3583,62 +4080,422 @@ async function sendOrderWhatsApp(){
     }
 
 
-    lines.push('');
-
-    lines.push(
-      'Forma de recebimento: Entrega'
-    );
-
-    lines.push(
-      `CEP: ${cep}`
-    );
-
-    lines.push(
-      `Endereço: ${address}, ${number}`
-    );
-
-    lines.push(
-      `Bairro: ${neighborhood}`
-    );
-
-
-    if(complement)
-      lines.push(
-        `Complemento: ${complement}`
-      );
-
-  }else{
-
-    lines.push('');
-
-    lines.push(
-      'Forma de recebimento: Retirada na loja'
-    );
-
-    lines.push(
-      `Endereço da loja: ${
-        config.storeAddress ||
-        'A confirmar com a loja'
-      }`
-    );
+    deliveryData={
+      cep,
+      address,
+      number,
+      neighborhood,
+      complement
+    };
 
   }
 
 
-  lines.push('');
+  /* =========================
+     VALIDAR ESTOQUE LOCAL
+  ========================= */
 
-  lines.push(
-    'Pode me confirmar a disponibilidade e o pagamento?'
+  for(const item of cart){
+
+    const p=
+      products.find(
+        x=>String(x.id)===String(item.id)
+      );
+
+
+    if(!p){
+
+      alert(
+        'Um produto do carrinho não está mais disponível.'
+      );
+
+      await loadProductsFromSupabase();
+
+      renderCart();
+
+      return;
+
+    }
+
+
+    const available=
+      getAvailableStock(
+        p,
+        item.size
+      );
+
+
+    if(
+      available<=0 ||
+      Number(item.qty)>available
+    ){
+
+      alert(
+        `O estoque de ${p.name}`+
+        (
+          item.size
+            ?` no tamanho ${item.size}`
+            :''
+        )+
+        ` mudou. Atualize o carrinho e tente novamente.`
+      );
+
+
+      await loadProductsFromSupabase();
+
+      renderCart();
+
+      closeCheckout();
+
+      return;
+
+    }
+
+  }
+
+
+  /* =========================
+     SALVAR DADOS CLIENTE
+  ========================= */
+
+  localStorage.setItem(
+    'km_customer_name',
+    name
   );
 
 
-  location.href=
-    'https://wa.me/'+
-    wa+
-    '?text='+
-    encodeURIComponent(
-      lines.join('\n')
+  localStorage.setItem(
+    'km_customer_phone',
+    phone
+  );
+
+
+  /* =========================
+     PREPARAR ITENS
+  ========================= */
+
+  const orderItems=
+    cart.map(item=>({
+
+      id:item.id,
+
+      qty:Number(item.qty),
+
+      size:item.size||null
+
+    }));
+
+
+  /* =========================
+     DESABILITAR BOTÃO
+  ========================= */
+
+  sendingOrder=true;
+
+
+  const button=
+    document.getElementById(
+      'sendOrderBtn'
     );
+
+
+  if(button){
+
+    button.disabled=true;
+
+    button.textContent=
+      'Confirmando estoque...';
+
+  }
+
+
+  try{
+
+    /* =========================
+       BAIXAR ESTOQUE NO SUPABASE
+
+       A função finalize_order
+       faz a validação e baixa
+       de forma atômica.
+    ========================= */
+
+    const {
+      data,
+      error
+    }=
+      await supabaseClient.rpc(
+        'finalize_order',
+        {
+          order_items:
+            orderItems
+        }
+      );
+
+
+    if(error)
+      throw error;
+
+
+    if(
+      !data ||
+      data.success!==true
+    ){
+
+      throw new Error(
+        'Não foi possível confirmar o estoque.'
+      );
+
+    }
+
+
+    /* =========================
+       MONTAR PEDIDO WHATSAPP
+    ========================= */
+
+    let subtotal=0;
+
+
+    const lines=[
+
+      'Olá! Quero fazer este pedido na KM Moda Urbana:',
+
+      ''
+
+    ];
+
+
+    cart.forEach(i=>{
+
+      const p=
+        products.find(
+          x=>String(x.id)===String(i.id)
+        );
+
+
+      if(!p)
+        return;
+
+
+      const value=
+        Number(p.price||0)*
+        Number(i.qty||0);
+
+
+      subtotal+=value;
+
+
+      lines.push(
+
+        `• ${p.name}`+
+
+        (
+          i.size
+            ?` — Tamanho ${i.size}`
+            :''
+        )+
+
+        ` — ${i.qty}x — ${money(value)}`
+
+      );
+
+    });
+
+
+    const config=
+      getDeliveryConfig();
+
+
+    const shipping=
+      checkoutMode==='pickup'
+        ?0
+        :Number(config.fee||0);
+
+
+    const total=
+      subtotal+shipping;
+
+
+    lines.push('');
+
+
+    lines.push(
+      `Subtotal: ${money(subtotal)}`
+    );
+
+
+    lines.push(
+      `Entrega: ${money(shipping)}`
+    );
+
+
+    lines.push(
+      `Total: ${money(total)}`
+    );
+
+
+    lines.push('');
+
+
+    lines.push(
+      `Nome: ${name}`
+    );
+
+
+    lines.push(
+      `Telefone: ${phone}`
+    );
+
+
+    if(checkoutMode==='delivery'){
+
+      lines.push('');
+
+
+      lines.push(
+        'Forma de recebimento: Entrega'
+      );
+
+
+      lines.push(
+        `CEP: ${deliveryData.cep}`
+      );
+
+
+      lines.push(
+        `Endereço: ${deliveryData.address}, ${deliveryData.number}`
+      );
+
+
+      lines.push(
+        `Bairro: ${deliveryData.neighborhood}`
+      );
+
+
+      if(deliveryData.complement){
+
+        lines.push(
+          `Complemento: ${deliveryData.complement}`
+        );
+
+      }
+
+    }else{
+
+      lines.push('');
+
+
+      lines.push(
+        'Forma de recebimento: Retirada na loja'
+      );
+
+
+      lines.push(
+        `Endereço da loja: ${
+          config.storeAddress ||
+          'A confirmar com a loja'
+        }`
+      );
+
+    }
+
+
+    lines.push('');
+
+
+    lines.push(
+      'Pode me confirmar a disponibilidade e o pagamento?'
+    );
+
+
+    /* =========================
+       LIMPAR CARRINHO
+    ========================= */
+
+    cart=[];
+
+    saveCart();
+
+
+    /* =========================
+       ATUALIZAR PRODUTOS
+    ========================= */
+
+    await loadProductsFromSupabase();
+
+
+    renderCart();
+
+
+    closeCheckout();
+
+
+    showToast(
+      'Pedido confirmado! Abrindo WhatsApp...'
+    );
+
+
+    /* =========================
+       ABRIR WHATSAPP
+    ========================= */
+
+    const waUrl=
+      'https://wa.me/'+
+      wa+
+      '?text='+
+      encodeURIComponent(
+        lines.join('\n')
+      );
+
+
+    setTimeout(()=>{
+
+      location.href=waUrl;
+
+    },300);
+
+
+  }catch(error){
+
+    console.error(
+      'Erro ao finalizar pedido:',
+      error
+    );
+
+
+    alert(
+      'Não foi possível finalizar o pedido.\n\n'+
+      (
+        error?.message||
+        'Verifique o estoque e tente novamente.'
+      )
+    );
+
+
+    await loadProductsFromSupabase();
+
+    renderCart();
+
+  }finally{
+
+    sendingOrder=false;
+
+
+    const button=
+      document.getElementById(
+        'sendOrderBtn'
+      );
+
+
+    if(button){
+
+      button.disabled=false;
+
+      button.textContent=
+        'Enviar pedido pelo WhatsApp';
+
+    }
+
+  }
 
 }
 
@@ -3688,6 +4545,7 @@ async function openAdmin(){
         'Digite o e-mail do Admin:'
       );
 
+
     if(!email)
       return;
 
@@ -3697,14 +4555,18 @@ async function openAdmin(){
         'Digite a senha do Admin:'
       );
 
+
     if(!password)
       return;
 
 
     const result=
       await supabaseClient.auth.signInWithPassword({
+
         email,
+
         password
+
       });
 
 
@@ -3731,12 +4593,42 @@ async function openAdmin(){
 
 async function logoutAdmin(){
 
-  await supabaseClient.auth.signOut();
+  if(
+    typeof supabaseClient!=='undefined'
+  ){
 
-  show('home');
+    await supabaseClient.auth.signOut();
+
+  }
+
+
+  if(
+    location.hash==='#admin'
+  ){
+
+    history.replaceState(
+      null,
+      '',
+      location.pathname+
+      location.search
+    );
+
+  }
+
+
+  show(
+    'home',
+    document.getElementById(
+      'navHome'
+    )
+  );
 
 }
 
+
+/* =========================
+   ADMIN
+========================= */
 
 function renderAdmin(){
 
@@ -3766,6 +4658,7 @@ function renderAdmin(){
           p.size_stock
         );
 
+
       const individual=
         Object.keys(stock).length>0;
 
@@ -3774,11 +4667,11 @@ function renderAdmin(){
         individual
           ?
           STANDARD_SIZES
-            .filter(s=>
-              stock[s]!==undefined
+            .filter(
+              s=>stock[s]!==undefined
             )
-            .map(s=>
-              `${s}: ${stock[s]}`
+            .map(
+              s=>`${s}: ${stock[s]}`
             )
             .join(' · ')
           :
@@ -3791,7 +4684,8 @@ function renderAdmin(){
           ?
           Object.values(stock)
             .reduce(
-              (a,b)=>a+Number(b||0),
+              (a,b)=>
+                a+Number(b||0),
               0
             )
           :
@@ -3863,7 +4757,22 @@ function renderAdmin(){
               )
             "
           >
-            🗑
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 6h18"/>
+              <path d="M8 6V4h8v2"/>
+              <path d="M19 6l-1 15H6L5 6"/>
+              <path d="M10 11v6"/>
+              <path d="M14 11v6"/>
+            </svg>
+
           </button>
 
         </div>
@@ -3871,7 +4780,6 @@ function renderAdmin(){
       `;
 
     }).join('');
-
 
 }
 
@@ -3888,6 +4796,7 @@ function resetSizeInputs(){
       document.getElementById(
         'stockSize'+size
       );
+
 
     if(input)
       input.value=0;
@@ -3913,11 +4822,15 @@ function setSizeStockInputs(stock){
         'stockSize'+size
       );
 
-    if(input)
+
+    if(input){
+
       input.value=
         Number(
           normalized[size]||0
         );
+
+    }
 
   });
 
@@ -3938,6 +4851,7 @@ function updateTotalSizeStock(){
       document.getElementById(
         'stockSize'+size
       );
+
 
     const value=
       Math.max(
@@ -3983,6 +4897,7 @@ function getAdminSizeStock(){
         'stockSize'+size
       );
 
+
     const qty=
       Math.max(
         0,
@@ -4010,13 +4925,14 @@ function openProductModal(id=null){
   editing=id;
 
 
-  const p=id
-    ?
-    products.find(
-      x=>String(x.id)===String(id)
-    )
-    :
-    null;
+  const p=
+    id
+      ?
+      products.find(
+        x=>String(x.id)===String(id)
+      )
+      :
+      null;
 
 
   document.getElementById(
@@ -4074,6 +4990,7 @@ function openProductModal(id=null){
       'uploadPreview'
     );
 
+
   if(p?.image_url){
 
     preview.src=p.image_url;
@@ -4111,13 +5028,14 @@ function closeModal(){
     )
     .classList.remove('open');
 
+
   editing=null;
 
 }
 
 
 /* =========================
-   UPLOAD DE FOTO
+   UPLOAD FOTO
 ========================= */
 
 function previewImage(){
@@ -4126,6 +5044,7 @@ function previewImage(){
     document.getElementById(
       'fFile'
     ).files[0];
+
 
   const preview=
     document.getElementById(
@@ -4142,30 +5061,38 @@ function previewImage(){
   }
 
 
-  if(!file.type.startsWith('image/')){
+  if(
+    !file.type.startsWith('image/')
+  ){
 
     alert(
       'Selecione uma imagem válida.'
     );
 
+
     document.getElementById(
       'fFile'
     ).value='';
+
 
     return;
 
   }
 
 
-  if(file.size>10*1024*1024){
+  if(
+    file.size>10*1024*1024
+  ){
 
     alert(
       'A imagem deve ter no máximo 10 MB.'
     );
 
+
     document.getElementById(
       'fFile'
     ).value='';
+
 
     return;
 
@@ -4174,6 +5101,7 @@ function previewImage(){
 
   preview.src=
     URL.createObjectURL(file);
+
 
   preview.style.display='block';
 
@@ -4326,7 +5254,8 @@ async function saveProduct(){
   const totalStock=
     Object.values(sizeStock)
       .reduce(
-        (a,b)=>a+Number(b||0),
+        (a,b)=>
+          a+Number(b||0),
         0
       );
 
@@ -4430,6 +5359,7 @@ async function saveProduct(){
 
     console.error(error);
 
+
     alert(
       'Erro ao salvar produto: '+
       error.message
@@ -4466,7 +5396,10 @@ async function deleteProduct(id){
     await supabaseClient
       .from('products')
       .delete()
-      .eq('id',id);
+      .eq(
+        'id',
+        id
+      );
 
 
   if(error){
@@ -4483,8 +5416,9 @@ async function deleteProduct(id){
 
   cart=
     cart.filter(
-      x=>String(x.id)!==
-      String(id)
+      x=>
+        String(x.id)!==
+        String(id)
     );
 
 
@@ -4509,7 +5443,10 @@ function saveConfig(){
     CFG,
     document.getElementById(
       'wa'
-    ).value.replace(/\D/g,'')
+    ).value.replace(
+      /\D/g,
+      ''
+    )
   );
 
 }
@@ -4539,17 +5476,27 @@ function exportData(){
 
 
   const a=
-    document.createElement('a');
+    document.createElement(
+      'a'
+    );
+
 
   a.href=
-    URL.createObjectURL(blob);
+    URL.createObjectURL(
+      blob
+    );
+
 
   a.download=
     'km-catalogo-backup.json';
 
+
   a.click();
 
-  URL.revokeObjectURL(a.href);
+
+  URL.revokeObjectURL(
+    a.href
+  );
 
 }
 
@@ -4572,7 +5519,10 @@ async function loadProductsFromSupabase(){
     await supabaseClient
       .from('products')
       .select('*')
-      .eq('active',true)
+      .eq(
+        'active',
+        true
+      )
       .order(
         'created_at',
         {
@@ -4588,10 +5538,12 @@ async function loadProductsFromSupabase(){
       error
     );
 
+
     alert(
       'Erro ao carregar produtos do Supabase: '+
       error.message
     );
+
 
     return;
 
@@ -4662,7 +5614,7 @@ async function loadProductsFromSupabase(){
 
 
 /* =========================
-   DETALHE FECHAR
+   FECHAR DETALHE
 ========================= */
 
 function closeDetail(){
@@ -4673,11 +5625,41 @@ function closeDetail(){
     )
     .classList.remove('open');
 
+
   selectedDetailSize=null;
 
   detailQty=1;
 
 }
+
+
+/* =========================
+   ADMIN POR #admin
+========================= */
+
+window.addEventListener(
+  'hashchange',
+  async()=>{
+
+    if(
+      location.hash==='#admin'
+    ){
+
+      await openAdmin();
+
+    }else{
+
+      show(
+        'home',
+        document.getElementById(
+          'navHome'
+        )
+      );
+
+    }
+
+  }
+);
 
 
 /* =========================
@@ -4707,6 +5689,18 @@ async function init(){
   await loadProductsFromSupabase();
 
   updateBadge();
+
+
+  /* Se a URL terminar em #admin,
+     abre o painel e solicita login. */
+
+  if(
+    location.hash==='#admin'
+  ){
+
+    await openAdmin();
+
+  }
 
 }
 
