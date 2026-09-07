@@ -415,6 +415,11 @@
       color:#fff;
     }
 
+    .qty button:disabled{
+      opacity:.35;
+      cursor:not-allowed;
+    }
+
     .empty{
       text-align:center;
       padding:50px 15px;
@@ -1229,13 +1234,80 @@ function money(v){
 function updateBadge(){
 
   const n=cart.reduce(
-    (a,x)=>a+x.qty,
+    (a,x)=>a+Number(x.qty||0),
     0
   );
 
   document.getElementById(
     'cartBadge'
   ).textContent=n;
+}
+
+
+/*
+  NOVO:
+  Sincroniza o carrinho com o estoque atual.
+  Se um produto foi excluído ou ficou sem estoque,
+  ele é removido do carrinho.
+  Se o estoque diminuiu, a quantidade é ajustada.
+*/
+
+function syncCartWithStock(){
+
+  let changed=false;
+
+  cart=cart.filter(item=>{
+
+    const p=products.find(
+      x=>String(x.id)===String(item.id)
+    );
+
+    if(!p){
+
+      changed=true;
+      return false;
+
+    }
+
+    const stock=Number(p.stock||0);
+
+    if(stock<=0){
+
+      changed=true;
+      return false;
+
+    }
+
+    const qty=Math.max(
+      1,
+      Number(item.qty||1)
+    );
+
+    if(qty>stock){
+
+      item.qty=stock;
+      changed=true;
+
+    }else{
+
+      item.qty=qty;
+
+    }
+
+    return true;
+
+  });
+
+  if(changed){
+
+    localStorage.setItem(
+      'km_cart_v1',
+      JSON.stringify(cart)
+    );
+
+  }
+
+  updateBadge();
 }
 
 
@@ -1307,6 +1379,10 @@ function renderCats(){
     `).join('');
 }
 
+
+/* =====================================
+   PRODUTOS
+   ===================================== */
 
 function renderProducts(){
 
@@ -1402,7 +1478,11 @@ function renderProducts(){
             ${
               p.stock===0
               ?
-              'Sem estoque'
+              'Esgotado'
+              :
+              p.stock<=2
+              ?
+              'Últimas unidades — '+p.stock+' disponível'+(p.stock>1?'eis':'')
               :
               p.stock+' em estoque'
             }
@@ -1485,13 +1565,25 @@ function openDetail(id){
       ${money(p.price)}
     </div>
 
-    <p class="stock">
+    <p
+      class="stock ${
+        p.stock<=0
+        ?'out'
+        :p.stock<=2
+        ?'low'
+        :''
+      }"
+    >
       ${
         p.stock>0
         ?
+        p.stock<=2
+        ?
+        'Últimas unidades — '+p.stock+' disponível'+(p.stock>1?'eis':'')
+        :
         p.stock+' em estoque'
         :
-        'Sem estoque'
+        'Esgotado'
       }
     </p>
 
@@ -1509,7 +1601,7 @@ function openDetail(id){
       ${p.stock>0?'':'disabled'}
       onclick="addToCart('${p.id}');closeDetail()"
     >
-      Adicionar ao carrinho
+      ${p.stock>0?'Adicionar ao carrinho':'Produto esgotado'}
     </button>
 
   `;
@@ -1538,7 +1630,7 @@ function addToCart(id){
     x=>String(x.id)===String(id)
   );
 
-  if(!p||p.stock<=0){
+  if(!p||Number(p.stock)<=0){
 
     alert('Produto sem estoque.');
 
@@ -1551,7 +1643,7 @@ function addToCart(id){
 
   if(item){
 
-    if(item.qty>=p.stock){
+    if(Number(item.qty)>=Number(p.stock)){
 
       alert(
         'Quantidade máxima disponível no estoque.'
@@ -1610,8 +1702,15 @@ function changeQty(id,d){
     return;
   }
 
-  if(i.qty>p.stock)
-    i.qty=p.stock;
+  if(i.qty>Number(p.stock))
+    i.qty=Number(p.stock);
+
+  if(i.qty<=0){
+
+    removeCart(id);
+
+    return;
+  }
 
   saveCart();
 
@@ -1628,6 +1727,12 @@ function openCart(){
 
 
 function renderCart(){
+
+  /*
+    Antes de mostrar o carrinho,
+    verifica novamente o estoque atual.
+  */
+  syncCartWithStock();
 
   const box=
     document.getElementById('cartList');
@@ -1672,7 +1777,10 @@ function renderCart(){
 
       if(!p)return '';
 
-      total+=Number(p.price)*i.qty;
+      const stock=Number(p.stock||0);
+      const qty=Number(i.qty||1);
+
+      total+=Number(p.price)*qty;
 
       return `
 
@@ -1707,6 +1815,16 @@ function renderCart(){
               ${money(p.price)}
             </div>
 
+            <div
+              class="stock ${
+                stock<=2
+                ?'low'
+                :''
+              }"
+            >
+              Estoque disponível: ${stock}
+            </div>
+
             <div class="qty">
 
               <button
@@ -1715,9 +1833,10 @@ function renderCart(){
                 −
               </button>
 
-              ${i.qty}
+              ${qty}
 
               <button
+                ${qty>=stock?'disabled':''}
                 onclick="changeQty('${p.id}',1)"
               >
                 +
@@ -1766,7 +1885,27 @@ function renderCart(){
 }
 
 
+/* =====================================
+   CHECKOUT WHATSAPP
+   ===================================== */
+
 function checkoutWhatsApp(){
+
+  /*
+    Atualiza o carrinho antes de finalizar.
+  */
+  syncCartWithStock();
+
+  if(!cart.length){
+
+    alert(
+      'Seu carrinho está vazio ou os produtos ficaram sem estoque.'
+    );
+
+    renderCart();
+
+    return;
+  }
 
   const wa=
     (localStorage.getItem(CFG)||'')
@@ -1783,12 +1922,60 @@ function checkoutWhatsApp(){
     return;
   }
 
-  if(!cart.length){
 
-    alert('Seu carrinho está vazio.');
+  /*
+    Verificação final do estoque.
+    Isso evita enviar pedido com quantidade
+    maior que a disponível.
+  */
 
-    return;
+  for(const i of cart){
+
+    const p=products.find(
+      x=>String(x.id)===String(i.id)
+    );
+
+    if(!p){
+
+      alert(
+        'Um dos produtos do carrinho não está mais disponível.'
+      );
+
+      syncCartWithStock();
+      renderCart();
+
+      return;
+    }
+
+    if(Number(i.qty)>Number(p.stock)){
+
+      alert(
+        'O estoque de "'+
+        p.name+
+        '" mudou. A quantidade foi ajustada.'
+      );
+
+      syncCartWithStock();
+      renderCart();
+
+      return;
+    }
+
+    if(Number(p.stock)<=0){
+
+      alert(
+        'O produto "'+
+        p.name+
+        '" está esgotado.'
+      );
+
+      syncCartWithStock();
+      renderCart();
+
+      return;
+    }
   }
+
 
   const lines=[
 
@@ -2441,7 +2628,13 @@ async function renderAdmin(){
             ${money(p.price)}
           </div>
 
-          <div class="stock">
+          <div
+            class="stock ${
+              p.stock<=2
+              ?'low'
+              :''
+            }"
+          >
             Estoque:
             <b>${p.stock}</b>
           </div>
@@ -2676,9 +2869,34 @@ async function loadProductsFromSupabase(){
 
   }));
 
+  /*
+    IMPORTANTE:
+    Depois de atualizar os produtos do Supabase,
+    sincroniza o carrinho com o estoque novo.
+  */
+
+  syncCartWithStock();
+
   renderProducts();
 
   updateBadge();
+
+  /*
+    Se o usuário estiver na tela do carrinho,
+    atualiza o carrinho imediatamente.
+  */
+
+  const cartScreen=
+    document.getElementById('cart');
+
+  if(
+    cartScreen &&
+    cartScreen.classList.contains('active')
+  ){
+
+    renderCart();
+
+  }
 }
 
 
@@ -2704,6 +2922,8 @@ async function init(){
   }
 
   await loadProductsFromSupabase();
+
+  syncCartWithStock();
 
   updateBadge();
 
