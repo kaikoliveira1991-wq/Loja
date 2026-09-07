@@ -464,6 +464,117 @@
       font-weight:900;
     }
 
+    /* NOTIFICAÇÃO DO CARRINHO */
+
+    .cart-toast{
+      position:fixed;
+      left:50%;
+      bottom:85px;
+      transform:translate(-50%,30px);
+      width:min(92%,380px);
+      background:#151518;
+      border:1px solid #303037;
+      border-radius:16px;
+      padding:14px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      box-shadow:0 15px 40px rgba(0,0,0,.45);
+      opacity:0;
+      visibility:hidden;
+      z-index:100000;
+      transition:
+        opacity .3s ease,
+        transform .3s ease,
+        visibility .3s;
+    }
+
+    .cart-toast.show{
+      opacity:1;
+      visibility:visible;
+      transform:translate(-50%,0);
+    }
+
+    .cart-toast-icon{
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      background:var(--ok);
+      color:#031408;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:22px;
+      font-weight:900;
+      flex-shrink:0;
+      animation:toastCheck .4s ease;
+    }
+
+    .cart-toast-content{
+      flex:1;
+      min-width:0;
+    }
+
+    .cart-toast-title{
+      font-weight:900;
+      font-size:15px;
+    }
+
+    .cart-toast-text{
+      color:var(--muted);
+      font-size:12px;
+      margin-top:3px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .cart-toast-button{
+      background:#fff;
+      color:#000;
+      border-radius:10px;
+      padding:8px 10px;
+      font-size:12px;
+      font-weight:900;
+      white-space:nowrap;
+    }
+
+    @keyframes toastCheck{
+      0%{
+        transform:scale(0);
+      }
+
+      70%{
+        transform:scale(1.15);
+      }
+
+      100%{
+        transform:scale(1);
+      }
+    }
+
+    .cart-bump{
+      animation:cartBump .45s ease;
+    }
+
+    @keyframes cartBump{
+      0%{
+        transform:scale(1);
+      }
+
+      40%{
+        transform:scale(1.25);
+      }
+
+      70%{
+        transform:scale(.9);
+      }
+
+      100%{
+        transform:scale(1);
+      }
+    }
+
     .empty{
       text-align:center;
       padding:50px 15px;
@@ -514,9 +625,7 @@
       transition:.2s;
     }
 
-    /* =================================
-       ENTREGA / RETIRADA
-       ================================= */
+    /* ENTREGA / RETIRADA */
 
     .delivery-options{
       display:grid;
@@ -767,7 +876,6 @@
 
 </div>
 
-
 <div class="app">
 
   <header class="top">
@@ -790,7 +898,6 @@
     </div>
 
   </header>
-
 
   <main>
 
@@ -817,7 +924,6 @@
 
       </div>
 
-
       <div class="search">
 
         <input
@@ -828,16 +934,13 @@
 
       </div>
 
-
       <div id="cats" class="cats"></div>
-
 
       <h2>Produtos</h2>
 
       <div id="products" class="grid"></div>
 
     </section>
-
 
     <!-- CARRINHO -->
 
@@ -850,7 +953,6 @@
       <div id="cartSummary"></div>
 
     </section>
-
 
     <!-- ADMIN -->
 
@@ -871,14 +973,12 @@
 
       </div>
 
-
       <div class="notice">
 
         Produtos e imagens são armazenados no Supabase.
         Você pode cadastrar tudo diretamente pelo celular.
 
       </div>
-
 
       <button
         class="btn"
@@ -887,12 +987,9 @@
         + Novo produto
       </button>
 
-
       <div id="adminList"></div>
 
-
       <h2>Configuração</h2>
-
 
       <div class="field">
 
@@ -907,7 +1004,6 @@
         >
 
       </div>
-
 
       <div class="field">
 
@@ -926,7 +1022,6 @@
 
       </div>
 
-
       <div class="field">
 
         <label>
@@ -941,7 +1036,6 @@
 
       </div>
 
-
       <div class="notice">
 
         <b style="color:#fff">🚚 Entrega:</b>
@@ -954,7 +1048,6 @@
 
       </div>
 
-
       <button
         class="btn dark"
         onclick="exportData()"
@@ -965,7 +1058,6 @@
     </section>
 
   </main>
-
 
   <!-- NAVEGAÇÃO -->
 
@@ -980,18 +1072,15 @@
         ⌂<br>Início
       </button>
 
-
       <button
         onclick="show('home',this);scrollToProducts()"
       >
         ▦<br>Produtos
       </button>
 
-
       <button onclick="openCart()">
         🛒<br>Carrinho
       </button>
-
 
       <button onclick="openAdmin(this)">
         ⚙<br>Admin
@@ -1002,7 +1091,6 @@
   </div>
 
 </div>
-
 
 <!-- MODAL PRODUTO -->
 
@@ -1029,7 +1117,6 @@
 
     </div>
 
-
     <div class="formgrid">
 
       <div class="field">
@@ -1039,7 +1126,6 @@
         <input id="fName">
 
       </div>
-
 
       <div class="field">
 
@@ -1057,7 +1143,6 @@
 
       </div>
 
-
       <div class="field">
 
         <label>Preço (R$)</label>
@@ -1071,7 +1156,6 @@
 
       </div>
 
-
       <div class="field">
 
         <label>Estoque</label>
@@ -1083,7 +1167,6 @@
         >
 
       </div>
-
 
       <div class="field full">
 
@@ -1119,7 +1202,6 @@
 
       </div>
 
-
       <div class="field full">
 
         <label>
@@ -1132,7 +1214,6 @@
 
     </div>
 
-
     <div class="actions">
 
       <button
@@ -1141,7 +1222,6 @@
       >
         Cancelar
       </button>
-
 
       <button
         id="saveProductBtn"
@@ -1156,7 +1236,6 @@
   </div>
 
 </div>
-
 
 <!-- MODAL DETALHES -->
 
@@ -1173,7 +1252,6 @@
   </div>
 
 </div>
-
 
 <!-- MODAL CHECKOUT -->
 
@@ -1200,13 +1278,11 @@
 
     </div>
 
-
     <div class="notice">
 
       Escolha como deseja receber seu pedido.
 
     </div>
-
 
     <div class="delivery-options">
 
@@ -1233,7 +1309,6 @@
 
       </label>
 
-
       <label
         id="pickupOption"
         class="delivery-option"
@@ -1258,11 +1333,9 @@
 
     </div>
 
-
     <h2>
       Seus dados
     </h2>
-
 
     <div class="field">
 
@@ -1279,7 +1352,6 @@
 
     </div>
 
-
     <div class="field">
 
       <label>
@@ -1295,7 +1367,6 @@
 
     </div>
 
-
     <div
       id="addressFields"
       class="address-fields open"
@@ -1304,7 +1375,6 @@
       <h2>
         Endereço de entrega
       </h2>
-
 
       <div class="formgrid">
 
@@ -1323,7 +1393,6 @@
 
         </div>
 
-
         <div class="field">
 
           <label>
@@ -1337,7 +1406,6 @@
           >
 
         </div>
-
 
         <div class="field">
 
@@ -1353,7 +1421,6 @@
 
         </div>
 
-
         <div class="field">
 
           <label>
@@ -1367,7 +1434,6 @@
           >
 
         </div>
-
 
         <div class="field full">
 
@@ -1387,7 +1453,6 @@
 
     </div>
 
-
     <div
       id="pickupInfo"
       class="pickup-box"
@@ -1406,7 +1471,6 @@
 
     </div>
 
-
     <div class="checkout-summary">
 
       <div class="summary-line">
@@ -1421,7 +1485,6 @@
 
       </div>
 
-
       <div class="summary-line">
 
         <span id="shippingLabel">
@@ -1433,7 +1496,6 @@
         </strong>
 
       </div>
-
 
       <div class="summary-total">
 
@@ -1449,7 +1511,6 @@
 
     </div>
 
-
     <div class="actions">
 
       <button
@@ -1458,7 +1519,6 @@
       >
         Voltar
       </button>
-
 
       <button
         id="sendOrderButton"
@@ -1474,11 +1534,41 @@
 
 </div>
 
+<!-- NOTIFICAÇÃO ADICIONADO AO CARRINHO -->
+
+<div id="cartToast" class="cart-toast">
+
+  <div class="cart-toast-icon">
+    ✓
+  </div>
+
+  <div class="cart-toast-content">
+
+    <div class="cart-toast-title">
+      Adicionado ao carrinho!
+    </div>
+
+    <div
+      id="cartToastText"
+      class="cart-toast-text"
+    >
+      Produto adicionado.
+    </div>
+
+  </div>
+
+  <button
+    class="cart-toast-button"
+    onclick="openCart();hideCartToast()"
+  >
+    Ver carrinho
+  </button>
+
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="supabase.js"></script>
-
 
 <script>
 
@@ -2410,15 +2500,83 @@ function addToCart(id,quantity=1){
 
   renderCart();
 
-  alert(
+  showCartToast(
+    p.name,
+    quantity
+  );
+}
+
+
+/* =====================================
+   NOTIFICAÇÃO DO CARRINHO
+   ===================================== */
+
+function showCartToast(productName,quantity){
+
+  const toast=
+    document.getElementById('cartToast');
+
+  const text=
+    document.getElementById('cartToastText');
+
+  const cartButton=
+    document.querySelector(
+      '.top .iconbtn'
+    );
+
+  if(!toast)return;
+
+  text.textContent=
     `${quantity} ${
       quantity===1
       ?
-      'unidade adicionada'
+      'unidade'
       :
-      'unidades adicionadas'
-    } ao carrinho!`
+      'unidades'
+    } de ${productName}`;
+
+  toast.classList.remove('show');
+
+  void toast.offsetWidth;
+
+  toast.classList.add('show');
+
+  if(cartButton){
+
+    cartButton.classList.remove(
+      'cart-bump'
+    );
+
+    void cartButton.offsetWidth;
+
+    cartButton.classList.add(
+      'cart-bump'
+    );
+
+  }
+
+  clearTimeout(
+    window.cartToastTimer
   );
+
+  window.cartToastTimer=
+    setTimeout(
+      hideCartToast,
+      3500
+    );
+}
+
+
+function hideCartToast(){
+
+  const toast=
+    document.getElementById('cartToast');
+
+  if(toast){
+
+    toast.classList.remove('show');
+
+  }
 }
 
 
@@ -2940,7 +3098,6 @@ function sendOrderWhatsApp(){
     return;
   }
 
-
   for(const i of cart){
 
     const p=products.find(
@@ -2998,7 +3155,6 @@ function sendOrderWhatsApp(){
 
   }
 
-
   const customerName=
     document
       .getElementById('customerName')
@@ -3037,7 +3193,6 @@ function sendOrderWhatsApp(){
     return;
   }
 
-
   localStorage.setItem(
     'km_customer_name',
     customerName
@@ -3047,7 +3202,6 @@ function sendOrderWhatsApp(){
     'km_customer_phone',
     customerPhone
   );
-
 
   const method=
     getShippingMethod();
@@ -3089,7 +3243,6 @@ function sendOrderWhatsApp(){
         .value
         .trim();
 
-
     if(!street){
 
       alert(
@@ -3129,7 +3282,6 @@ function sendOrderWhatsApp(){
       return;
     }
 
-
     addressText=
       'Rua/Avenida: '+street+
       '\nNúmero: '+number+
@@ -3142,7 +3294,6 @@ function sendOrderWhatsApp(){
         '');
 
   }
-
 
   const lines=[
 
@@ -3159,7 +3310,6 @@ function sendOrderWhatsApp(){
     '🛒 *Produtos:*'
 
   ];
-
 
   let subtotal=0;
 
@@ -3186,7 +3336,6 @@ function sendOrderWhatsApp(){
 
   });
 
-
   const shipping=
     method==='delivery'
     ?
@@ -3197,12 +3346,10 @@ function sendOrderWhatsApp(){
   const total=
     subtotal+shipping;
 
-
   lines.push(
     '',
     '📦 *Forma de recebimento:*'
   );
-
 
   if(method==='delivery'){
 
@@ -3225,7 +3372,6 @@ function sendOrderWhatsApp(){
 
   }
 
-
   lines.push(
 
     '',
@@ -3247,7 +3393,6 @@ function sendOrderWhatsApp(){
     'Pode me confirmar a disponibilidade e as formas de pagamento?'
 
   );
-
 
   const url=
     'https://wa.me/'+
@@ -3623,7 +3768,6 @@ async function saveProduct(){
 
     }
 
-
     const productData={
 
       name:name,
@@ -3648,7 +3792,6 @@ async function saveProduct(){
       active:true
 
     };
-
 
     let result;
 
@@ -3794,7 +3937,6 @@ async function renderAdmin(){
   document.getElementById('wa').value=
     localStorage.getItem(CFG)||'';
 
-
   const deliveryConfig=
     getDeliveryConfig();
 
@@ -3807,7 +3949,6 @@ async function renderAdmin(){
     'storeAddress'
   ).value=
     deliveryConfig.storeAddress||'';
-
 
   const list=
     document.getElementById('adminList');
@@ -4131,13 +4272,11 @@ async function loadProductsFromSupabase(){
 
   }));
 
-
   syncCartWithStock();
 
   renderProducts();
 
   updateBadge();
-
 
   const cartScreen=
     document.getElementById('cart');
@@ -4238,7 +4377,6 @@ if(typeof supabaseClient!=='undefined'){
   );
 
 }
-
 
 init();
 
