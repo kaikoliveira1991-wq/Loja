@@ -165,28 +165,122 @@
       cursor:not-allowed;
     }
 
-    .search{
+    /* BUSCA */
+
+    .search-row{
       display:flex;
       gap:8px;
-      margin:16px 0;
+      margin:16px 0 10px;
     }
 
-    .search input,
-    .field input,
-    .field select,
-    .field textarea{
-      width:100%;
+    .search{
+      flex:1;
+      display:flex;
+      align-items:center;
+      gap:8px;
       background:var(--card);
       border:1px solid var(--line);
       border-radius:12px;
+      padding:0 12px;
+    }
+
+    .search-icon{
+      width:19px;
+      height:19px;
+      flex-shrink:0;
+      color:var(--muted);
+    }
+
+    .search input{
+      width:100%;
+      background:transparent;
+      border:0;
       color:var(--text);
-      padding:12px;
+      padding:12px 0;
       outline:none;
     }
 
-    .field textarea{
-      min-height:90px;
-      resize:vertical;
+    .filter-button{
+      width:48px;
+      min-width:48px;
+      height:48px;
+      border-radius:12px;
+      background:var(--card);
+      color:var(--text);
+      border:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .filter-button svg{
+      width:20px;
+      height:20px;
+    }
+
+    .filter-button.active{
+      background:#fff;
+      color:#000;
+    }
+
+    /* FILTROS */
+
+    .filters{
+      display:none;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+      margin-bottom:16px;
+    }
+
+    .filters.open{
+      display:block;
+    }
+
+    .filters-title{
+      font-weight:900;
+      margin-bottom:12px;
+    }
+
+    .filter-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .filter-field label{
+      display:block;
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+
+    .filter-field select,
+    .filter-field input{
+      width:100%;
+      background:var(--card2);
+      border:1px solid var(--line);
+      border-radius:10px;
+      color:var(--text);
+      padding:11px;
+      outline:none;
+    }
+
+    .filter-actions{
+      display:flex;
+      gap:8px;
+      margin-top:12px;
+    }
+
+    .filter-actions button{
+      flex:1;
+    }
+
+    .filter-count{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:10px;
     }
 
     .cats{
@@ -248,6 +342,7 @@
 
     .pbody{
       padding:12px;
+      cursor:pointer;
     }
 
     .pname{
@@ -265,24 +360,34 @@
       margin-top:6px;
     }
 
+    .sizes-preview{
+      display:flex;
+      flex-wrap:wrap;
+      gap:5px;
+      margin-top:8px;
+    }
+
+    .size-tag{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:30px;
+      height:25px;
+      padding:0 7px;
+      border:1px solid var(--line);
+      background:var(--card2);
+      border-radius:7px;
+      font-size:11px;
+      font-weight:800;
+      color:var(--muted);
+    }
+
     .low{
       color:#f59e0b;
     }
 
     .out{
       color:var(--danger);
-    }
-
-    .heart{
-      position:absolute;
-      right:9px;
-      top:9px;
-      width:34px;
-      height:34px;
-      border-radius:50%;
-      background:rgba(0,0,0,.6);
-      color:#fff;
-      z-index:2;
     }
 
     .bottom{
@@ -385,11 +490,115 @@
       grid-column:1/-1;
     }
 
+    .field input,
+    .field select,
+    .field textarea{
+      width:100%;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:12px;
+      color:var(--text);
+      padding:12px;
+      outline:none;
+    }
+
+    .field textarea{
+      min-height:90px;
+      resize:vertical;
+    }
+
     .actions{
       display:flex;
       gap:8px;
       justify-content:flex-end;
       margin-top:14px;
+    }
+
+    /* TAMANHOS NO ADMIN */
+
+    .sizes-selector{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:8px;
+    }
+
+    .size-option{
+      position:relative;
+    }
+
+    .size-option input{
+      position:absolute;
+      opacity:0;
+      pointer-events:none;
+    }
+
+    .size-option label{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-width:48px;
+      height:42px;
+      padding:0 10px;
+      border:1px solid var(--line);
+      border-radius:10px;
+      background:var(--card);
+      color:var(--muted);
+      font-weight:800;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+
+    .size-option input:checked + label{
+      background:#fff;
+      color:#000;
+      border-color:#fff;
+    }
+
+    /* TAMANHOS NO DETALHE */
+
+    .detail-sizes{
+      margin:16px 0;
+    }
+
+    .detail-sizes-title{
+      font-weight:900;
+      margin-bottom:9px;
+    }
+
+    .detail-size-list{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .detail-size{
+      min-width:48px;
+      height:42px;
+      padding:0 12px;
+      border-radius:10px;
+      background:var(--card);
+      color:var(--muted);
+      border:1px solid var(--line);
+      font-weight:800;
+    }
+
+    .detail-size.selected{
+      background:#fff;
+      color:#000;
+      border-color:#fff;
+    }
+
+    .detail-size.disabled{
+      opacity:.35;
+      cursor:not-allowed;
+    }
+
+    .detail-size-error{
+      color:var(--danger);
+      font-size:12px;
+      margin-top:8px;
+      display:none;
     }
 
     .adminitem,
@@ -423,6 +632,7 @@
 
     .grow{
       flex:1;
+      min-width:0;
     }
 
     .qty{
@@ -445,7 +655,19 @@
       cursor:not-allowed;
     }
 
-    /* QUANTIDADE NO DETALHE DO PRODUTO */
+    .cart-size{
+      display:inline-block;
+      margin-top:5px;
+      padding:4px 7px;
+      border-radius:6px;
+      background:var(--card2);
+      border:1px solid var(--line);
+      color:var(--muted);
+      font-size:11px;
+      font-weight:800;
+    }
+
+    /* QUANTIDADE NO DETALHE */
 
     .detail-qty{
       display:flex;
@@ -786,6 +1008,10 @@
       .delivery-options{
         grid-template-columns:1fr;
       }
+
+      .filter-grid{
+        grid-template-columns:1fr 1fr;
+      }
     }
 
     @media(min-width:720px){
@@ -863,10 +1089,7 @@
         Entrar
       </button>
 
-      <div
-        id="loginError"
-        class="login-error"
-      ></div>
+      <div id="loginError" class="login-error"></div>
 
       <button
         class="btn dark"
@@ -903,18 +1126,8 @@
               stroke-linecap="round"
               stroke-linejoin="round"
             />
-            <circle
-              cx="10"
-              cy="20"
-              r="1.2"
-              fill="currentColor"
-            />
-            <circle
-              cx="18"
-              cy="20"
-              r="1.2"
-              fill="currentColor"
-            />
+            <circle cx="10" cy="20" r="1.2" fill="currentColor"/>
+            <circle cx="18" cy="20" r="1.2" fill="currentColor"/>
           </svg>
 
           <span id="cartBadge" class="badge">0</span>
@@ -949,13 +1162,175 @@
 
         </div>
 
-        <div class="search">
+        <!-- BUSCA -->
 
-          <input
-            id="search"
-            placeholder="🔎 Buscar produtos..."
-            oninput="renderProducts()"
+        <div class="search-row">
+
+          <div class="search">
+
+            <svg
+              class="search-icon"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <circle
+                cx="11"
+                cy="11"
+                r="6.5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              />
+
+              <path
+                d="M16 16l5 5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+            </svg>
+
+            <input
+              id="search"
+              placeholder="Buscar produtos..."
+              oninput="renderProducts()"
+            >
+
+          </div>
+
+          <button
+            id="filterButton"
+            class="filter-button"
+            onclick="toggleFilters()"
+            aria-label="Abrir filtros"
           >
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M4 7h16M7 12h10M10 17h4"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+            </svg>
+
+          </button>
+
+        </div>
+
+        <!-- FILTROS -->
+
+        <div id="filters" class="filters">
+
+          <div class="filters-title">
+            Filtrar produtos
+          </div>
+
+          <div class="filter-grid">
+
+            <div class="filter-field">
+
+              <label for="filterSize">
+                Tamanho
+              </label>
+
+              <select
+                id="filterSize"
+                onchange="renderProducts()"
+              >
+                <option value="">Todos</option>
+                <option value="PP">PP</option>
+                <option value="P">P</option>
+                <option value="M">M</option>
+                <option value="G">G</option>
+                <option value="GG">GG</option>
+                <option value="XG">XG</option>
+                <option value="XXG">XXG</option>
+              </select>
+
+            </div>
+
+            <div class="filter-field">
+
+              <label for="filterSort">
+                Ordenar
+              </label>
+
+              <select
+                id="filterSort"
+                onchange="renderProducts()"
+              >
+                <option value="default">Mais recentes</option>
+                <option value="priceAsc">Menor preço</option>
+                <option value="priceDesc">Maior preço</option>
+                <option value="nameAsc">Nome A-Z</option>
+              </select>
+
+            </div>
+
+            <div class="filter-field">
+
+              <label for="filterMinPrice">
+                Preço mínimo
+              </label>
+
+              <input
+                id="filterMinPrice"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="R$ 0,00"
+                oninput="renderProducts()"
+              >
+
+            </div>
+
+            <div class="filter-field">
+
+              <label for="filterMaxPrice">
+                Preço máximo
+              </label>
+
+              <input
+                id="filterMaxPrice"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="R$ 999,00"
+                oninput="renderProducts()"
+              >
+
+            </div>
+
+          </div>
+
+          <div class="filter-actions">
+
+            <button
+              class="btn dark"
+              onclick="clearFilters()"
+            >
+              Limpar filtros
+            </button>
+
+            <button
+              class="btn"
+              onclick="toggleFilters()"
+            >
+              Aplicar
+            </button>
+
+          </div>
+
+          <div
+            id="filterCount"
+            class="filter-count"
+          ></div>
 
         </div>
 
@@ -1097,10 +1472,7 @@
 
           <span class="nav-icon">
 
-            <svg
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
 
               <path
                 d="M3 10.5 12 3l9 7.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 19.5z"
@@ -1131,10 +1503,7 @@
 
           <span class="nav-icon">
 
-            <svg
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
 
               <rect
                 x="3.5"
@@ -1167,10 +1536,7 @@
 
           <span class="nav-icon">
 
-            <svg
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
 
               <path
                 d="M4 5h2l1.7 10.2a2 2 0 0 0 2 1.8h7.6a2 2 0 0 0 1.9-1.4L21 8H7"
@@ -1285,6 +1651,59 @@
 
         </div>
 
+        <!-- TAMANHOS -->
+
+        <div class="field full">
+
+          <label>
+            Tamanhos disponíveis
+          </label>
+
+          <div class="sizes-selector">
+
+            <div class="size-option">
+              <input type="checkbox" id="sizePP" value="PP">
+              <label for="sizePP">PP</label>
+            </div>
+
+            <div class="size-option">
+              <input type="checkbox" id="sizeP" value="P">
+              <label for="sizeP">P</label>
+            </div>
+
+            <div class="size-option">
+              <input type="checkbox" id="sizeM" value="M">
+              <label for="sizeM">M</label>
+            </div>
+
+            <div class="size-option">
+              <input type="checkbox" id="sizeG" value="G">
+              <label for="sizeG">G</label>
+            </div>
+
+            <div class="size-option">
+              <input type="checkbox" id="sizeGG" value="GG">
+              <label for="sizeGG">GG</label>
+            </div>
+
+            <div class="size-option">
+              <input type="checkbox" id="sizeXG" value="XG">
+              <label for="sizeXG">XG</label>
+            </div>
+
+            <div class="size-option">
+              <input type="checkbox" id="sizeXXG" value="XXG">
+              <label for="sizeXXG">XXG</label>
+            </div>
+
+          </div>
+
+          <div class="notice">
+            Selecione todos os tamanhos disponíveis para esta peça.
+          </div>
+
+        </div>
+
         <div class="field full">
 
           <label>
@@ -1396,9 +1815,7 @@
       </div>
 
       <div class="notice">
-
         Escolha como deseja receber seu pedido.
-
       </div>
 
       <div class="delivery-options">
@@ -1456,9 +1873,7 @@
 
       <div class="field">
 
-        <label>
-          Nome
-        </label>
+        <label>Nome</label>
 
         <input
           id="customerName"
@@ -1471,9 +1886,7 @@
 
       <div class="field">
 
-        <label>
-          Telefone
-        </label>
+        <label>Telefone</label>
 
         <input
           id="customerPhone"
@@ -1497,9 +1910,7 @@
 
           <div class="field">
 
-            <label>
-              CEP
-            </label>
+            <label>CEP</label>
 
             <input
               id="customerCep"
@@ -1512,9 +1923,7 @@
 
           <div class="field">
 
-            <label>
-              Bairro
-            </label>
+            <label>Bairro</label>
 
             <input
               id="customerNeighborhood"
@@ -1526,9 +1935,7 @@
 
           <div class="field">
 
-            <label>
-              Rua
-            </label>
+            <label>Rua</label>
 
             <input
               id="customerStreet"
@@ -1540,9 +1947,7 @@
 
           <div class="field">
 
-            <label>
-              Número
-            </label>
+            <label>Número</label>
 
             <input
               id="customerNumber"
@@ -1554,9 +1959,7 @@
 
           <div class="field full">
 
-            <label>
-              Complemento
-            </label>
+            <label>Complemento</label>
 
             <input
               id="customerComplement"
@@ -1591,15 +1994,8 @@
       <div class="checkout-summary">
 
         <div class="summary-line">
-
-          <span>
-            Subtotal
-          </span>
-
-          <strong id="checkoutSubtotal">
-            R$ 0,00
-          </strong>
-
+          <span>Subtotal</span>
+          <strong id="checkoutSubtotal">R$ 0,00</strong>
         </div>
 
         <div class="summary-line">
@@ -1616,9 +2012,7 @@
 
         <div class="summary-total">
 
-          <span>
-            Total
-          </span>
+          <span>Total</span>
 
           <span id="checkoutTotal">
             R$ 0,00
@@ -1651,7 +2045,7 @@
 
   </div>
 
-  <!-- NOTIFICAÇÃO ADICIONADO AO CARRINHO -->
+  <!-- NOTIFICAÇÃO -->
 
   <div id="cartToast" class="cart-toast">
 
@@ -1701,6 +2095,8 @@
     let detailProductId=null;
 
     let detailQty=1;
+
+    let selectedDetailSize=null;
 
     const CFG='km_config_v1';
 
@@ -2160,6 +2556,8 @@
 
     function scrollToProducts(){
 
+      show('home');
+
       setTimeout(()=>{
 
         document
@@ -2171,6 +2569,59 @@
       },50);
     }
 
+
+    /* =====================================
+       FILTROS
+       ===================================== */
+
+    function toggleFilters(){
+
+      const box=
+        document.getElementById('filters');
+
+      const button=
+        document.getElementById('filterButton');
+
+      if(!box)return;
+
+      box.classList.toggle('open');
+
+      if(button){
+
+        button.classList.toggle(
+          'active',
+          box.classList.contains('open')
+        );
+
+      }
+    }
+
+
+    function clearFilters(){
+
+      document.getElementById(
+        'filterSize'
+      ).value='';
+
+      document.getElementById(
+        'filterSort'
+      ).value='default';
+
+      document.getElementById(
+        'filterMinPrice'
+      ).value='';
+
+      document.getElementById(
+        'filterMaxPrice'
+      ).value='';
+
+      renderProducts();
+    }
+
+
+    /* =====================================
+       CATEGORIAS
+       ===================================== */
 
     function renderCats(){
 
@@ -2203,6 +2654,101 @@
 
 
     /* =====================================
+       TAMANHOS
+       ===================================== */
+
+    function normalizeSizes(value){
+
+      if(!Array.isArray(value))
+        return [];
+
+      return value
+        .map(x=>String(x).trim().toUpperCase())
+        .filter(Boolean);
+    }
+
+
+    function getSelectedAdminSizes(){
+
+      const ids=[
+        'sizePP',
+        'sizeP',
+        'sizeM',
+        'sizeG',
+        'sizeGG',
+        'sizeXG',
+        'sizeXXG'
+      ];
+
+      return ids
+        .filter(id=>
+          document.getElementById(id)?.checked
+        )
+        .map(id=>
+          document.getElementById(id).value
+        );
+    }
+
+
+    function setAdminSizes(sizes){
+
+      const selected=
+        normalizeSizes(sizes);
+
+      const ids=[
+        'sizePP',
+        'sizeP',
+        'sizeM',
+        'sizeG',
+        'sizeGG',
+        'sizeXG',
+        'sizeXXG'
+      ];
+
+      ids.forEach(id=>{
+
+        const checkbox=
+          document.getElementById(id);
+
+        if(checkbox){
+
+          checkbox.checked=
+            selected.includes(
+              checkbox.value
+            );
+
+        }
+
+      });
+    }
+
+
+    function selectDetailSize(size){
+
+      selectedDetailSize=size;
+
+      document
+        .querySelectorAll('.detail-size')
+        .forEach(button=>{
+
+          button.classList.toggle(
+            'selected',
+            button.dataset.size===size
+          );
+
+        });
+
+      const error=
+        document.getElementById(
+          'detailSizeError'
+        );
+
+      if(error)
+        error.style.display='none';
+    }
+
+
+    /* =====================================
        PRODUTOS
        ===================================== */
 
@@ -2218,20 +2764,124 @@
           .toLowerCase()
           .trim();
 
-      const arr=products.filter(p=>
+      const filterSize=
+        document.getElementById(
+          'filterSize'
+        )?.value||'';
 
-        (
+      const minPriceValue=
+        document.getElementById(
+          'filterMinPrice'
+        )?.value;
+
+      const maxPriceValue=
+        document.getElementById(
+          'filterMaxPrice'
+        )?.value;
+
+      const minPrice=
+        minPriceValue===''
+        ?
+        null
+        :
+        Number(minPriceValue);
+
+      const maxPrice=
+        maxPriceValue===''
+        ?
+        null
+        :
+        Number(maxPriceValue);
+
+      const sort=
+        document.getElementById(
+          'filterSort'
+        )?.value||'default';
+
+      let arr=products.filter(p=>{
+
+        const sizes=
+          normalizeSizes(p.sizes);
+
+        const matchesCategory=
           activeCat==='Todos'||
-          p.category===activeCat
-        )
+          p.category===activeCat;
 
-        &&
+        const matchesSearch=
+          String(p.name||'')
+            .toLowerCase()
+            .includes(q);
 
-        String(p.name||'')
-          .toLowerCase()
-          .includes(q)
+        const matchesSize=
+          !filterSize||
+          sizes.includes(filterSize);
 
-      );
+        const matchesMin=
+          minPrice===null||
+          Number(p.price||0)>=minPrice;
+
+        const matchesMax=
+          maxPrice===null||
+          Number(p.price||0)<=maxPrice;
+
+        return(
+          matchesCategory&&
+          matchesSearch&&
+          matchesSize&&
+          matchesMin&&
+          matchesMax
+        );
+      });
+
+      if(sort==='priceAsc'){
+
+        arr.sort(
+          (a,b)=>
+            Number(a.price||0)-
+            Number(b.price||0)
+        );
+
+      }else if(sort==='priceDesc'){
+
+        arr.sort(
+          (a,b)=>
+            Number(b.price||0)-
+            Number(a.price||0)
+        );
+
+      }else if(sort==='nameAsc'){
+
+        arr.sort(
+          (a,b)=>
+            String(a.name||'')
+              .localeCompare(
+                String(b.name||''),
+                'pt-BR'
+              )
+        );
+      }
+
+      const filterCount=
+        document.getElementById(
+          'filterCount'
+        );
+
+      if(filterCount){
+
+        const activeFilters=
+          [
+            filterSize,
+            minPriceValue,
+            maxPriceValue
+          ].filter(Boolean).length;
+
+        filterCount.textContent=
+          activeFilters
+          ?
+          `${arr.length} produto(s) encontrado(s) com os filtros atuais.`
+          :
+          `${arr.length} produto(s) encontrado(s).`;
+      }
 
       document.getElementById(
         'products'
@@ -2241,16 +2891,14 @@
 
         ?
 
-        arr.map(p=>`
+        arr.map(p=>{
+
+          const sizes=
+            normalizeSizes(p.sizes);
+
+          return `
 
           <article class="product">
-
-            <button
-              class="heart"
-              onclick="event.stopPropagation();toggleFav('${p.id}')"
-            >
-              ♡
-            </button>
 
             <div
               class="photo"
@@ -2288,6 +2936,24 @@
                 ${money(p.price)}
               </div>
 
+              ${
+                sizes.length
+                ?
+                `
+                  <div class="sizes-preview">
+                    ${
+                      sizes.map(size=>`
+                        <span class="size-tag">
+                          ${esc(size)}
+                        </span>
+                      `).join('')
+                    }
+                  </div>
+                `
+                :
+                ''
+              }
+
               <div
                 class="stock ${
                   p.stock===0
@@ -2316,7 +2982,7 @@
 
           </article>
 
-        `).join('')
+        `}).join('')
 
         :
 
@@ -2355,7 +3021,12 @@
 
       detailQty=1;
 
+      selectedDetailSize=null;
+
       const stock=Number(p.stock||0);
+
+      const sizes=
+        normalizeSizes(p.sizes);
 
       document.getElementById(
         'detail'
@@ -2423,6 +3094,51 @@
         </p>
 
         ${
+          sizes.length
+          ?
+
+          `
+            <div class="detail-sizes">
+
+              <div class="detail-sizes-title">
+                Escolha o tamanho
+              </div>
+
+              <div class="detail-size-list">
+
+                ${
+                  sizes.map(size=>`
+
+                    <button
+                      type="button"
+                      class="detail-size"
+                      data-size="${esc(size)}"
+                      onclick="selectDetailSize('${esc(size)}')"
+                    >
+                      ${esc(size)}
+                    </button>
+
+                  `).join('')
+                }
+
+              </div>
+
+              <div
+                id="detailSizeError"
+                class="detail-size-error"
+              >
+                Selecione um tamanho antes de continuar.
+              </div>
+
+            </div>
+          `
+
+          :
+
+          ''
+        }
+
+        ${
           stock>0
           ?
 
@@ -2477,7 +3193,7 @@
           class="btn"
           style="width:100%"
           ${stock>0?'':'disabled'}
-          onclick="addToCart('${p.id}',detailQty);closeDetail()"
+          onclick="addDetailToCart()"
         >
           ${
             stock>0
@@ -2496,8 +3212,50 @@
     }
 
 
+    function addDetailToCart(){
+
+      const p=products.find(
+        x=>String(x.id)===String(detailProductId)
+      );
+
+      if(!p)return;
+
+      const sizes=
+        normalizeSizes(p.sizes);
+
+      if(sizes.length&&!selectedDetailSize){
+
+        const error=
+          document.getElementById(
+            'detailSizeError'
+          );
+
+        if(error){
+
+          error.style.display='block';
+
+          error.scrollIntoView({
+            behavior:'smooth',
+            block:'center'
+          });
+
+        }
+
+        return;
+      }
+
+      addToCart(
+        p.id,
+        detailQty,
+        selectedDetailSize
+      );
+
+      closeDetail();
+    }
+
+
     /* =====================================
-       ALTERAR QUANTIDADE ANTES DO CARRINHO
+       ALTERAR QUANTIDADE
        ===================================== */
 
     function updateDetailQty(delta){
@@ -2569,6 +3327,8 @@
       detailProductId=null;
 
       detailQty=1;
+
+      selectedDetailSize=null;
     }
 
 
@@ -2576,7 +3336,7 @@
        ADICIONAR AO CARRINHO
        ===================================== */
 
-    function addToCart(id,quantity=1){
+    function addToCart(id,quantity=1,size=null){
 
       const p=products.find(
         x=>String(x.id)===String(id)
@@ -2598,6 +3358,16 @@
         return;
       }
 
+      const sizes=
+        normalizeSizes(p.sizes);
+
+      if(sizes.length&&!size){
+
+        alert('Selecione o tamanho do produto.');
+
+        return;
+      }
+
       quantity=Number(quantity||1);
 
       if(!Number.isFinite(quantity))
@@ -2611,8 +3381,17 @@
       if(quantity>stock)
         quantity=stock;
 
+      const normalizedSize=
+        size
+        ?
+        String(size).toUpperCase()
+        :
+        null;
+
       const item=cart.find(
-        x=>String(x.id)===String(id)
+        x=>
+          String(x.id)===String(id)&&
+          String(x.size||'')===String(normalizedSize||'')
       );
 
       if(item){
@@ -2632,7 +3411,7 @@
               'unidade'
               :
               'unidades'
-            } no carrinho. Só há ${stock} ${
+            } desse tamanho no carrinho. Só há ${stock} ${
               stock===1
               ?
               'unidade'
@@ -2652,7 +3431,9 @@
 
           id:String(id),
 
-          qty:quantity
+          qty:quantity,
+
+          size:normalizedSize
 
         });
 
@@ -2664,16 +3445,21 @@
 
       showCartToast(
         p.name,
-        quantity
+        quantity,
+        normalizedSize
       );
     }
 
 
     /* =====================================
-       NOTIFICAÇÃO DO CARRINHO
+       NOTIFICAÇÃO
        ===================================== */
 
-    function showCartToast(productName,quantity){
+    function showCartToast(
+      productName,
+      quantity,
+      size=null
+    ){
 
       const toast=
         document.getElementById('cartToast');
@@ -2695,7 +3481,13 @@
           'unidade'
           :
           'unidades'
-        } de ${productName}`;
+        } de ${productName}${
+          size
+          ?
+          ' — tamanho '+size
+          :
+          ''
+        }`;
 
       toast.classList.remove('show');
 
@@ -2746,10 +3538,13 @@
        REMOVER DO CARRINHO
        ===================================== */
 
-    function removeCart(id){
+    function removeCart(id,size=null){
 
       cart=cart.filter(
-        x=>String(x.id)!==String(id)
+        x=>!(
+          String(x.id)===String(id)&&
+          String(x.size||'')===String(size||'')
+        )
       );
 
       saveCart();
@@ -2762,10 +3557,12 @@
        ALTERAR QUANTIDADE NO CARRINHO
        ===================================== */
 
-    function changeQty(id,d){
+    function changeQty(id,d,size=null){
 
       const i=cart.find(
-        x=>String(x.id)===String(id)
+        x=>
+          String(x.id)===String(id)&&
+          String(x.size||'')===String(size||'')
       );
 
       const p=products.find(
@@ -2778,7 +3575,7 @@
 
       if(stock<=0){
 
-        removeCart(id);
+        removeCart(id,size);
 
         return;
       }
@@ -2795,7 +3592,7 @@
 
       if(i.qty<=0){
 
-        removeCart(id);
+        removeCart(id,size);
 
         return;
       }
@@ -2909,6 +3706,18 @@
                   ${money(p.price)}
                 </div>
 
+                ${
+                  i.size
+                  ?
+                  `
+                    <div class="cart-size">
+                      Tamanho: ${esc(i.size)}
+                    </div>
+                  `
+                  :
+                  ''
+                }
+
                 <div
                   class="stock ${
                     stock<=2
@@ -2922,7 +3731,7 @@
                 <div class="qty">
 
                   <button
-                    onclick="changeQty('${p.id}',-1)"
+                    onclick="changeQty('${p.id}',-1,'${esc(i.size||'')}')"
                   >
                     −
                   </button>
@@ -2931,16 +3740,30 @@
 
                   <button
                     ${qty>=stock?'disabled':''}
-                    onclick="changeQty('${p.id}',1)"
+                    onclick="changeQty('${p.id}',1,'${esc(i.size||'')}')"
                   >
                     +
                   </button>
 
                   <button
-                    onclick="removeCart('${p.id}')"
+                    onclick="removeCart('${p.id}','${esc(i.size||'')}')"
                     style="background:#ef4444;color:#fff"
                   >
-                    🗑
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="15"
+                      height="15"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5M14 11v5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
                   </button>
 
                 </div>
@@ -3221,7 +4044,7 @@
 
 
     /* =====================================
-       ENVIAR PEDIDO PELO WHATSAPP
+       WHATSAPP
        ===================================== */
 
     function sendOrderWhatsApp(){
@@ -3315,6 +4138,41 @@
           closeCheckout();
 
           renderCart();
+
+          return;
+        }
+
+        const sizes=
+          normalizeSizes(p.sizes);
+
+        if(sizes.length&&!i.size){
+
+          alert(
+            'O tamanho do produto "'+
+            p.name+
+            '" não foi selecionado.'
+          );
+
+          closeCheckout();
+
+          return;
+        }
+
+        if(
+          sizes.length&&
+          i.size&&
+          !sizes.includes(
+            String(i.size).toUpperCase()
+          )
+        ){
+
+          alert(
+            'O tamanho selecionado para "'+
+            p.name+
+            '" não está mais disponível.'
+          );
+
+          closeCheckout();
 
           return;
         }
@@ -3493,7 +4351,11 @@
 
           lines.push(
 
-            `• ${p.name} — ${i.qty}x — ${money(itemTotal)}`
+            `• ${p.name} — ${i.qty}x`+
+            (i.size?
+              ` — Tamanho ${i.size}`:
+              '')+
+            ` — ${money(itemTotal)}`
 
           );
 
@@ -3638,6 +4500,10 @@
       document.getElementById(
         'fDesc'
       ).value=p?.description||'';
+
+      setAdminSizes(
+        p?.sizes||[]
+      );
 
       document.getElementById(
         'fImageFile'
@@ -3805,6 +4671,9 @@
 
         return;
       }
+
+      const sizes=
+        getSelectedAdminSizes();
 
       const fileInput=
         document.getElementById('fImageFile');
@@ -3974,6 +4843,8 @@
           image_url:imageUrl,
 
           stock:stock,
+
+          sizes:sizes,
 
           active:true
 
@@ -4167,7 +5038,12 @@
 
       list.innerHTML=
 
-        products.map(p=>`
+        products.map(p=>{
+
+          const sizes=
+            normalizeSizes(p.sizes);
+
+          return `
 
           <div class="adminitem">
 
@@ -4199,6 +5075,30 @@
               <div>
                 ${money(p.price)}
               </div>
+
+              ${
+                sizes.length
+                ?
+                `
+                  <div class="sizes-preview">
+                    ${
+                      sizes.map(size=>`
+                        <span class="size-tag">
+                          ${esc(size)}
+                        </span>
+                      `).join('')
+                    }
+                  </div>
+                `
+                :
+                `
+                  <div
+                    style="font-size:11px;color:var(--muted);margin-top:5px"
+                  >
+                    Tamanhos não definidos
+                  </div>
+                `
+              }
 
               <div
                 class="stock ${
@@ -4262,12 +5162,12 @@
 
           </div>
 
-        `).join('');
+        `}).join('');
     }
 
 
     /* =====================================
-       CONFIGURAÇÃO WHATSAPP
+       WHATSAPP
        ===================================== */
 
     function saveConfig(){
@@ -4352,36 +5252,6 @@
       a.remove();
 
       URL.revokeObjectURL(a.href);
-    }
-
-
-    /* =====================================
-       FAVORITOS
-       ===================================== */
-
-    function toggleFav(id){
-
-      const key='km_fav_v1';
-
-      let a=
-        JSON.parse(
-          localStorage.getItem(key)||'[]'
-        );
-
-      a=a.includes(id)
-
-        ?
-
-        a.filter(x=>x!==id)
-
-        :
-
-        [...a,id];
-
-      localStorage.setItem(
-        key,
-        JSON.stringify(a)
-      );
     }
 
 
@@ -4476,6 +5346,9 @@
         stock:
           Number(p.stock||0),
 
+        sizes:
+          normalizeSizes(p.sizes),
+
         active:
           p.active
 
@@ -4569,7 +5442,7 @@
 
 
     /* =====================================
-       MONITORAR LOGIN DO SUPABASE
+       MONITORAR LOGIN
        ===================================== */
 
     if(typeof supabaseClient!=='undefined'){
