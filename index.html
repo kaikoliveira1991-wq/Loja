@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#0d0d0f">
 
-<title>KM Moda Urbana</title>
+<title>KM Black</title>
 
 <style>
 :root{
@@ -69,7 +69,7 @@ button:disabled{
 }
 
 .toprow{
-  min-height:68px;
+  min-height:72px;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -77,17 +77,18 @@ button:disabled{
 }
 
 .brand{
-  font-size:25px;
+  font-size:27px;
   font-weight:1000;
-  letter-spacing:-1px;
+  letter-spacing:-1.5px;
 }
 
 .brand small{
   display:block;
-  font-size:9px;
-  letter-spacing:3px;
+  font-size:8px;
+  letter-spacing:2.5px;
   color:var(--muted);
-  margin-top:1px;
+  margin-top:2px;
+  font-weight:700;
 }
 
 .iconbtn{
@@ -137,25 +138,44 @@ main{
   display:block;
 }
 
+/* HERO */
+
 .hero{
   margin-top:18px;
-  min-height:240px;
-  padding:28px;
+  min-height:270px;
+  padding:30px;
   border:1px solid var(--line);
   border-radius:20px;
   background:
-    radial-gradient(circle at top right,#27272d 0,transparent 45%),
-    var(--card);
+    radial-gradient(
+      circle at top right,
+      #292930 0,
+      transparent 45%
+    ),
+    linear-gradient(
+      135deg,
+      #151519,
+      #101014
+    );
   display:flex;
   flex-direction:column;
   justify-content:center;
 }
 
+.hero-label{
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:3px;
+  color:var(--muted);
+  margin-bottom:14px;
+}
+
 .hero h1{
-  margin:0 0 10px;
-  font-size:clamp(28px,6vw,52px);
-  letter-spacing:-2px;
-  max-width:700px;
+  margin:0 0 12px;
+  font-size:clamp(32px,7vw,58px);
+  letter-spacing:-2.5px;
+  line-height:1;
+  max-width:750px;
 }
 
 .hero p{
@@ -192,6 +212,8 @@ main{
   border:1px solid #542020;
 }
 
+/* SEARCH */
+
 .searchbar{
   display:flex;
   gap:10px;
@@ -218,6 +240,8 @@ main{
   width:21px;
   height:21px;
 }
+
+/* FIELDS */
 
 .field{
   margin-bottom:14px;
@@ -253,6 +277,8 @@ textarea{
   resize:vertical;
 }
 
+/* CATEGORIES */
+
 .cats{
   display:flex;
   gap:8px;
@@ -280,6 +306,8 @@ textarea{
   color:#000;
 }
 
+/* FILTER */
+
 .filterpanel{
   display:none;
   background:var(--card);
@@ -303,6 +331,8 @@ h2{
   margin:20px 0 13px;
 }
 
+/* PRODUCTS */
+
 .grid{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
@@ -315,6 +345,13 @@ h2{
   border-radius:16px;
   overflow:hidden;
   min-width:0;
+  transition:
+    transform .18s ease,
+    border-color .18s ease;
+}
+
+.product:active{
+  transform:scale(.985);
 }
 
 .photo{
@@ -396,6 +433,8 @@ h2{
   grid-column:1/-1;
 }
 
+/* BOTTOM NAV */
+
 .bottom{
   position:fixed;
   bottom:0;
@@ -437,6 +476,8 @@ h2{
 .nav button.active{
   color:#fff;
 }
+
+/* MODALS */
 
 .modal{
   position:fixed;
@@ -506,6 +547,8 @@ h2{
   margin:12px 0;
 }
 
+/* ADMIN */
+
 .adminitem{
   display:flex;
   align-items:center;
@@ -555,6 +598,8 @@ h2{
   line-height:1.5;
 }
 
+/* SIZE STOCK */
+
 .size-stock-box{
   border:1px solid var(--line);
   background:#101014;
@@ -603,6 +648,8 @@ h2{
   justify-content:space-between;
   font-weight:900;
 }
+
+/* DETAIL */
 
 .detail-photo{
   aspect-ratio:1/1;
@@ -661,6 +708,8 @@ h2{
   text-decoration:line-through;
 }
 
+/* QUANTITY */
+
 .qtybox{
   display:flex;
   align-items:center;
@@ -683,6 +732,8 @@ h2{
   text-align:center;
   font-weight:1000;
 }
+
+/* CART */
 
 .cartitem{
   display:flex;
@@ -727,6 +778,8 @@ h2{
   padding:16px 0;
 }
 
+/* CHECKOUT */
+
 .checkout-section{
   border-top:1px solid var(--line);
   padding-top:15px;
@@ -742,6 +795,7 @@ h2{
 .delivery-option{
   border:1px solid var(--line);
   background:#17171b;
+  color:var(--text);
   border-radius:11px;
   padding:12px;
   text-align:center;
@@ -752,6 +806,8 @@ h2{
   background:#fff;
   color:#000;
 }
+
+/* TOAST */
 
 .toast{
   position:fixed;
@@ -774,6 +830,8 @@ h2{
   opacity:1;
   transform:translate(-50%,0);
 }
+
+/* UPLOAD */
 
 .upload-area{
   border:1px dashed #44444d;
@@ -855,8 +913,8 @@ hr{
   <div class="toprow">
 
     <div class="brand">
-      KM
-      <small>MODA URBANA</small>
+      KM BLACK
+      <small>O BÁSICO NUNCA FOI TÃO MARCANTE</small>
     </div>
 
     <button
@@ -901,13 +959,17 @@ hr{
 
   <div class="hero">
 
+    <div class="hero-label">
+      KM BLACK
+    </div>
+
     <h1>
-      Estilo é mais do que roupa.
+      O básico nunca foi tão marcante.
     </h1>
 
     <p>
-      Escolha sua peça, confira os tamanhos disponíveis
-      e peça diretamente pelo WhatsApp.
+      Peças selecionadas para quem entende que
+      estilo não precisa ser exagerado.
     </p>
 
     <button
@@ -1110,7 +1172,7 @@ hr{
     class="btn"
     onclick="openProductModal()"
   >
-    + Novo produto
+    Novo produto
   </button>
 
 
@@ -1194,11 +1256,13 @@ hr{
 </main>
 
 
-<!-- NAVEGAÇÃO INFERIOR -->
+<!-- NAVEGAÇÃO -->
 
 <div class="bottom">
 
   <nav class="nav">
+
+    <!-- INÍCIO -->
 
     <button
       id="navHome"
@@ -1226,6 +1290,8 @@ hr{
     </button>
 
 
+    <!-- PRODUTOS -->
+
     <button
       id="navProducts"
       onclick="show('home',this);scrollToProducts()"
@@ -1239,6 +1305,7 @@ hr{
         stroke-linecap="round"
         stroke-linejoin="round"
       >
+
         <rect
           x="4"
           y="4"
@@ -1270,6 +1337,7 @@ hr{
           height="6"
           rx="1"
         />
+
       </svg>
 
       <span>
@@ -1278,6 +1346,8 @@ hr{
 
     </button>
 
+
+    <!-- CARRINHO -->
 
     <button
       id="navCart"
@@ -1292,6 +1362,7 @@ hr{
         stroke-linecap="round"
         stroke-linejoin="round"
       >
+
         <circle
           cx="9"
           cy="20"
@@ -1307,6 +1378,7 @@ hr{
         <path
           d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 7H6"
         />
+
       </svg>
 
       <span>
@@ -1341,6 +1413,7 @@ hr{
       <button
         class="iconbtn"
         onclick="closeModal()"
+        aria-label="Fechar"
       >
 
         <svg
@@ -1451,10 +1524,7 @@ hr{
           <div class="size-stock-grid">
 
             <div class="size-stock-row">
-
-              <span>
-                PP
-              </span>
+              <span>PP</span>
 
               <input
                 id="stockSizePP"
@@ -1464,15 +1534,11 @@ hr{
                 value="0"
                 oninput="updateTotalSizeStock()"
               >
-
             </div>
 
 
             <div class="size-stock-row">
-
-              <span>
-                P
-              </span>
+              <span>P</span>
 
               <input
                 id="stockSizeP"
@@ -1482,15 +1548,11 @@ hr{
                 value="0"
                 oninput="updateTotalSizeStock()"
               >
-
             </div>
 
 
             <div class="size-stock-row">
-
-              <span>
-                M
-              </span>
+              <span>M</span>
 
               <input
                 id="stockSizeM"
@@ -1500,15 +1562,11 @@ hr{
                 value="0"
                 oninput="updateTotalSizeStock()"
               >
-
             </div>
 
 
             <div class="size-stock-row">
-
-              <span>
-                G
-              </span>
+              <span>G</span>
 
               <input
                 id="stockSizeG"
@@ -1518,15 +1576,11 @@ hr{
                 value="0"
                 oninput="updateTotalSizeStock()"
               >
-
             </div>
 
 
             <div class="size-stock-row">
-
-              <span>
-                GG
-              </span>
+              <span>GG</span>
 
               <input
                 id="stockSizeGG"
@@ -1536,15 +1590,11 @@ hr{
                 value="0"
                 oninput="updateTotalSizeStock()"
               >
-
             </div>
 
 
             <div class="size-stock-row">
-
-              <span>
-                XG
-              </span>
+              <span>XG</span>
 
               <input
                 id="stockSizeXG"
@@ -1554,15 +1604,11 @@ hr{
                 value="0"
                 oninput="updateTotalSizeStock()"
               >
-
             </div>
 
 
             <div class="size-stock-row">
-
-              <span>
-                XXG
-              </span>
+              <span>XXG</span>
 
               <input
                 id="stockSizeXXG"
@@ -1572,7 +1618,6 @@ hr{
                 value="0"
                 oninput="updateTotalSizeStock()"
               >
-
             </div>
 
           </div>
@@ -1615,7 +1660,7 @@ hr{
           <img
             id="uploadPreview"
             class="upload-preview"
-            alt="Prévia"
+            alt="Prévia da imagem"
           >
 
 
@@ -1712,6 +1757,7 @@ hr{
       <button
         class="iconbtn"
         onclick="closeCheckout()"
+        aria-label="Fechar"
       >
 
         <svg
@@ -1743,7 +1789,7 @@ hr{
   id="toast"
   class="toast"
 >
-  Adicionado ao carrinho
+  Produto adicionado ao carrinho
 </div>
 
 
@@ -1763,14 +1809,11 @@ const STANDARD_SIZES=[
   'XXG'
 ];
 
-
 let products=[];
-
 
 let cart=JSON.parse(
   localStorage.getItem('km_cart_v1')||'[]'
 );
-
 
 let activeCat='Todos';
 
@@ -1783,7 +1826,6 @@ let detailQty=1;
 let checkoutMode='delivery';
 
 let sendingOrder=false;
-
 
 const CFG='km_config_v1';
 
@@ -1840,7 +1882,6 @@ function normalizeSizeStock(value){
 
   const result={};
 
-
   STANDARD_SIZES.forEach(size=>{
 
     const n=Math.max(
@@ -1850,12 +1891,10 @@ function normalizeSizeStock(value){
       )
     );
 
-
     if(n>0)
       result[size]=n;
 
   });
-
 
   return result;
 
@@ -1867,12 +1906,10 @@ function getSizeStock(product,size){
   if(!size)
     return Number(product?.stock||0);
 
-
   const stock=
     normalizeSizeStock(
       product?.size_stock
     );
-
 
   return Number(
     stock[size]||0
@@ -1888,10 +1925,8 @@ function getAvailableSizes(product){
       product?.size_stock
     );
 
-
   const keys=
     Object.keys(stock);
-
 
   if(keys.length){
 
@@ -1901,7 +1936,6 @@ function getAvailableSizes(product){
     );
 
   }
-
 
   return normalizeSizes(
     product?.sizes
@@ -1923,13 +1957,10 @@ function hasIndividualSizeStock(product){
 
 function getAvailableStock(product,size){
 
-  if(
-    hasIndividualSizeStock(product)
-  ){
+  if(hasIndividualSizeStock(product)){
 
     if(!size)
       return 0;
-
 
     return getSizeStock(
       product,
@@ -1937,7 +1968,6 @@ function getAvailableStock(product,size){
     );
 
   }
-
 
   return Number(
     product?.stock||0
@@ -1957,7 +1987,6 @@ function saveCart(){
     JSON.stringify(cart)
   );
 
-
   updateBadge();
 
 }
@@ -1972,12 +2001,10 @@ function updateBadge(){
       0
     );
 
-
   const badge=
     document.getElementById(
       'cartBadge'
     );
-
 
   if(badge)
     badge.textContent=n;
@@ -2009,14 +2036,11 @@ function show(id,btn){
       x.classList.remove('active')
     );
 
-
   const screen=
     document.getElementById(id);
 
-
   if(screen)
     screen.classList.add('active');
-
 
   document
     .querySelectorAll('.nav button')
@@ -2024,18 +2048,14 @@ function show(id,btn){
       x.classList.remove('active')
     );
 
-
   if(btn)
     btn.classList.add('active');
-
 
   if(id==='home')
     renderProducts();
 
-
   if(id==='cart')
     renderCart();
-
 
   if(id==='admin')
     renderAdmin();
@@ -2045,8 +2065,10 @@ function show(id,btn){
 
 function scrollToProducts(){
 
-  show('home');
-
+  show(
+    'home',
+    document.getElementById('navProducts')
+  );
 
   setTimeout(()=>{
 
@@ -2067,7 +2089,6 @@ function openCart(){
     'cart',
     document.getElementById('navCart')
   );
-
 
   renderCart();
 
@@ -2097,7 +2118,6 @@ function renderCats(){
         .filter(Boolean)
     )
   ];
-
 
   document.getElementById(
     'cats'
@@ -2131,7 +2151,6 @@ function renderProducts(){
 
   renderCats();
 
-
   const q=
     (
       document.getElementById(
@@ -2141,12 +2160,10 @@ function renderProducts(){
     .toLowerCase()
     .trim();
 
-
   const filterSize=
     document.getElementById(
       'filterSize'
     )?.value||'';
-
 
   const min=
     Number(
@@ -2155,12 +2172,10 @@ function renderProducts(){
       )?.value||0
     );
 
-
   const maxValue=
     document.getElementById(
       'filterMax'
     )?.value;
-
 
   const max=
     maxValue==='' ||
@@ -2168,12 +2183,10 @@ function renderProducts(){
       ?Infinity
       :Number(maxValue);
 
-
   const sort=
     document.getElementById(
       'filterSort'
     )?.value||'new';
-
 
   let arr=
     products.filter(p=>{
@@ -2181,17 +2194,14 @@ function renderProducts(){
       const availableSizes=
         getAvailableSizes(p);
 
-
       const matchesCat=
         activeCat==='Todos' ||
         p.category===activeCat;
-
 
       const matchesSearch=
         String(p.name||'')
           .toLowerCase()
           .includes(q);
-
 
       const matchesSize=
         !filterSize ||
@@ -2199,11 +2209,9 @@ function renderProducts(){
           filterSize
         );
 
-
       const matchesPrice=
         Number(p.price||0)>=min &&
         Number(p.price||0)<=max;
-
 
       return(
         matchesCat &&
@@ -2276,10 +2284,8 @@ function renderProducts(){
           p.size_stock
         );
 
-
       const individual=
         Object.keys(sizes).length>0;
-
 
       const total=
         individual
@@ -2292,7 +2298,6 @@ function renderProducts(){
             )
           :
           Number(p.stock||0);
-
 
       let sizeHtml='';
 
@@ -2333,7 +2338,6 @@ function renderProducts(){
           normalizeSizes(
             p.sizes
           );
-
 
         if(oldSizes.length){
 
@@ -2449,25 +2453,19 @@ function openDetail(id){
       x=>String(x.id)===String(id)
     );
 
-
   if(!p)
     return;
 
-
   selectedDetailSize=null;
-
   detailQty=1;
-
 
   const sizeStock=
     normalizeSizeStock(
       p.size_stock
     );
 
-
   const individual=
     Object.keys(sizeStock).length>0;
-
 
   let sizesHtml='';
 
@@ -2496,7 +2494,6 @@ function openDetail(id){
                   Number(
                     sizeStock[size]||0
                   );
-
 
                 return `
 
@@ -2554,7 +2551,6 @@ function openDetail(id){
       normalizeSizes(
         p.sizes
       );
-
 
     if(oldSizes.length){
 
@@ -2625,6 +2621,7 @@ function openDetail(id){
       <button
         class="iconbtn"
         onclick="closeDetail()"
+        aria-label="Fechar"
       >
 
         <svg
@@ -2702,10 +2699,18 @@ function openDetail(id){
     </p>
 
 
-    <div class="notice">
-      O estoque é controlado individualmente por tamanho.
-      Escolha o tamanho antes de adicionar ao carrinho.
-    </div>
+    ${
+      individual
+      ?
+      `
+      <div class="notice">
+        O estoque é controlado individualmente por tamanho.
+        Escolha o tamanho antes de adicionar ao carrinho.
+      </div>
+      `
+      :
+      ''
+    }
 
 
     <div id="detailQtyArea">
@@ -2724,6 +2729,7 @@ function openDetail(id){
                     '${esc(p.id)}'
                   )
                 "
+                aria-label="Diminuir quantidade"
               >
                 −
               </button>
@@ -2744,6 +2750,7 @@ function openDetail(id){
                     '${esc(p.id)}'
                   )
                 "
+                aria-label="Aumentar quantidade"
               >
                 +
               </button>
@@ -2791,22 +2798,17 @@ function selectDetailSize(size,id){
       x=>String(x.id)===String(id)
     );
 
-
   if(!p)
     return;
 
-
   selectedDetailSize=size;
-
   detailQty=1;
-
 
   const max=
     getAvailableStock(
       p,
       size
     );
-
 
   if(max<=0){
 
@@ -2829,7 +2831,6 @@ function selectDetailSize(size,id){
           .split('\n')[0]
           .trim();
 
-
       btn.classList.toggle(
         'selected',
         text===size
@@ -2842,7 +2843,6 @@ function selectDetailSize(size,id){
     document.getElementById(
       'detailQtyNumber'
     );
-
 
   if(qty)
     qty.textContent=detailQty;
@@ -2857,10 +2857,8 @@ function changeDetailQty(delta,id){
       x=>String(x.id)===String(id)
     );
 
-
   if(!p)
     return;
-
 
   if(
     hasIndividualSizeStock(p) &&
@@ -2882,23 +2880,18 @@ function changeDetailQty(delta,id){
       selectedDetailSize
     );
 
-
   detailQty+=delta;
-
 
   if(detailQty<1)
     detailQty=1;
 
-
   if(detailQty>max)
     detailQty=max;
-
 
   const el=
     document.getElementById(
       'detailQtyNumber'
     );
-
 
   if(el)
     el.textContent=detailQty;
@@ -2913,14 +2906,11 @@ function addDetailToCart(id){
       x=>String(x.id)===String(id)
     );
 
-
   if(!p)
     return;
 
-
   const individual=
     hasIndividualSizeStock(p);
-
 
   if(
     individual &&
@@ -2942,7 +2932,6 @@ function addDetailToCart(id){
       selectedDetailSize
     );
 
-
   if(available<=0){
 
     alert(
@@ -2956,7 +2945,6 @@ function addDetailToCart(id){
 
   if(detailQty>available)
     detailQty=available;
-
 
   const item=
     findCartItem(
@@ -2980,7 +2968,6 @@ function addDetailToCart(id){
       return;
 
     }
-
 
     item.qty+=detailQty;
 
@@ -3017,11 +3004,9 @@ function showToast(text){
       'toast'
     );
 
-
   toast.textContent=text;
 
   toast.classList.add('show');
-
 
   setTimeout(()=>{
 
@@ -3047,7 +3032,6 @@ function removeCart(id,size=null){
       )
     );
 
-
   saveCart();
 
   renderCart();
@@ -3063,16 +3047,13 @@ function changeQty(id,d,size=null){
       size
     );
 
-
   const p=
     products.find(
       x=>String(x.id)===String(id)
     );
 
-
   if(!item||!p)
     return;
-
 
   const max=
     getAvailableStock(
@@ -3080,9 +3061,7 @@ function changeQty(id,d,size=null){
       size
     );
 
-
   item.qty+=d;
-
 
   if(item.qty<=0){
 
@@ -3111,7 +3090,6 @@ function changeQty(id,d,size=null){
   if(item.qty>max)
     item.qty=max;
 
-
   saveCart();
 
   renderCart();
@@ -3123,7 +3101,6 @@ function syncCartWithStock(){
 
   let changed=false;
 
-
   cart=
     cart.filter(item=>{
 
@@ -3131,7 +3108,6 @@ function syncCartWithStock(){
         products.find(
           x=>String(x.id)===String(item.id)
         );
-
 
       if(!p){
 
@@ -3141,13 +3117,11 @@ function syncCartWithStock(){
 
       }
 
-
       const max=
         getAvailableStock(
           p,
           item.size
         );
-
 
       if(max<=0){
 
@@ -3157,7 +3131,6 @@ function syncCartWithStock(){
 
       }
 
-
       if(item.qty>max){
 
         item.qty=max;
@@ -3166,11 +3139,9 @@ function syncCartWithStock(){
 
       }
 
-
       return true;
 
     });
-
 
   if(changed)
     saveCart();
@@ -3182,12 +3153,10 @@ function renderCart(){
 
   syncCartWithStock();
 
-
   const box=
     document.getElementById(
       'cartList'
     );
-
 
   if(!cart.length){
 
@@ -3210,11 +3179,9 @@ function renderCart(){
 
     `;
 
-
     document.getElementById(
       'cartSummary'
     ).innerHTML='';
-
 
     return;
 
@@ -3233,18 +3200,14 @@ function renderCart(){
           x=>String(x.id)===String(i.id)
         );
 
-
       if(!p)
         return '';
-
 
       const subtotal=
         Number(p.price||0)*
         Number(i.qty||0);
 
-
       total+=subtotal;
-
 
       const available=
         getAvailableStock(
@@ -3264,6 +3227,7 @@ function renderCart(){
                 ?
                 `<img
                   src="${esc(p.image_url)}"
+                  alt="${esc(p.name)}"
                 >`
                 :
                 'KM'
@@ -3309,6 +3273,7 @@ function renderCart(){
                     '${esc(i.size||'')}'
                   )
                 "
+                aria-label="Diminuir"
               >
                 −
               </button>
@@ -3332,6 +3297,7 @@ function renderCart(){
                     '${esc(i.size||'')}'
                   )
                 "
+                aria-label="Aumentar"
               >
                 +
               </button>
@@ -3346,6 +3312,7 @@ function renderCart(){
                     '${esc(i.size||'')}'
                   )
                 "
+                aria-label="Remover"
               >
 
                 <svg
@@ -3426,7 +3393,6 @@ function getDeliveryConfig(){
       )||'{}'
     );
 
-
   return{
     fee:Number(saved.fee||0),
     storeAddress:
@@ -3453,7 +3419,6 @@ function saveDeliveryConfig(){
 
   };
 
-
   localStorage.setItem(
     DELIVERY_CFG,
     JSON.stringify(data)
@@ -3467,22 +3432,18 @@ function loadDeliveryConfig(){
   const data=
     getDeliveryConfig();
 
-
   const fee=
     document.getElementById(
       'deliveryFee'
     );
-
 
   const address=
     document.getElementById(
       'storeAddress'
     );
 
-
   if(fee)
     fee.value=data.fee||0;
-
 
   if(address)
     address.value=
@@ -3494,7 +3455,6 @@ function loadDeliveryConfig(){
 function checkoutWhatsApp(){
 
   syncCartWithStock();
-
 
   if(!cart.length){
 
@@ -3514,7 +3474,6 @@ function checkoutWhatsApp(){
       )||''
     ).replace(/\D/g,'');
 
-
   if(!wa){
 
     alert(
@@ -3527,7 +3486,6 @@ function checkoutWhatsApp(){
 
   }
 
-
   openCheckout();
 
 }
@@ -3537,13 +3495,10 @@ function openCheckout(){
 
   syncCartWithStock();
 
-
   const config=
     getDeliveryConfig();
 
-
   let subtotal=0;
-
 
   cart.forEach(i=>{
 
@@ -3551,7 +3506,6 @@ function openCheckout(){
       products.find(
         x=>String(x.id)===String(i.id)
       );
-
 
     if(p)
       subtotal+=
@@ -3832,24 +3786,20 @@ function setCheckoutMode(mode){
 
   checkoutMode=mode;
 
-
   const delivery=
     document.getElementById(
       'deliveryFields'
     );
-
 
   const pickup=
     document.getElementById(
       'pickupFields'
     );
 
-
   const db=
     document.getElementById(
       'deliveryBtn'
     );
-
 
   const pb=
     document.getElementById(
@@ -3890,9 +3840,7 @@ function updateCheckoutTotal(){
   const config=
     getDeliveryConfig();
 
-
   let subtotal=0;
-
 
   cart.forEach(i=>{
 
@@ -3900,7 +3848,6 @@ function updateCheckoutTotal(){
       products.find(
         x=>String(x.id)===String(i.id)
       );
-
 
     if(p)
       subtotal+=
@@ -3920,7 +3867,6 @@ function updateCheckoutTotal(){
     document.getElementById(
       'checkoutShipping'
     );
-
 
   const totalEl=
     document.getElementById(
@@ -3951,9 +3897,7 @@ async function sendOrderWhatsApp(){
   if(sendingOrder)
     return;
 
-
   syncCartWithStock();
-
 
   if(!cart.length){
 
@@ -3986,10 +3930,6 @@ async function sendOrderWhatsApp(){
 
   }
 
-
-  /* =========================
-     VALIDAR CLIENTE
-  ========================= */
 
   const name=
     document.getElementById(
@@ -4024,10 +3964,6 @@ async function sendOrderWhatsApp(){
 
   }
 
-
-  /* =========================
-     VALIDAR ENTREGA
-  ========================= */
 
   let deliveryData={};
 
@@ -4091,10 +4027,6 @@ async function sendOrderWhatsApp(){
   }
 
 
-  /* =========================
-     VALIDAR ESTOQUE LOCAL
-  ========================= */
-
   for(const item of cart){
 
     const p=
@@ -4154,10 +4086,6 @@ async function sendOrderWhatsApp(){
   }
 
 
-  /* =========================
-     SALVAR DADOS CLIENTE
-  ========================= */
-
   localStorage.setItem(
     'km_customer_name',
     name
@@ -4170,10 +4098,6 @@ async function sendOrderWhatsApp(){
   );
 
 
-  /* =========================
-     PREPARAR ITENS
-  ========================= */
-
   const orderItems=
     cart.map(item=>({
 
@@ -4185,10 +4109,6 @@ async function sendOrderWhatsApp(){
 
     }));
 
-
-  /* =========================
-     DESABILITAR BOTÃO
-  ========================= */
 
   sendingOrder=true;
 
@@ -4210,14 +4130,6 @@ async function sendOrderWhatsApp(){
 
 
   try{
-
-    /* =========================
-       BAIXAR ESTOQUE NO SUPABASE
-
-       A função finalize_order
-       faz a validação e baixa
-       de forma atômica.
-    ========================= */
 
     const {
       data,
@@ -4248,16 +4160,12 @@ async function sendOrderWhatsApp(){
     }
 
 
-    /* =========================
-       MONTAR PEDIDO WHATSAPP
-    ========================= */
-
     let subtotal=0;
 
 
     const lines=[
 
-      'Olá! Quero fazer este pedido na KM Moda Urbana:',
+      'Olá! Quero fazer este pedido na KM Black:',
 
       ''
 
@@ -4317,29 +4225,23 @@ async function sendOrderWhatsApp(){
 
     lines.push('');
 
-
     lines.push(
       `Subtotal: ${money(subtotal)}`
     );
-
 
     lines.push(
       `Entrega: ${money(shipping)}`
     );
 
-
     lines.push(
       `Total: ${money(total)}`
     );
 
-
     lines.push('');
-
 
     lines.push(
       `Nome: ${name}`
     );
-
 
     lines.push(
       `Telefone: ${phone}`
@@ -4350,26 +4252,21 @@ async function sendOrderWhatsApp(){
 
       lines.push('');
 
-
       lines.push(
         'Forma de recebimento: Entrega'
       );
-
 
       lines.push(
         `CEP: ${deliveryData.cep}`
       );
 
-
       lines.push(
         `Endereço: ${deliveryData.address}, ${deliveryData.number}`
       );
 
-
       lines.push(
         `Bairro: ${deliveryData.neighborhood}`
       );
-
 
       if(deliveryData.complement){
 
@@ -4383,11 +4280,9 @@ async function sendOrderWhatsApp(){
 
       lines.push('');
 
-
       lines.push(
         'Forma de recebimento: Retirada na loja'
       );
-
 
       lines.push(
         `Endereço da loja: ${
@@ -4401,42 +4296,27 @@ async function sendOrderWhatsApp(){
 
     lines.push('');
 
-
     lines.push(
       'Pode me confirmar a disponibilidade e o pagamento?'
     );
 
-
-    /* =========================
-       LIMPAR CARRINHO
-    ========================= */
 
     cart=[];
 
     saveCart();
 
 
-    /* =========================
-       ATUALIZAR PRODUTOS
-    ========================= */
-
     await loadProductsFromSupabase();
 
-
     renderCart();
-
 
     closeCheckout();
 
 
     showToast(
-      'Pedido confirmado! Abrindo WhatsApp...'
+      'Pedido confirmado. Abrindo WhatsApp...'
     );
 
-
-    /* =========================
-       ABRIR WHATSAPP
-    ========================= */
 
     const waUrl=
       'https://wa.me/'+
@@ -4627,7 +4507,7 @@ async function logoutAdmin(){
 
 
 /* =========================
-   ADMIN
+   ADMIN LISTA
 ========================= */
 
 function renderAdmin(){
@@ -4703,6 +4583,7 @@ function renderAdmin(){
                 ?
                 `<img
                   src="${esc(p.image_url)}"
+                  alt="${esc(p.name)}"
                 >`
                 :
                 'KM'
@@ -4756,6 +4637,7 @@ function renderAdmin(){
                 '${esc(p.id)}'
               )
             "
+            aria-label="Excluir"
           >
 
             <svg
@@ -4797,7 +4679,6 @@ function resetSizeInputs(){
         'stockSize'+size
       );
 
-
     if(input)
       input.value=0;
 
@@ -4810,10 +4691,8 @@ function setSizeStockInputs(stock){
 
   resetSizeInputs();
 
-
   const normalized=
     normalizeSizeStock(stock);
-
 
   STANDARD_SIZES.forEach(size=>{
 
@@ -4821,7 +4700,6 @@ function setSizeStockInputs(stock){
       document.getElementById(
         'stockSize'+size
       );
-
 
     if(input){
 
@@ -4834,7 +4712,6 @@ function setSizeStockInputs(stock){
 
   });
 
-
   updateTotalSizeStock();
 
 }
@@ -4844,14 +4721,12 @@ function updateTotalSizeStock(){
 
   let total=0;
 
-
   STANDARD_SIZES.forEach(size=>{
 
     const input=
       document.getElementById(
         'stockSize'+size
       );
-
 
     const value=
       Math.max(
@@ -4863,10 +4738,8 @@ function updateTotalSizeStock(){
         )
       );
 
-
     if(input)
       input.value=value;
-
 
     total+=value;
 
@@ -4889,14 +4762,12 @@ function getAdminSizeStock(){
 
   const stock={};
 
-
   STANDARD_SIZES.forEach(size=>{
 
     const input=
       document.getElementById(
         'stockSize'+size
       );
-
 
     const qty=
       Math.max(
@@ -4908,12 +4779,10 @@ function getAdminSizeStock(){
         )
       );
 
-
     if(qty>0)
       stock[size]=qty;
 
   });
-
 
   return stock;
 
@@ -4923,7 +4792,6 @@ function getAdminSizeStock(){
 function openProductModal(id=null){
 
   editing=id;
-
 
   const p=
     id
@@ -5028,7 +4896,6 @@ function closeModal(){
     )
     .classList.remove('open');
 
-
   editing=null;
 
 }
@@ -5101,7 +4968,6 @@ function previewImage(){
 
   preview.src=
     URL.createObjectURL(file);
-
 
   preview.style.display='block';
 
@@ -5343,12 +5209,9 @@ async function saveProduct(){
 
     closeModal();
 
-
     await loadProductsFromSupabase();
 
-
     renderAdmin();
-
 
     showToast(
       'Produto salvo com sucesso'
@@ -5424,9 +5287,7 @@ async function deleteProduct(id){
 
   saveCart();
 
-
   await loadProductsFromSupabase();
-
 
   renderAdmin();
 
@@ -5488,7 +5349,7 @@ function exportData(){
 
 
   a.download=
-    'km-catalogo-backup.json';
+    'km-black-catalogo-backup.json';
 
 
   a.click();
@@ -5508,7 +5369,7 @@ function exportData(){
 async function loadProductsFromSupabase(){
 
   console.log(
-    'Carregando produtos do Supabase...'
+    'Carregando produtos da KM Black...'
   );
 
 
@@ -5625,7 +5486,6 @@ function closeDetail(){
     )
     .classList.remove('open');
 
-
   selectedDetailSize=null;
 
   detailQty=1;
@@ -5669,7 +5529,7 @@ window.addEventListener(
 async function init(){
 
   console.log(
-    'Iniciando KM Moda Urbana...'
+    'Iniciando KM Black...'
   );
 
 
@@ -5690,9 +5550,6 @@ async function init(){
 
   updateBadge();
 
-
-  /* Se a URL terminar em #admin,
-     abre o painel e solicita login. */
 
   if(
     location.hash==='#admin'
