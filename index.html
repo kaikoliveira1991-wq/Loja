@@ -420,8 +420,6 @@
       cursor:not-allowed;
     }
 
-    /* QUANTIDADE NO DETALHE DO PRODUTO */
-
     .detail-qty{
       display:flex;
       align-items:center;
@@ -463,8 +461,6 @@
       text-align:center;
       font-weight:900;
     }
-
-    /* NOTIFICAÇÃO DO CARRINHO */
 
     .cart-toast{
       position:fixed;
@@ -540,17 +536,9 @@
     }
 
     @keyframes toastCheck{
-      0%{
-        transform:scale(0);
-      }
-
-      70%{
-        transform:scale(1.15);
-      }
-
-      100%{
-        transform:scale(1);
-      }
+      0%{transform:scale(0);}
+      70%{transform:scale(1.15);}
+      100%{transform:scale(1);}
     }
 
     .cart-bump{
@@ -558,21 +546,10 @@
     }
 
     @keyframes cartBump{
-      0%{
-        transform:scale(1);
-      }
-
-      40%{
-        transform:scale(1.25);
-      }
-
-      70%{
-        transform:scale(.9);
-      }
-
-      100%{
-        transform:scale(1);
-      }
+      0%{transform:scale(1);}
+      40%{transform:scale(1.25);}
+      70%{transform:scale(.9);}
+      100%{transform:scale(1);}
     }
 
     .empty{
@@ -624,8 +601,6 @@
       background:#fff;
       transition:.2s;
     }
-
-    /* ENTREGA / RETIRADA */
 
     .delivery-options{
       display:grid;
@@ -715,8 +690,6 @@
       display:block;
     }
 
-    /* LOGIN */
-
     .admin-login{
       position:fixed;
       inset:0;
@@ -777,15 +750,12 @@
     }
 
     @media(max-width:600px){
-
       .delivery-options{
         grid-template-columns:1fr;
       }
-
     }
 
     @media(min-width:720px){
-
       .grid{
         grid-template-columns:repeat(4,1fr);
       }
@@ -819,8 +789,6 @@
 </head>
 
 <body>
-
-<!-- LOGIN ADMIN -->
 
 <div id="adminLogin" class="admin-login">
 
@@ -901,8 +869,6 @@
 
   <main>
 
-    <!-- HOME -->
-
     <section id="home" class="screen active">
 
       <div class="hero">
@@ -942,8 +908,6 @@
 
     </section>
 
-    <!-- CARRINHO -->
-
     <section id="cart" class="screen">
 
       <h2>Seu carrinho</h2>
@@ -953,8 +917,6 @@
       <div id="cartSummary"></div>
 
     </section>
-
-    <!-- ADMIN -->
 
     <section id="admin" class="screen">
 
@@ -1059,8 +1021,6 @@
 
   </main>
 
-  <!-- NAVEGAÇÃO -->
-
   <div class="bottom">
 
     <nav class="nav">
@@ -1082,7 +1042,12 @@
         🛒<br>Carrinho
       </button>
 
-      <button onclick="openAdmin(this)">
+      <!-- ADMIN OCULTO PARA CLIENTES -->
+      <button
+        id="adminNavButton"
+        onclick="openAdmin(this)"
+        style="display:none"
+      >
         ⚙<br>Admin
       </button>
 
@@ -1091,8 +1056,6 @@
   </div>
 
 </div>
-
-<!-- MODAL PRODUTO -->
 
 <div
   id="productModal"
@@ -1237,8 +1200,6 @@
 
 </div>
 
-<!-- MODAL DETALHES -->
-
 <div
   id="detailModal"
   class="modal"
@@ -1252,8 +1213,6 @@
   </div>
 
 </div>
-
-<!-- MODAL CHECKOUT -->
 
 <div
   id="checkoutModal"
@@ -1534,8 +1493,6 @@
 
 </div>
 
-<!-- NOTIFICAÇÃO ADICIONADO AO CARRINHO -->
-
 <div id="cartToast" class="cart-toast">
 
   <div class="cart-toast-icon">
@@ -1594,12 +1551,37 @@ let adminAuthenticated=false;
 
 
 /* =====================================
+   CONTROLE DE VISIBILIDADE DO ADMIN
+   ===================================== */
+
+function updateAdminButton(){
+
+  const button=
+    document.getElementById('adminNavButton');
+
+  if(!button)return;
+
+  button.style.display=
+    adminAuthenticated
+    ?
+    ''
+    :
+    'none';
+}
+
+
+/* =====================================
    AUTENTICAÇÃO
    ===================================== */
 
 async function checkAdminSession(){
 
   if(typeof supabaseClient==='undefined'){
+
+    adminAuthenticated=false;
+
+    updateAdminButton();
+
     return false;
   }
 
@@ -1617,10 +1599,14 @@ async function checkAdminSession(){
 
     adminAuthenticated=false;
 
+    updateAdminButton();
+
     return false;
   }
 
   adminAuthenticated=!!data.session;
+
+  updateAdminButton();
 
   return adminAuthenticated;
 }
@@ -1720,6 +1706,8 @@ async function loginAdmin(){
 
     adminAuthenticated=true;
 
+    updateAdminButton();
+
     document
       .getElementById('adminLogin')
       .style.display='none';
@@ -1767,6 +1755,8 @@ async function logoutAdmin(){
   }
 
   adminAuthenticated=false;
+
+  updateAdminButton();
 
   document
     .getElementById('adminLogin')
@@ -2334,10 +2324,6 @@ function openDetail(id){
 }
 
 
-/* =====================================
-   ALTERAR QUANTIDADE ANTES DO CARRINHO
-   ===================================== */
-
 function updateDetailQty(delta){
 
   const p=products.find(
@@ -2508,7 +2494,7 @@ function addToCart(id,quantity=1){
 
 
 /* =====================================
-   NOTIFICAÇÃO DO CARRINHO
+   NOTIFICAÇÃO
    ===================================== */
 
 function showCartToast(productName,quantity){
@@ -2595,10 +2581,6 @@ function removeCart(id){
   renderCart();
 }
 
-
-/* =====================================
-   ALTERAR QUANTIDADE NO CARRINHO
-   ===================================== */
 
 function changeQty(id,d){
 
@@ -3061,7 +3043,7 @@ function updateCheckoutSummary(){
 
 
 /* =====================================
-   ENVIAR PEDIDO PELO WHATSAPP
+   WHATSAPP
    ===================================== */
 
 function sendOrderWhatsApp(){
@@ -4321,6 +4303,8 @@ async function init(){
 
   await checkAdminSession();
 
+  updateAdminButton();
+
   document
     .getElementById('loginPassword')
     .addEventListener(
@@ -4367,6 +4351,8 @@ if(typeof supabaseClient!=='undefined'){
     (event,session)=>{
 
       adminAuthenticated=!!session;
+
+      updateAdminButton();
 
       console.log(
         'Estado da autenticação:',
