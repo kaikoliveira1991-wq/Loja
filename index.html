@@ -386,6 +386,16 @@
       margin:12px 0
     }
 
+    .upload-preview{
+      width:100%;
+      max-height:240px;
+      object-fit:contain;
+      border-radius:12px;
+      margin-top:10px;
+      display:none;
+      background:#242428
+    }
+
     @media(min-width:720px){
       .grid{
         grid-template-columns:repeat(4,1fr)
@@ -421,6 +431,7 @@
 
   <header class="top">
     <div class="toprow">
+
       <div class="brand">
         KM
         <small>MODA URBANA</small>
@@ -430,34 +441,48 @@
         🛒
         <span id="cartBadge" class="badge">0</span>
       </button>
+
     </div>
   </header>
+
 
   <main>
 
     <section id="home" class="screen active">
 
       <div class="hero">
-        <h1>Estilo é mais do que roupa.</h1>
+
+        <h1>
+          Estilo é mais do que roupa.
+        </h1>
 
         <p>
           Escolha sua peça, confira o estoque e peça direto pelo WhatsApp.
         </p>
 
-        <button class="btn" onclick="scrollToProducts()">
+        <button
+          class="btn"
+          onclick="scrollToProducts()"
+        >
           VER PRODUTOS
         </button>
+
       </div>
 
+
       <div class="search">
+
         <input
           id="search"
           placeholder="🔎 Buscar produtos..."
           oninput="renderProducts()"
         >
+
       </div>
 
+
       <div id="cats" class="cats"></div>
+
 
       <h2>Produtos</h2>
 
@@ -482,19 +507,29 @@
       <h2>Gerenciar produtos</h2>
 
       <div class="notice">
+
         Os produtos são armazenados no Supabase.
         Assim, o catálogo pode ser acessado por diferentes celulares.
+
       </div>
 
-      <button class="btn" onclick="openProductModal()">
+
+      <button
+        class="btn"
+        onclick="openProductModal()"
+      >
         + Novo produto
       </button>
 
+
       <div id="adminList"></div>
+
 
       <h2>Configuração</h2>
 
+
       <div class="field">
+
         <label>
           WhatsApp da loja (com DDI, somente números)
         </label>
@@ -504,15 +539,25 @@
           placeholder="5596999999999"
           onchange="saveConfig()"
         >
+
       </div>
 
-      <button class="btn dark" onclick="exportData()">
+
+      <button
+        class="btn dark"
+        onclick="exportData()"
+      >
         Exportar catálogo
       </button>
 
-      <button class="btn dark" onclick="importData()">
+
+      <button
+        class="btn dark"
+        onclick="importData()"
+      >
         Importar catálogo
       </button>
+
 
       <input
         id="importFile"
@@ -538,15 +583,18 @@
         ⌂<br>Início
       </button>
 
+
       <button
         onclick="show('home',this);scrollToProducts()"
       >
         ▦<br>Produtos
       </button>
 
+
       <button onclick="openCart()">
         🛒<br>Carrinho
       </button>
+
 
       <button
         onclick="show('admin',this);renderAdmin()"
@@ -586,36 +634,51 @@
 
     </div>
 
+
     <div class="formgrid">
 
-      <div class="field">
-        <label>Nome</label>
-        <input id="fName">
-      </div>
 
       <div class="field">
+
+        <label>Nome</label>
+
+        <input id="fName">
+
+      </div>
+
+
+      <div class="field">
+
         <label>Categoria</label>
 
         <select id="fCat">
+
           <option>Camisetas</option>
           <option>Bermudas</option>
           <option>Calças</option>
           <option>Moletom</option>
           <option>Acessórios</option>
+
         </select>
 
       </div>
 
+
       <div class="field">
+
         <label>Preço (R$)</label>
+
         <input
           id="fPrice"
           type="number"
           step="0.01"
         >
+
       </div>
 
+
       <div class="field">
+
         <label>Estoque</label>
 
         <input
@@ -623,30 +686,53 @@
           type="number"
           min="0"
         >
+
       </div>
+
+
+      <!-- NOVO UPLOAD -->
 
       <div class="field full">
 
         <label>
-          URL da foto (opcional)
+          Foto do produto
         </label>
 
         <input
-          id="fImage"
-          placeholder="https://..."
+          id="fImageFile"
+          type="file"
+          accept="image/*"
+          onchange="previewImage(event)"
         >
+
+        <img
+          id="uploadPreview"
+          class="upload-preview"
+          alt="Pré-visualização"
+        >
+
+        <div
+          id="uploadStatus"
+          class="notice"
+          style="display:none"
+        ></div>
 
       </div>
 
+
       <div class="field full">
 
-        <label>Descrição</label>
+        <label>
+          Descrição
+        </label>
 
         <textarea id="fDesc"></textarea>
 
       </div>
 
+
     </div>
+
 
     <div class="actions">
 
@@ -657,7 +743,9 @@
         Cancelar
       </button>
 
+
       <button
+        id="saveProductBtn"
         class="btn"
         onclick="saveProduct()"
       >
@@ -687,8 +775,6 @@
 
 </div>
 
-
-<!-- SUPABASE PRECISA CARREGAR ANTES DO NOSSO JAVASCRIPT -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -945,6 +1031,10 @@ function esc(s){
 }
 
 
+/* ================================
+   DETALHES
+   ================================ */
+
 function openDetail(id){
 
   let p=products.find(
@@ -1047,6 +1137,10 @@ function closeDetail(){
 
 }
 
+
+/* ================================
+   CARRINHO
+   ================================ */
 
 function addToCart(id){
 
@@ -1380,6 +1474,10 @@ function checkoutWhatsApp(){
 }
 
 
+/* ================================
+   MODAL DO PRODUTO
+   ================================ */
+
 function openProductModal(id=null){
 
   editing=id;
@@ -1430,13 +1528,26 @@ function openProductModal(id=null){
 
 
   document.getElementById(
-    'fImage'
-  ).value=p?.image_url||'';
+    'fDesc'
+  ).value=p?.description||'';
 
 
   document.getElementById(
-    'fDesc'
-  ).value=p?.description||'';
+    'fImageFile'
+  ).value='';
+
+
+  document.getElementById(
+    'uploadStatus'
+  ).style.display='none';
+
+
+  const preview =
+    document.getElementById('uploadPreview');
+
+  preview.src='';
+
+  preview.style.display='none';
 
 
   document.getElementById(
@@ -1455,6 +1566,69 @@ function closeModal(){
 }
 
 
+/* ================================
+   PRÉ-VISUALIZAÇÃO DA FOTO
+   ================================ */
+
+function previewImage(event){
+
+  const file =
+    event.target.files[0];
+
+  const preview =
+    document.getElementById('uploadPreview');
+
+
+  if(!file){
+
+    preview.src='';
+    preview.style.display='none';
+
+    return;
+
+  }
+
+
+  if(!file.type.startsWith('image/')){
+
+    event.target.value='';
+
+    preview.src='';
+    preview.style.display='none';
+
+    return alert(
+      'Selecione uma imagem válida.'
+    );
+
+  }
+
+
+  if(file.size > 10 * 1024 * 1024){
+
+    event.target.value='';
+
+    preview.src='';
+    preview.style.display='none';
+
+    return alert(
+      'A imagem deve ter no máximo 10 MB.'
+    );
+
+  }
+
+
+  preview.src=
+    URL.createObjectURL(file);
+
+  preview.style.display='block';
+
+}
+
+
+/* ================================
+   SALVAR PRODUTO + UPLOAD
+   ================================ */
+
 async function saveProduct(){
 
   let name=
@@ -1468,90 +1642,279 @@ async function saveProduct(){
     return alert('Informe o nome.');
 
 
-  let productData={
+  const fileInput =
+    document.getElementById('fImageFile');
 
-    name:name,
 
-    description:
-      document
-        .getElementById('fDesc')
-        .value
-        .trim()||null,
+  const status =
+    document.getElementById('uploadStatus');
 
-    price:
-      Number(
+
+  const saveButton =
+    document.getElementById('saveProductBtn');
+
+
+  let currentProduct =
+    editing
+      ?
+      products.find(
+        x=>String(x.id)===String(editing)
+      )
+      :
+      null;
+
+
+  let imageUrl =
+    currentProduct?.image_url || null;
+
+
+  /* ==========================
+     BLOQUEIA BOTÃO
+     ========================== */
+
+  saveButton.disabled=true;
+
+  saveButton.textContent=
+    'Salvando...';
+
+
+  try{
+
+
+    /* ==========================
+       UPLOAD DA FOTO
+       ========================== */
+
+    if(fileInput.files.length){
+
+      const file=
+        fileInput.files[0];
+
+
+      if(!file.type.startsWith('image/')){
+
+        throw new Error(
+          'Selecione uma imagem válida.'
+        );
+
+      }
+
+
+      if(file.size > 10 * 1024 * 1024){
+
+        throw new Error(
+          'A imagem deve ter no máximo 10 MB.'
+        );
+
+      }
+
+
+      status.style.display='block';
+
+      status.textContent=
+        'Enviando foto para o Supabase...';
+
+
+      const extension =
+        file.name
+          .split('.')
+          .pop()
+          .toLowerCase();
+
+
+      const fileName =
+        Date.now()+
+        '-' +
+        Math.random()
+          .toString(36)
+          .substring(2,10)+
+        '.'+
+        extension;
+
+
+      const filePath =
+        'produtos/' +
+        fileName;
+
+
+      const {
+        error:uploadError
+      } =
+        await supabaseClient
+          .storage
+          .from('products')
+          .upload(
+            filePath,
+            file,
+            {
+              cacheControl:'3600',
+              upsert:false
+            }
+          );
+
+
+      if(uploadError){
+
+        console.error(
+          'Erro no upload:',
+          uploadError
+        );
+
+        throw new Error(
+          'Erro ao enviar a foto: '+
+          uploadError.message
+        );
+
+      }
+
+
+      const {
+        data:urlData
+      } =
+        supabaseClient
+          .storage
+          .from('products')
+          .getPublicUrl(filePath);
+
+
+      imageUrl=
+        urlData.publicUrl;
+
+
+      status.textContent=
+        'Foto enviada! Salvando produto...';
+
+    }
+
+
+    /* ==========================
+       DADOS DO PRODUTO
+       ========================== */
+
+    let productData={
+
+      name:name,
+
+      description:
         document
-          .getElementById('fPrice')
-          .value||0
-      ),
+          .getElementById('fDesc')
+          .value
+          .trim()||null,
 
-    category:
-      document
-        .getElementById('fCat')
-        .value||null,
+      price:
+        Number(
+          document
+            .getElementById('fPrice')
+            .value||0
+        ),
 
-    image_url:
-      document
-        .getElementById('fImage')
-        .value
-        .trim()||null,
-
-    stock:
-      Number(
+      category:
         document
-          .getElementById('fStock')
-          .value||0
-      ),
+          .getElementById('fCat')
+          .value||null,
+
+      image_url:
+        imageUrl,
+
+      stock:
+        Number(
+          document
+            .getElementById('fStock')
+            .value||0
+        ),
+
+      active:true
+
+    };
 
 
-    active:true
+    /* ==========================
+       SALVAR NO SUPABASE
+       ========================== */
 
-  };
-
-
-  let result;
-
-
-  if(editing){
-
-    result=
-      await supabaseClient
-        .from('products')
-        .update(productData)
-        .eq('id',editing);
-
-  }else{
-
-    result=
-      await supabaseClient
-        .from('products')
-        .insert(productData);
-
-  }
+    let result;
 
 
-  if(result.error){
+    if(editing){
 
-    console.error(result.error);
+      result=
+        await supabaseClient
+          .from('products')
+          .update(productData)
+          .eq('id',editing);
 
-    return alert(
-      'Erro ao salvar produto: '+
-      result.error.message
+    }else{
+
+      result=
+        await supabaseClient
+          .from('products')
+          .insert(productData);
+
+    }
+
+
+    if(result.error){
+
+      console.error(
+        'Erro ao salvar produto:',
+        result.error
+      );
+
+      throw new Error(
+        'Erro ao salvar produto: '+
+        result.error.message
+      );
+
+    }
+
+
+    /* ==========================
+       FINALIZA
+       ========================== */
+
+    closeModal();
+
+
+    await loadProductsFromSupabase();
+
+
+    renderAdmin();
+
+
+    alert(
+      editing
+        ?
+        'Produto atualizado com sucesso!'
+        :
+        'Produto cadastrado com sucesso!'
     );
 
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      error.message ||
+      'Ocorreu um erro ao salvar o produto.'
+    );
+
+
+  }finally{
+
+    saveButton.disabled=false;
+
+    saveButton.textContent=
+      'Salvar';
+
   }
-
-
-  closeModal();
-
-
-  await loadProductsFromSupabase();
-
-
-  renderAdmin();
 
 }
 
+
+/* ================================
+   EXCLUIR PRODUTO
+   ================================ */
 
 async function deleteProduct(id){
 
@@ -1591,6 +1954,10 @@ async function deleteProduct(id){
 
 }
 
+
+/* ================================
+   ADMIN
+   ================================ */
 
 function renderAdmin(){
 
@@ -1672,6 +2039,10 @@ function renderAdmin(){
 }
 
 
+/* ================================
+   CONFIGURAÇÃO
+   ================================ */
+
 function saveConfig(){
 
   localStorage.setItem(
@@ -1687,6 +2058,10 @@ function saveConfig(){
 
 }
 
+
+/* ================================
+   EXPORTAR
+   ================================ */
 
 function exportData(){
 
@@ -1737,6 +2112,10 @@ function importData(){
 function doImport(e){}
 
 
+/* ================================
+   FAVORITOS
+   ================================ */
+
 function toggleFav(id){
 
   let key='km_fav_v1';
@@ -1766,6 +2145,10 @@ function toggleFav(id){
 
 }
 
+
+/* ================================
+   CARREGAR PRODUTOS
+   ================================ */
 
 async function loadProductsFromSupabase(){
 
@@ -1842,7 +2225,6 @@ async function loadProductsFromSupabase(){
     stock:
       Number(p.stock||0),
 
-
     active:
       p.active
 
@@ -1855,6 +2237,10 @@ async function loadProductsFromSupabase(){
 
 }
 
+
+/* ================================
+   INICIALIZAÇÃO
+   ================================ */
 
 async function init(){
 
