@@ -1503,7 +1503,6 @@ async function saveProduct(){
           .value||0
       ),
 
-    size:null,
 
     active:true
 
@@ -1843,9 +1842,6 @@ async function loadProductsFromSupabase(){
     stock:
       Number(p.stock||0),
 
-    size:
-      p.size||
-      '',
 
     active:
       p.active
