@@ -137,6 +137,11 @@
       color:#031408
     }
 
+    .btn:disabled{
+      opacity:.55;
+      cursor:not-allowed
+    }
+
     .search{
       display:flex;
       gap:8px;
@@ -396,7 +401,71 @@
       background:#242428
     }
 
+    /* ================================
+       LOGIN DO ADMIN
+       ================================ */
+
+    .admin-login{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.94);
+      z-index:99999;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px
+    }
+
+    .login-box{
+      width:100%;
+      max-width:400px;
+      background:#151518;
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:28px 22px;
+      text-align:center
+    }
+
+    .login-logo{
+      font-size:36px;
+      font-weight:900;
+      letter-spacing:.08em;
+      margin-bottom:5px
+    }
+
+    .login-box h2{
+      margin:8px 0
+    }
+
+    .login-box p{
+      color:var(--muted)
+    }
+
+    .login-box input{
+      width:100%;
+      padding:14px;
+      margin-top:10px;
+      background:var(--card2);
+      border:1px solid var(--line);
+      border-radius:12px;
+      color:white;
+      outline:none
+    }
+
+    .login-box button{
+      width:100%;
+      margin-top:12px
+    }
+
+    .login-error{
+      color:#ef4444 !important;
+      min-height:20px;
+      font-size:13px;
+      margin:12px 0 0
+    }
+
     @media(min-width:720px){
+
       .grid{
         grid-template-columns:repeat(4,1fr)
       }
@@ -427,9 +496,71 @@
 
 <body>
 
+<!-- ================================
+     LOGIN DO ADMIN
+     ================================ -->
+
+<div id="adminLogin" class="admin-login">
+
+  <div class="login-box">
+
+    <div class="login-logo">
+      KM
+    </div>
+
+    <div style="color:#aaa;font-size:11px;letter-spacing:.2em;">
+      MODA URBANA
+    </div>
+
+    <h2>Área Administrativa</h2>
+
+    <p>
+      Entre com sua conta de administrador.
+    </p>
+
+    <input
+      id="loginEmail"
+      type="email"
+      placeholder="E-mail"
+      autocomplete="email"
+    >
+
+    <input
+      id="loginPassword"
+      type="password"
+      placeholder="Senha"
+      autocomplete="current-password"
+    >
+
+    <button
+      id="loginButton"
+      class="btn"
+      onclick="loginAdmin()"
+    >
+      Entrar
+    </button>
+
+    <div
+      id="loginError"
+      class="login-error"
+    ></div>
+
+    <button
+      class="btn dark"
+      onclick="closeAdminLogin()"
+    >
+      Voltar
+    </button>
+
+  </div>
+
+</div>
+
+
 <div class="app">
 
   <header class="top">
+
     <div class="toprow">
 
       <div class="brand">
@@ -437,16 +568,24 @@
         <small>MODA URBANA</small>
       </div>
 
-      <button class="iconbtn" onclick="openCart()">
+      <button
+        class="iconbtn"
+        onclick="openCart()"
+      >
         🛒
         <span id="cartBadge" class="badge">0</span>
       </button>
 
     </div>
+
   </header>
 
 
   <main>
+
+    <!-- ================================
+         HOME
+         ================================ -->
 
     <section id="home" class="screen active">
 
@@ -491,6 +630,10 @@
     </section>
 
 
+    <!-- ================================
+         CARRINHO
+         ================================ -->
+
     <section id="cart" class="screen">
 
       <h2>Seu carrinho</h2>
@@ -502,9 +645,27 @@
     </section>
 
 
+    <!-- ================================
+         ADMIN
+         ================================ -->
+
     <section id="admin" class="screen">
 
-      <h2>Gerenciar produtos</h2>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+
+        <h2 style="margin-bottom:5px">
+          Gerenciar produtos
+        </h2>
+
+        <button
+          class="btn dark"
+          onclick="logoutAdmin()"
+        >
+          🚪 Sair
+        </button>
+
+      </div>
+
 
       <div class="notice">
 
@@ -572,6 +733,10 @@
   </main>
 
 
+  <!-- ================================
+       NAVEGAÇÃO
+       ================================ -->
+
   <div class="bottom">
 
     <nav class="nav">
@@ -596,9 +761,7 @@
       </button>
 
 
-      <button
-        onclick="show('admin',this);renderAdmin()"
-      >
+      <button onclick="openAdmin(this)">
         ⚙<br>Admin
       </button>
 
@@ -609,7 +772,9 @@
 </div>
 
 
-<!-- MODAL DE PRODUTO -->
+<!-- ================================
+     MODAL DE PRODUTO
+     ================================ -->
 
 <div
   id="productModal"
@@ -636,7 +801,6 @@
 
 
     <div class="formgrid">
-
 
       <div class="field">
 
@@ -690,8 +854,6 @@
       </div>
 
 
-      <!-- NOVO UPLOAD -->
-
       <div class="field full">
 
         <label>
@@ -730,7 +892,6 @@
 
       </div>
 
-
     </div>
 
 
@@ -759,7 +920,9 @@
 </div>
 
 
-<!-- MODAL DE DETALHES -->
+<!-- ================================
+     MODAL DE DETALHES
+     ================================ -->
 
 <div
   id="detailModal"
@@ -795,6 +958,248 @@ let editing=null;
 
 const CFG='km_config_v1';
 
+let adminAuthenticated=false;
+
+
+/* ================================
+   AUTENTICAÇÃO DO ADMIN
+   ================================ */
+
+async function checkAdminSession(){
+
+  if(typeof supabaseClient==='undefined'){
+    return false;
+  }
+
+  const {
+    data,
+    error
+  } = await supabaseClient.auth.getSession();
+
+
+  if(error){
+
+    console.error(
+      'Erro ao verificar sessão:',
+      error
+    );
+
+    adminAuthenticated=false;
+
+    return false;
+
+  }
+
+
+  adminAuthenticated=!!data.session;
+
+  return adminAuthenticated;
+
+}
+
+
+async function openAdmin(btn){
+
+  const logged=
+    await checkAdminSession();
+
+
+  if(!logged){
+
+    document
+      .getElementById('adminLogin')
+      .style.display='flex';
+
+    document
+      .getElementById('loginEmail')
+      .focus();
+
+    return;
+
+  }
+
+
+  show('admin',btn);
+
+  await renderAdmin();
+
+}
+
+
+async function loginAdmin(){
+
+  const email=
+    document
+      .getElementById('loginEmail')
+      .value
+      .trim();
+
+
+  const password=
+    document
+      .getElementById('loginPassword')
+      .value;
+
+
+  const errorBox=
+    document
+      .getElementById('loginError');
+
+
+  const button=
+    document
+      .getElementById('loginButton');
+
+
+  errorBox.textContent='';
+
+
+  if(!email||!password){
+
+    errorBox.textContent=
+      'Digite o e-mail e a senha.';
+
+    return;
+
+  }
+
+
+  button.disabled=true;
+
+  button.textContent='Entrando...';
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.auth.signInWithPassword({
+
+        email:email,
+
+        password:password
+
+      });
+
+
+    if(error){
+
+      console.error(
+        'Erro no login:',
+        error
+      );
+
+      errorBox.textContent=
+        'E-mail ou senha incorretos.';
+
+      return;
+
+    }
+
+
+    if(!data.session){
+
+      errorBox.textContent=
+        'Não foi possível iniciar a sessão.';
+
+      return;
+
+    }
+
+
+    adminAuthenticated=true;
+
+
+    document
+      .getElementById('adminLogin')
+      .style.display='none';
+
+
+    document
+      .getElementById('loginEmail')
+      .value='';
+
+
+    document
+      .getElementById('loginPassword')
+      .value='';
+
+
+    show('admin');
+
+
+    await renderAdmin();
+
+
+  }catch(error){
+
+    console.error(error);
+
+    errorBox.textContent=
+      'Erro ao fazer login. Tente novamente.';
+
+  }finally{
+
+    button.disabled=false;
+
+    button.textContent='Entrar';
+
+  }
+
+}
+
+
+async function logoutAdmin(){
+
+  try{
+
+    await supabaseClient.auth.signOut();
+
+  }catch(error){
+
+    console.error(
+      'Erro ao sair:',
+      error
+    );
+
+  }
+
+
+  adminAuthenticated=false;
+
+
+  document
+    .getElementById('adminLogin')
+    .style.display='none';
+
+
+  closeModal();
+
+
+  show('home');
+
+
+  alert('Você saiu do painel Admin.');
+
+}
+
+
+function closeAdminLogin(){
+
+  document
+    .getElementById('adminLogin')
+    .style.display='none';
+
+  show('home');
+
+}
+
+
+/* ================================
+   CARRINHO
+   ================================ */
 
 function saveCart(){
 
@@ -1410,7 +1815,7 @@ function checkoutWhatsApp(){
       'Configure o WhatsApp da loja no painel Admin.'
     );
 
-    show('admin');
+    openAdmin();
 
     return;
 
@@ -1478,7 +1883,18 @@ function checkoutWhatsApp(){
    MODAL DO PRODUTO
    ================================ */
 
-function openProductModal(id=null){
+async function openProductModal(id=null){
+
+  if(!(await checkAdminSession())){
+
+    document
+      .getElementById('adminLogin')
+      .style.display='flex';
+
+    return;
+
+  }
+
 
   editing=id;
 
@@ -1567,7 +1983,7 @@ function closeModal(){
 
 
 /* ================================
-   PRÉ-VISUALIZAÇÃO DA FOTO
+   PRÉ-VISUALIZAÇÃO
    ================================ */
 
 function previewImage(event){
@@ -1631,6 +2047,21 @@ function previewImage(event){
 
 async function saveProduct(){
 
+  if(!(await checkAdminSession())){
+
+    alert(
+      'Sua sessão de administrador expirou.'
+    );
+
+    document
+      .getElementById('adminLogin')
+      .style.display='flex';
+
+    return;
+
+  }
+
+
   let name=
     document
       .getElementById('fName')
@@ -1668,10 +2099,6 @@ async function saveProduct(){
     currentProduct?.image_url || null;
 
 
-  /* ==========================
-     BLOQUEIA BOTÃO
-     ========================== */
-
   saveButton.disabled=true;
 
   saveButton.textContent=
@@ -1679,7 +2106,6 @@ async function saveProduct(){
 
 
   try{
-
 
     /* ==========================
        UPLOAD DA FOTO
@@ -1788,7 +2214,7 @@ async function saveProduct(){
 
 
     /* ==========================
-       DADOS DO PRODUTO
+       DADOS
        ========================== */
 
     let productData={
@@ -1868,17 +2294,11 @@ async function saveProduct(){
     }
 
 
-    /* ==========================
-       FINALIZA
-       ========================== */
-
     closeModal();
-
 
     await loadProductsFromSupabase();
 
-
-    renderAdmin();
+    await renderAdmin();
 
 
     alert(
@@ -1918,6 +2338,21 @@ async function saveProduct(){
 
 async function deleteProduct(id){
 
+  if(!(await checkAdminSession())){
+
+    alert(
+      'Sua sessão de administrador expirou.'
+    );
+
+    document
+      .getElementById('adminLogin')
+      .style.display='flex';
+
+    return;
+
+  }
+
+
   if(!confirm('Excluir este produto?'))
     return;
 
@@ -1950,7 +2385,7 @@ async function deleteProduct(id){
 
   await loadProductsFromSupabase();
 
-  renderAdmin();
+  await renderAdmin();
 
 }
 
@@ -1959,7 +2394,18 @@ async function deleteProduct(id){
    ADMIN
    ================================ */
 
-function renderAdmin(){
+async function renderAdmin(){
+
+  if(!(await checkAdminSession())){
+
+    document
+      .getElementById('adminLogin')
+      .style.display='flex';
+
+    return;
+
+  }
+
 
   document.getElementById('wa').value=
     localStorage.getItem(CFG)||'';
@@ -2045,6 +2491,15 @@ function renderAdmin(){
 
 function saveConfig(){
 
+  if(!adminAuthenticated){
+
+    alert('Faça login no Admin.');
+
+    return;
+
+  }
+
+
   localStorage.setItem(
 
     CFG,
@@ -2063,7 +2518,20 @@ function saveConfig(){
    EXPORTAR
    ================================ */
 
-function exportData(){
+async function exportData(){
+
+  if(!(await checkAdminSession())){
+
+    alert('Faça login no Admin.');
+
+    document
+      .getElementById('adminLogin')
+      .style.display='flex';
+
+    return;
+
+  }
+
 
   let blob=new Blob([
 
@@ -2265,6 +2733,27 @@ async function init(){
   await loadProductsFromSupabase();
 
   updateBadge();
+
+
+  /* Verifica se já existe sessão */
+  await checkAdminSession();
+
+
+  /* Permite pressionar ENTER no login */
+
+  document
+    .getElementById('loginPassword')
+    .addEventListener(
+      'keydown',
+      function(event){
+
+        if(event.key==='Enter'){
+          loginAdmin();
+        }
+
+      }
+    );
+
 
 }
 
