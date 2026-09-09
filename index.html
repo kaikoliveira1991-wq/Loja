@@ -6776,5 +6776,15 @@ init();
 
 </script>
 
+  <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .then(() => console.log("KM Service Worker registrado"))
+      .catch(error => console.error("Erro no Service Worker:", error));
+  });
+}
+  </script>
+
 </body>
 </html>
