@@ -1365,10 +1365,103 @@ body{background:var(--page-bg)}
     max-height:90vh
   }
 }
+
+/* =====================================================
+   KM NATIVE MOTION — ANIMAÇÕES E TRANSIÇÕES
+===================================================== */
+:root{
+  --km-motion-fast:.16s;
+  --km-motion:.24s;
+  --km-motion-slow:.34s;
+  --km-ease:cubic-bezier(.2,.8,.2,1);
+}
+
+html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+body{-webkit-font-smoothing:antialiased}
+
+button,.product,.pill,.filterbtn,.iconbtn,.delivery-option,.auth-tab,.social-btn,.adminitem,.admin-order-card,.detail-size,.qty button,.photo img,.thumb img{
+  -webkit-tap-highlight-color:transparent;
+}
+
+button,.product,.pill,.filterbtn,.iconbtn,.delivery-option,.auth-tab,.social-btn,.adminitem,.admin-order-card,.detail-size,.qty button{
+  transition:transform var(--km-motion-fast) var(--km-ease),
+             opacity var(--km-motion-fast) ease,
+             background-color var(--km-motion) ease,
+             border-color var(--km-motion) ease,
+             color var(--km-motion) ease,
+             box-shadow var(--km-motion) ease;
+}
+
+.btn:active,.iconbtn:active,.filterbtn:active,.nav button:active,.pill:active,
+.delivery-option:active,.auth-tab:active,.social-btn:active,.detail-size:active,
+.qty button:active,.adminitem button:active{
+  transform:scale(.96);
+}
+
+.btn,.iconbtn,.filterbtn,.nav button,.pill,.delivery-option,.auth-tab,.social-btn,
+.detail-size,.qty button{touch-action:manipulation}
+
+.btn:not(:disabled):hover,.iconbtn:not(:disabled):hover,.filterbtn:not(:disabled):hover,
+.social-btn:not(:disabled):hover,.delivery-option:not(:disabled):hover{
+  border-color:#45454e;
+}
+
+.product{will-change:transform;}
+.product:hover{border-color:#3a3a43;transform:translateY(-2px)}
+.product:active{transform:scale(.985)}
+.photo img,.thumb img{transition:transform .45s var(--km-ease),opacity .25s ease}
+.product:hover .photo img{transform:scale(1.025)}
+
+.screen{display:none;opacity:0;transform:translateY(8px)}
+.screen.active{display:block;animation:kmScreenIn .28s var(--km-ease) both}
+@keyframes kmScreenIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.hero-content{animation:kmHeroIn .55s var(--km-ease) both}
+.hero-label{animation:kmHeroItem .42s .04s var(--km-ease) both}
+.hero h1{animation:kmHeroItem .48s .09s var(--km-ease) both}
+.hero p{animation:kmHeroItem .48s .14s var(--km-ease) both}
+.hero .btn{animation:kmHeroItem .48s .19s var(--km-ease) both}
+@keyframes kmHeroIn{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes kmHeroItem{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+
+.grid .product{animation:kmCardIn .34s var(--km-ease) both}
+@keyframes kmCardIn{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:none}}
+
+.nav button.active svg{animation:kmNavPop .28s var(--km-ease) both}
+@keyframes kmNavPop{0%{transform:scale(.82)}65%{transform:scale(1.1)}100%{transform:scale(1)}}
+
+.filterpanel{display:block;max-height:0;opacity:0;overflow:hidden;padding-top:0;padding-bottom:0;margin-bottom:0;transform:translateY(-5px);transition:max-height .28s var(--km-ease),opacity .2s ease,transform .28s var(--km-ease),padding .28s ease,margin .28s ease}
+.filterpanel.open{max-height:520px;opacity:1;padding-top:15px;padding-bottom:15px;margin-bottom:15px;transform:none}
+
+.modal{display:flex;visibility:hidden;opacity:0;pointer-events:none;transition:opacity .24s ease,visibility 0s linear .24s}
+.modal.open{visibility:visible;opacity:1;pointer-events:auto;transition:opacity .24s ease}
+.sheet{transform:translateY(24px) scale(.985);opacity:0;transition:transform .32s var(--km-ease),opacity .22s ease}
+.modal.open .sheet{transform:translateY(0) scale(1);opacity:1}
+@media(min-width:720px){.sheet{transform:translateY(12px) scale(.97)}.modal.open .sheet{transform:none}}
+
+.toast{transition:opacity .22s ease,transform .28s var(--km-ease);will-change:transform,opacity}
+
+.loading-km{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;align-items:center;justify-content:center;opacity:1;visibility:visible;transition:opacity .35s ease,visibility 0s linear .35s}
+.loading-km.hide{opacity:0;visibility:hidden}
+.loading-km-mark{width:62px;height:62px;border-radius:18px;border:1px solid rgba(255,255,255,.45);background:linear-gradient(145deg,#fff,#dcdce0 45%,#8d8d94);color:#0b0b0d;display:flex;align-items:center;justify-content:center;font-size:25px;font-weight:1000;letter-spacing:-4px;box-shadow:0 12px 40px rgba(0,0,0,.35);animation:kmSplash 1s var(--km-ease) infinite alternate}
+@keyframes kmSplash{from{transform:scale(.94);opacity:.72}to{transform:scale(1);opacity:1}}
+
+.km-ripple{position:absolute;border-radius:50%;pointer-events:none;background:currentColor;opacity:.18;transform:scale(0);animation:kmRipple .45s ease-out forwards}
+@keyframes kmRipple{to{transform:scale(1);opacity:0}}
+
+.km-bump{animation:kmBump .3s var(--km-ease)}
+@keyframes kmBump{0%{transform:scale(1)}45%{transform:scale(1.16)}100%{transform:scale(1)}}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .loading-km{display:none!important}
+}
+
 </style>
 </head>
 
 <body>
+<div id="kmSplash" class="loading-km" aria-label="Carregando KM"><div class="loading-km-mark">KM</div></div>
 
 <div class="app">
 
@@ -6776,15 +6869,71 @@ init();
 
 </script>
 
-  <script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js")
-      .then(() => console.log("KM Service Worker registrado"))
-      .catch(error => console.error("Erro no Service Worker:", error));
-  });
-}
-  </script>
 
+
+<script>
+/* =====================================================
+   KM NATIVE MOTION — MICROINTERAÇÕES
+===================================================== */
+(function(){
+  const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function addRipple(event){
+    if(reduced)return;
+    const el=event.currentTarget;
+    if(!el||el.disabled)return;
+    if(getComputedStyle(el).position==='static')el.style.position='relative';
+    el.style.overflow='hidden';
+    const rect=el.getBoundingClientRect();
+    const size=Math.max(rect.width,rect.height)*1.35;
+    const r=document.createElement('span');
+    r.className='km-ripple';
+    r.style.width=size+'px';
+    r.style.height=size+'px';
+    r.style.left=(event.clientX-rect.left-size/2)+'px';
+    r.style.top=(event.clientY-rect.top-size/2)+'px';
+    el.appendChild(r);
+    setTimeout(()=>r.remove(),500);
+  }
+
+  function bindRipples(){
+    document.querySelectorAll('button:not([data-km-motion])').forEach(btn=>{
+      btn.dataset.kmMotion='1';
+      btn.addEventListener('pointerdown',addRipple,{passive:true});
+    });
+  }
+
+  function animateBadge(){
+    const badge=document.querySelector('.cart-badge,[id*=cartBadge],[id*=CartBadge]');
+    if(!badge||reduced)return;
+    badge.classList.remove('km-bump');
+    void badge.offsetWidth;
+    badge.classList.add('km-bump');
+  }
+
+  const oldUpdateBadge=window.updateBadge;
+  if(typeof oldUpdateBadge==='function'){
+    window.updateBadge=function(){
+      const result=oldUpdateBadge.apply(this,arguments);
+      setTimeout(animateBadge,0);
+      return result;
+    };
+  }
+
+  const observer=new MutationObserver(()=>bindRipples());
+  observer.observe(document.body,{childList:true,subtree:true});
+  document.addEventListener('DOMContentLoaded',bindRipples);
+  bindRipples();
+
+  window.addEventListener('load',()=>{
+    const splash=document.getElementById('kmSplash');
+    if(splash)setTimeout(()=>splash.classList.add('hide'),180);
+  });
+
+  window.kmNativeMotion={refresh:bindRipples,animateBadge:animateBadge};
+})();
+</script>
+
+<script>if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(console.error));}</script>
 </body>
 </html>
